@@ -12,7 +12,7 @@ variables:
   azureSubscription: 'd676bf5a-1d77-418e-b88b-f7671ee6ccc0' #used the SportlazeV2Frontend service connection ID
 
   # Web app name
-  webAppName: 'sportlazeV2frontend'
+  webAppName: 'sportlazeV2frontend' #name of app service webapp created in the portal
 
   # Environment name
   environmentName: 'sportlazeV2frontend'
