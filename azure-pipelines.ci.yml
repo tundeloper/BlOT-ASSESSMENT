@@ -1,0 +1,83 @@
+trigger:
+  branches:
+    include:
+      - main
+      - develop
+
+stages:
+- stage: CI_Checks
+  displayName: "Continuous Integration Checks"
+  jobs:
+    - job: frontend_checks
+      displayName: Frontend Quality Checks
+      steps:
+        # Node.js environment setup
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '22.12.0'
+
+        # Install dependencies, lint, unit tests
+        - script: |
+            npm install
+            npm run lint
+            npm test
+          displayName: "Run Frontend Tests"
+
+        # OWASP Dependency Check
+        - script: |
+            npm install -g owasp-dependency-check
+            dependency-check --scan . --format ALL --out ./dependency-check-report
+          displayName: "Run OWASP Dependency-Check (Frontend)"
+
+        # Publish OWASP Dependency Check report
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: './dependency-check-report'
+            artifactName: 'Dependency-Check-Frontend'
+            publishLocation: 'pipeline'
+
+        # Publish Frontend Test Results
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFiles: '**/test-results.xml'
+            testRunTitle: "Frontend Test Results"
+
+    - job: integration_tests
+      displayName: Integration Tests
+      dependsOn:
+        - frontend_checks
+      steps:
+        # Install required tools for integration tests
+        - script: |
+            echo "Running Integration Tests"
+            # Replace this with your actual integration test command
+            pytest integration_tests/
+          displayName: "Run Integration Tests"
+
+        # Publish Integration Test Results
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFiles: '**/integration-test-results.xml'
+            testRunTitle: "Integration Test Results"
+
+- stage: Build_Artifacts
+  displayName: "Build and Publish Artifacts"
+  dependsOn: CI_Checks
+  condition: succeeded()
+  jobs:
+    - job: publish_artifacts
+      displayName: "Build and Publish Artifacts"
+      steps:
+        # Build Frontend
+        - script: |
+            echo "Building Frontend"
+            npm run build
+          workingDirectory: frontend
+          displayName: "Build Frontend"
+
+        # Publish Build Artifacts
+        - task: PublishPipelineArtifact@1
+          inputs:
+            targetPath: '$(System.DefaultWorkingDirectory)'
+            artifactName: 'BuildArtifacts'
+            publishLocation: 'pipeline'
