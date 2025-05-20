@@ -1,0 +1,35 @@
+trigger:
+  branches:
+    include:
+      - '*'
+
+pr:
+  branches:
+    include:
+      - 'develop'
+
+stages:
+- stage: PR_Checks
+  displayName: "PR Quality Checks"
+  condition: eq(variables['Build.Reason'], 'PullRequest')
+  jobs:
+    - job: frontend_checks
+      displayName: Frontend Quality Checks
+      condition: eq(variables['Build.Reason'], 'PullRequest')
+      pathFilters:
+        include:
+          - frontend/**
+      steps:
+        - task: NodeTool@0
+          inputs:
+            versionSpec: '16.x'
+        - script: |
+            npm install
+            npm run lint
+            npm test
+          displayName: "Run Frontend Tests"
+        - task: PublishTestResults@2
+          inputs:
+            testResultsFiles: '**/test-results.xml'
+            testRunTitle: "Frontend Test Results"
+
