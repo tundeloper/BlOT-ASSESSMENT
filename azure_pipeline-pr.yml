@@ -32,4 +32,3 @@ stages:
           inputs:
             testResultsFiles: '**/test-results.xml'
             testRunTitle: "Frontend Test Results"
-
