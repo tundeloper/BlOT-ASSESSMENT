@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Register - sportlaze",
-  description: "Sign up or register to access the application",
+  title: "Select Your Favorite team - sportlaze",
+  description: "Sign in or register to access the application",
   openGraph: {
-    title: "Register - sportlaze",
+    title: "Select Your Favorite team - sportlaze",
     description: "Sign in or register to access the application",
     url: "https://yourdomain.com/auth",
     siteName: "spotlaze",
@@ -39,7 +39,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-        <ThemeProvider>
+    <ThemeProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-center justify-center min-h-screen bg-[#f9fafb] dark:bg-[#111827] text-[#111827] dark:text-[#f9fafb] transition-all duration-500 ease-in-out`}
       >

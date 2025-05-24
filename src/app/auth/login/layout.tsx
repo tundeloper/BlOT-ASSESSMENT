@@ -1,3 +1,4 @@
+import { ThemeProvider } from "@/context/ThemeContext";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -38,11 +39,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+        <ThemeProvider>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-center justify-center min-h-screen bg-[#f9fafb] dark:bg-[#111827] text-[#111827] dark:text-[#f9fafb] transition-all duration-500 ease-in-out`}
       >
         {children}
       </body>
+      </ThemeProvider>
     </html>
   );
 }

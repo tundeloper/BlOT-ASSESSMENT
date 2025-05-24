@@ -81,7 +81,7 @@ export default function OTPForm() {
   return (
     <AuthCard>
       <h1 className="text-2xl font-bold mb-2 text-center">Verify Account</h1>
-      <p className="font-bold text-gray-600 text-center mb-6">
+      <p className="font-bold text-gray-400 text-center mb-6">
         Enter the OTP code sent to your email
       </p>
       <form
@@ -95,7 +95,7 @@ export default function OTPForm() {
               type="text"
               inputMode="numeric"
               maxLength={1}
-              className="w-12 h-12 text-center text-xl border rounded focus:outline-none focus:ring"
+              className="w-12 h-12 text-center text-xl text-[#111827] border rounded focus:outline-none focus:ring "
               value={digit}
               onChange={(e) => handleChange(e.target, idx)}
               onKeyDown={(e) => handleKeyDown(e, idx)}
@@ -120,10 +120,10 @@ export default function OTPForm() {
         </button> */}
 
         {isSubmitted && (
-          <div className="text-center">
+          <div className="text-center ">
             {countdown > 0 ? (
-              <p className="text-sm text-gray-500">
-                Didn't get the code? Resend in <span className="text-secondary">{countdown}s</span>
+              <p className="text-sm text-gray-300">
+                Didn't get the code? Resend in <span className="text-secondary dark:text-white">{countdown}s</span>
               </p>
             ) : (
               <div className="flex gap-2 items-center">

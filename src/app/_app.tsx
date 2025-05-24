@@ -5,6 +5,7 @@ import { ThemeProvider } from '@/context/ThemeContext'
 import { Inter } from 'next/font/google';
 
 export default function App({ Component, pageProps }: AppProps) {
+  console.log("App component rendered");
   return (
     <ThemeProvider>
       <Component {...pageProps} />
