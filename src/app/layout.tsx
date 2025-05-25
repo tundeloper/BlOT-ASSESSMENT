@@ -24,14 +24,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex items-center justify-center min-h-screen bg-[#f9fafb] dark:bg-[#111827] text-[#111827] dark:text-[#f9fafb] transition-all duration-500 ease-in-out`}
-      >
-        <ThemeProvider>
-        {children}
-        </ThemeProvider>
-      </body>
+    <html lang="en" className="overflow-y-scroll">
+      <ThemeProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased py-6 flex items-center justify-center min-h-screen bg-[#f9fafb] dark:bg-[#111827] text-[#111827] dark:text-[#f9fafb] transition-all duration-300 ease-in-out`}
+        >
+          {children}
+        </body>
+      </ThemeProvider>
     </html>
   );
 }

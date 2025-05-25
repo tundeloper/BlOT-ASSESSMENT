@@ -23,13 +23,13 @@ interface CountryOption {
   flag: string;
 }
 
-const country = [
-  "United States",
-  "Canada",
-  "United Kingdom",
-  "Australia",
-  "India",
-];
+// const country = [
+//   "United States",
+//   "Canada",
+//   "United Kingdom",
+//   "Australia",
+//   "India",
+// ];
 
 const countryList: CountryOption[] = countries.map((country) => ({
   label: country.name.common,
@@ -60,14 +60,14 @@ export default function RegisterForm() {
   return (
     <AuthCard>
       <h1 className="text-2xl font-bold mb-1 text-center">Create Account</h1>
-      <p className="font-bold mb-6 text-center">
+      <p className="font-bold mb-6 text-gray-400 text-center">
         Already have an account?{" "}
         <Link href="/auth/login" className="text-blue-600 underline">
           Login
         </Link>
       </p>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
         {/* Email */}
         <div className="mb-4">
           <label htmlFor="email" className="block mb-1 font-semibold">
@@ -83,7 +83,7 @@ export default function RegisterForm() {
                 message: "Invalid email address",
               },
             })}
-            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring ${
+            className={`w-full px-3 py-2 border rounded text-black focus:outline-none focus:ring ${
               errors.email ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="you@example.com"
@@ -108,7 +108,7 @@ export default function RegisterForm() {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring ${
+            className={`w-full px-3 py-2 pr-10 border rounded text-black focus:outline-none focus:ring ${
               errors.password ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Enter password"
@@ -117,7 +117,7 @@ export default function RegisterForm() {
             className="absolute top-9 right-3 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showPassword ? <EyeOff size={20} color="black" /> : <Eye size={20} color="black"/>}
           </div>
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
@@ -139,7 +139,7 @@ export default function RegisterForm() {
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className={`w-full px-3 py-2 pr-10 border rounded focus:outline-none focus:ring ${
+            className={`w-full px-3 py-2 pr-10 border rounded text-black focus:outline-none focus:ring ${
               errors.confirmPassword ? "border-red-500" : "border-gray-300"
             }`}
             placeholder="Re-enter password"
@@ -148,7 +148,7 @@ export default function RegisterForm() {
             className="absolute top-9 right-3 cursor-pointer"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
-            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            {showConfirmPassword ? <EyeOff size={20} color="black" /> : <Eye size={20} color="black" />}
           </div>
           {errors.confirmPassword && (
             <p className="text-red-500 text-sm mt-1">
@@ -167,7 +167,7 @@ export default function RegisterForm() {
             {...register("country", {
               required: "Please select your country",
             })}
-            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring ${
+            className={`w-full px-3 py-2 border rounded text-black focus:outline-none focus:ring ${
               errors.country ? "border-red-500" : "border-gray-300"
             }`}
           >
@@ -176,12 +176,12 @@ export default function RegisterForm() {
               <option key={c.label} value={c.label}>
                 {c.label}
                 {
-                  <img
-                    src={c.flag}
-                    alt={c.label}
-                    className="inline-block w-4 h-4 ml-2"
-                    style={{ verticalAlign: "middle" }}
-                  />
+                  // <img
+                  //   src={c.flag}
+                  //   alt={c.label}
+                  //   className="inline-block w-4 h-4 ml-2"
+                  //   style={{ verticalAlign: "middle" }}
+                  // />
                 }
               </option>
             ))}
@@ -195,17 +195,17 @@ export default function RegisterForm() {
 
         {/* Terms */}
         <div className="mb-6">
-          <label className="inline-flex items-center">
+          <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
               {...register("terms", {
                 required: "You must accept the terms and conditions",
               })}
-              className={`form-checkbox h-5 w-5 text-blue-600 ${
+              className={`form-checkbox accent-primary h-5 w-5 cursor-pointer border-gray-300 bg-transparent text-primary rounded focus:ring-2 focus:ring-primary transition duration-200 ease-in-out ${
                 errors.terms ? "border-red-500" : ""
               }`}
             />
-            <span className="ml-2 text-gray-700">
+            <span className="ml-2">
               I accept the terms and conditions
             </span>
           </label>
@@ -220,11 +220,6 @@ export default function RegisterForm() {
         >
           Create Account
         </GradientButton>
-        <div className="flex justify-between items-center gap-10 my-2">
-          <div className="flex-1 h-[.2px] bg-black" />
-          Or Continue With 
-          <div className="flex-1 h-[.1px] bg-black" />
-        </div>
         {/* <<button
           type="submit"
           className="w-full bg-primary font-semibold text-white py-2 rounded hover:bg-blue-900 transition"
@@ -232,7 +227,12 @@ export default function RegisterForm() {
           Register
           </button>> */}
       </form>
-          <GoogleLoginButton title="Google" rounded={1}></GoogleLoginButton>
+      <div className="flex justify-between items-center gap-10 my-4">
+        <div className="flex-1 h-[.2px] bg-black dark:bg-white" />
+        Or Continue With
+        <div className="flex-1 h-[.1px] bg-black dark:bg-white" />
+      </div>
+      <GoogleLoginButton title="Google" rounded={1} />
     </AuthCard>
   );
 }

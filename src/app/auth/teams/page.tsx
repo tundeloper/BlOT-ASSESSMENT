@@ -1,6 +1,7 @@
 "use client";
 import AuthCard from "@/components/auth/card";
 import GradientButton from "@/components/ui/gradientButton";
+import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
@@ -60,6 +61,8 @@ export default function Teams() {
     {}
   );
 
+  const {theme} = useTheme()
+
   // Load from localStorage on mount
   useEffect(() => {
     const stored = localStorage.getItem("selectedTeams");
@@ -114,7 +117,7 @@ export default function Teams() {
   return (
     <div className="max-w-5xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <Image
-        src="/svg/logo_gradient.svg"
+        src={`${theme  === "light" ? "/svg/logo_gradient.svg" : "/svg/logo_white.svg"}`}
         alt="Sportlaze Logo"
         width={80}
         height={80}

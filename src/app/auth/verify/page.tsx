@@ -122,12 +122,12 @@ export default function OTPForm() {
         {isSubmitted && (
           <div className="text-center ">
             {countdown > 0 ? (
-              <p className="text-sm text-gray-300">
+              <p className="text-sm text-gray-400">
                 Didn't get the code? Resend in <span className="text-secondary dark:text-white">{countdown}s</span>
               </p>
             ) : (
               <div className="flex gap-2 items-center">
-                <p className="text-sm text-gray-500">Didn't get the code?</p>
+                <p className="text-sm text-gray-400">Didn't get the code?</p>
                 <button
                   type="button"
                   onClick={handleResend}

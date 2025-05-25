@@ -9,7 +9,7 @@ const sportsList = [
   'Tennis', 'Athletics'
 ];
 
-export default function page() {
+export default function Page() {
     const [selectedSports, setSelectedSports] = useState<string[]>([]);
 
 
@@ -31,6 +31,7 @@ export default function page() {
 
   return (
     <AuthCard>
+      <div className="w-[20rem]">
       <h2 className="text-xl font-bold mb-4 text-center">What sport do you love ?</h2>
       <div className="grid grid-cols-2 gap-4 mb-6">
         {sportsList.map((sport) => (
@@ -58,6 +59,7 @@ export default function page() {
         >
           Skip
         </button>
+      </div>
       </div>
     </AuthCard>
   );

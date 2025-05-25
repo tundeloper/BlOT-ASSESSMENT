@@ -3,18 +3,18 @@
 
 import { ReactNode } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { useTheme } from '@/context/ThemeContext';
 
 interface CardProps {
   children?: ReactNode;
 }
 
 export default function AuthCard({ children }: CardProps) {
+  const {theme} = useTheme()
   return (
-    // <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900 p-4">
-      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl w-full max-w-sm px-6 p-[3rem]">
-        <Image
-          src="/svg/logo_gradient.svg"
+      <div className="bg-white dark:bg-gray-800 shadow-lg rounded-xl w-full max-w-lg p-[3rem]">
+       <Image
+          src={`${theme === 'light' ? '/svg/logo_gradient.svg' : '/svg/logo_white.svg'}`}
           alt="Sportlaze Logo"
           width={80}
           height={80}

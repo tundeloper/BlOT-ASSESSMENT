@@ -1,7 +1,7 @@
 import AuthCard from "@/components/auth/card";
 import ThemeToggleButton from "@/components/ThemeToggle";
+import GradientButton from "@/components/ui/gradientButton";
 // import BorderLink from "@/components/ui/borderedLink";
-import CustomLink from "@/components/ui/gradientLink";
 import Link from "next/link";
 
 export default function HomePage() {
@@ -12,18 +12,21 @@ export default function HomePage() {
           Experience Sports Like Never Before
         </h2>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mt-4 mb-4">
-         <CustomLink href="/home"className="px-4 py-2 rounded-md bg-primary text-white hover:bg-gradient-to-b hover:from-[#463a85] hover:to-[#9a1b39] text-sm font-medium transition">
-          Get Started
-         </CustomLink>
-       
-          <Link
-            href="/auth/login"
-            className="px-4 py-2 rounded-md bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-300 dark:hover:bg-gray-600 text-sm font-medium transition"
-          >
-            Login
-          </Link>
-        </div> 
+       <div className="flex gap-3">
+               <GradientButton
+                //  onClick={handleNext}
+                 className="bg-primary font-semibold flex-1 text-white px-4 py-2 rounde transition"
+               >
+                 Next
+               </GradientButton>
+               <Link
+               href='/auth/login'
+                //  onClick={handleSkip}
+                 className="bg-gray-200 font-semibold flex-1 text-gray-700 px-4 py-2 rounded hover:bg-gray-300 transition"
+               >
+                 Skip
+               </Link>
+             </div>
     </AuthCard>
   );
 }
