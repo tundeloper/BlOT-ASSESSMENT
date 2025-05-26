@@ -5,9 +5,11 @@ import bottomRightIcon from '@/assets/bottomRightIcon.png'
 import bottomLeftIcon from '@/assets/bottomLeftIcon.png'
 import topRightIcon from '@/assets/topRightIcon.png'
 import middleRightIcon from '@/assets/middleRightIcon.png'
-import middleLeftIcon from '@/assets/middleLeftIcon.png'
+import middleLeftIcon from '@/assets/middleLeftIcon.png' 
+// import { useTheme } from '@/context/ThemeContext'
 
 const BgWrapper = ({ children }: { children: React.ReactNode }) => {
+  // const {theme} = useTheme()
   return (
     <div className='bg-primary h-screen w-[100%] relative'>
         <Image src={topLeftIcon} alt="topLeftIcon" className='absolute top-0 left-0 opacity-50 hidden md:block' />
