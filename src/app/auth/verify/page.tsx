@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import AuthCard from "@/components/auth/card";
+import AuthCard from "@/components/Auth/card";
 import GradientButton from "@/components/ui/gradientButton";
 
 export default function OTPForm() {

@@ -1,5 +1,5 @@
 "use client";
-import AuthCard from "@/components/auth/card";
+import AuthCard from "@/components/Auth/card";
 import GradientButton from "@/components/ui/gradientButton";
 import { useTheme } from "@/context/ThemeContext";
 import Image from "next/image";
