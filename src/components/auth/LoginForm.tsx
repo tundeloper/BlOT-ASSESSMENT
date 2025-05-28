@@ -7,9 +7,27 @@ import { FiEyeOff } from 'react-icons/fi';
 import logo from '@/assets/logo2.png'
 import appleIcon from '@/assets/appleIcon.png'
 import googleIcon from '@/assets/googleIcon.png'
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { loginSchema } from '@/types/validation';
+import { loginUser } from '@/api/auth';
+import { enqueueSnackbar, SnackbarProvider } from 'notistack';
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Pick<AuthUser, "email" | "password">>({
+        resolver: yupResolver(loginSchema),
+        mode: 'onTouched',
+    });
+
+    const onSubmit = async (data: Pick<AuthUser, "email" | "password">) => {
+        const response = await loginUser(data);
+        if (response.success) {
+            enqueueSnackbar('Login successful', { variant: 'success' });
+        } else {
+            enqueueSnackbar(response?.data as string, { variant: 'error' });
+        }
+    };
 
     return (
         <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card">
@@ -24,7 +42,7 @@ const LoginForm = () => {
             </div>
 
             {/* Form */}
-            <form className="flex flex-col gap-4 w-full">
+            <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
                 {/* Email */}
                 <div className="flex flex-col gap-2">
                     <label htmlFor="email" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Email</label>
@@ -32,29 +50,35 @@ const LoginForm = () => {
                         id="email"
                         type="email"
                         placeholder="example@gmail.com"
-                        required
-                        className="w-full px-4 h-[50px] border border-[#E4E6EC] rounded outline-none text-[16px] font-switzer"
+                        className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${errors.email ? 'border-red-500' : 'border-[#E4E6EC]'}`}
+                        {...register('email')}
+                        autoComplete="email"
+                        disabled={isSubmitting}
                     />
+                    {errors.email && <span className="text-red-500 text-xs mt-1">{errors.email.message}</span>}
                 </div>
                 {/* Password */}
                 <div className="flex flex-col gap-2 relative">
                     <label htmlFor="password" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Password</label>
-                    <div className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 w-full h-[50px]">
+                    <div className={`flex items-center gap-2 border rounded px-4 w-full h-[50px] ${errors.password ? 'border-red-500' : 'border-[#E4E6EC]'}`}>
                         <input
                             id="password"
                             type={showPassword ? 'text' : 'password'}
                             placeholder="*********"
-                            required
-                            className="w-full h-full focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10"
+                            className="w-full h-full focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent"
+                            {...register('password')}
+                            autoComplete="current-password"
+                            disabled={isSubmitting}
                         />
                         {showPassword ? <FiEye onClick={() => setShowPassword(false)} className='cursor-pointer' /> : <FiEyeOff onClick={() => setShowPassword(true)} className='cursor-pointer' />}
                     </div>
+                    {errors.password && <span className="text-red-500 text-xs mt-1">{errors.password.message}</span>}
                 </div>
                 <div className="flex justify-end">
                     <Link href="/auth/forgot-password" className="text-[13px] text-[#3A3D46] hover:text-[#2D439B] font-switzer underline">Forgot Password?</Link>
                 </div>
-                <button className="w-full h-[50px] text-[16px] bg-[#2D439B] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md" style={{ boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.04)' }}>
-                    Login
+                <button type="submit" disabled={isSubmitting} className="w-full h-[50px] text-[16px] bg-[#2D439B] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60" style={{ boxShadow: '0px 2px 0px 0px rgba(0,0,0,0.04)' }}>
+                    {isSubmitting ? 'Logging in...' : 'Login'}
                 </button>
             </form>
 
@@ -78,6 +102,7 @@ const LoginForm = () => {
                     <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">Google</span>
                 </button>
             </div>
+            <SnackbarProvider />
         </div>
     );
 };
