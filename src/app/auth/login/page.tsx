@@ -1,5 +1,5 @@
 
-import LoginForm from '@/components/Auth/LoginForm'
+import LoginForm from '@/components/auth/LoginForm';
 import BgWrapper from '@/components/Layout/BgWrapper'
 import { Metadata } from 'next';
 import React from 'react'
