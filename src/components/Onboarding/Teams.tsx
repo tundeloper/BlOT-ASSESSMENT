@@ -3,7 +3,6 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import logo from "@/assets/logo2.png";
 
-import { useTheme } from "@/context/ThemeContext";
 import Checkbox from "../ui/checkedBox";
 import GradientButton from "../ui/gradientButton";
 
@@ -43,7 +42,6 @@ const Teams = () => {
     {}
   );
 
-  const { theme } = useTheme();
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -107,9 +105,7 @@ const Teams = () => {
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
         <h1
-          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center ${
-            theme === "dark" ? "text-white" : "text-[#3A3D46]"
-          }`}
+          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46]`}
         >
           Pick Your Favorite Teams
         </h1>
