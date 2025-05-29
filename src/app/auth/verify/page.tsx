@@ -1,13 +1,14 @@
-"use client";
-import BgWrapper from "@/components/Layout/BgWrapper";
-import Verify from "@/components/auth/Verify";
+"use client"
+import Verify from '@/components/auth/Verify';
+import BgWrapper from '@/components/Layout/BgWrapper'
+import React from 'react'
 
-export default function OTPForm() {
 
+export default function RegisterForm() {
   return (
-    <BgWrapper>
+    <BgWrapper> 
       <div className="flex flex-col items-center justify-center h-full">
-        <Verify />
+        <Verify />     
       </div>
     </BgWrapper>
   );

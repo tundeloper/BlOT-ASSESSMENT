@@ -2,12 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import GradientButton from "../ui/gradientButton";
 import logo from "@/assets/logo2.png";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
+import { enqueueSnackbar } from "notistack";
 
 const Verify = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const searchParams = useSearchParams()
+  const email = (searchParams.get('email'))
 
   const isOtpComplete = otp.every((digit) => digit !== "");
 
@@ -53,6 +58,7 @@ const Verify = () => {
 
     alert("OTP submitted: " + otp.join(""));
     setIsSubmitted(true);
+    console.log(email)
     startCountdown();
   };
 
@@ -60,7 +66,7 @@ const Verify = () => {
     setOtp(new Array(6).fill(""));
     setIsSubmitted(false);
     startCountdown();
-    alert("OTP resent!");
+    enqueueSnackbar("OTP resent check your email", { variant: 'error' });
   };
 
   //   useEffect(() => {

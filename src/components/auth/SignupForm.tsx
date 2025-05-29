@@ -11,9 +11,9 @@ import appleIcon from "@/assets/appleIcon.png";
 import googleIcon from "@/assets/googleIcon.png";
 import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
-// import { useRouter } from "next/router";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   full_name: string;
@@ -85,6 +85,7 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 );
 
 const Signup = () => {
+    const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -102,15 +103,14 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  //   const router = useRouter();
 
   const onSubmit = async (data: FormData) => {
     const response = await axios.post(
       "https://lazeapi-v2.onrender.com/api/auth/register",
       { ...data, country: data.country?.label || "" }
     );
+    router.push(`/auth/verify/?email=${data.email}`)
     if (response.data) {
-      enqueueSnackbar("login Successfull", { variant: "success" });
     } else {
       enqueueSnackbar(response?.data as string, { variant: "error" });
     }
