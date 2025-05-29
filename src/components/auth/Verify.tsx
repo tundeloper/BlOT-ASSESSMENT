@@ -17,7 +17,7 @@ const Verify = () => {
   const isOtpComplete = otp.every((digit) => digit !== "");
 
   const startCountdown = () => {
-    setCountdown(20); // 60 seconds
+    setCountdown(10); // 60 seconds
     timerRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1 && timerRef.current) {
@@ -66,7 +66,7 @@ const Verify = () => {
     setOtp(new Array(6).fill(""));
     setIsSubmitted(false);
     startCountdown();
-    enqueueSnackbar("OTP resent check your email", { variant: 'error' });
+    enqueueSnackbar("OTP resent check your email", { variant: "success" });
   };
 
   //   useEffect(() => {
