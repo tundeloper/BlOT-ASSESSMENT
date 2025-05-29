@@ -5,16 +5,20 @@ import GradientButton from "../ui/gradientButton";
 import { Eye, EyeOff } from "lucide-react";
 import countries from "world-countries";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import GoogleLoginButton from "@/utils/googleLoginBtn";
+import { useForm, Controller } from "react-hook-form";
+import Link from "next/link";
+import appleIcon from "@/assets/appleIcon.png";
+import googleIcon from "@/assets/googleIcon.png";
+import Select from "react-select";
+import { GroupBase, StylesConfig } from "react-select";
 
 interface FormData {
-    name: string,
+  full_name: string;
   email: string;
   password: string;
-  confirmPassword: string;
-  country: string;
-  terms: boolean;
+  confirm_password: string;
+  country: CountryOption | null;
+  terms_accepted: boolean;
 }
 
 interface CountryOption {
@@ -29,28 +33,82 @@ const countryList: CountryOption[] = countries.map((country) => ({
   flag: `https://flagcdn.com/w40/${country.cca2.toLowerCase()}.png`,
 }));
 
+const customStyles: StylesConfig<
+  CountryOption,
+  false,
+  GroupBase<CountryOption>
+> = {
+  control: (base, state) => ({
+    ...base,
+    height: "50px",
+    borderRadius: "6px",
+    borderColor: state.isFocused ? "#2D439B" : "#E4E6EC",
+    boxShadow: "none",
+    fontSize: "16px",
+    fontFamily: "switzer",
+  }),
+  option: (base, state) => ({
+    ...base,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    fontFamily: "switzer",
+    backgroundColor: state.isSelected ? "#F0F4FF" : "#fff",
+    color: "#3A3D46",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+  }),
+  // This removes the vertical separator between value and arrow
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
+const formatOptionLabel = ({ label, flag }: CountryOption) => (
+  <div className="flex items-center gap-2">
+    <Image
+      src={flag}
+      alt={label}
+      width={112}
+      height={112}
+      className="w-5 h-4 object-cover rounded"
+    />
+    <span>{label}</span>
+  </div>
+);
+
 const Signup = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    control,
+    formState: { errors },
+  } = useForm<FormData>({
+    mode: "onTouched",
+    defaultValues: {
+      country: null,
+    },
+  });
 
-     const {
-        register,
-        handleSubmit,
-        watch,
-        formState: { errors },
-      } = useForm<FormData>({
-        mode: "onTouched",
-      });
-    
-      const password = watch("password", "");
-    
-      const [showPassword, setShowPassword] = useState(false);
-      const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-      console.log("RegisterForm rendered", countryList);
-    
-      const onSubmit = (data: FormData) => {
-        alert("Form submitted successfully!\n" + JSON.stringify(data, null, 2));
-      };
-    
+  const password = watch("password", "");
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const onSubmit = (data: FormData) => {
+    const formattedData = {
+      ...data,
+      country: data.country?.label || "",
+    };
+    alert(
+      "Form submitted successfully!\n" + JSON.stringify(formattedData, null, 2)
+    );
+  };
 
   return (
     <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8">
@@ -65,42 +123,56 @@ const Signup = () => {
         <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">
           Create Account
         </h1>
-        <p className="text-[16px] md:text-[16px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">Already have an account? Login</p>
+        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
+          Don&apos;t have an account?{" "}
+          <Link
+            href="/auth/login"
+            className="text-[#2D439B] hover:text-[#9A1B39] transition-colors"
+          >
+            Login
+          </Link>
+        </p>
       </div>
+
       <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full">
         {/* Name */}
         <div className="mb-4">
-          <label htmlFor="name" className="block mb-1 font-semibold">
+          <label
+            htmlFor="name"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+          >
             Full Name
           </label>
           <input
-            type="name"
             id="name"
-            {...register("name", {
+            {...register("full_name", {
               required: "Full name is required",
-             minLength: {
+              minLength: {
                 value: 2,
-                message: "Full Name is required",
+                message: "Full name must be at least 2 characters",
               },
             })}
-            className={`w-full px-3 py-2 border rounded text-black focus:outline-none focus:ring ${
-              errors.name ? "border-red-500" : "border-gray-300"
+            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+              errors.full_name ? "border-red-500" : "border-[#E4E6EC]"
             }`}
-            placeholder="Enter name"
+            placeholder="Full Name"
           />
-          {errors.name && (
-            <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+          {errors.full_name && (
+            <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>
           )}
         </div>
 
         {/* Email */}
         <div className="mb-4">
-          <label htmlFor="email" className="block mb-1 font-semibold">
+          <label
+            htmlFor="email"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+          >
             Email
           </label>
           <input
-            type="email"
             id="email"
+            type="email"
             {...register("email", {
               required: "Email is required",
               pattern: {
@@ -108,10 +180,10 @@ const Signup = () => {
                 message: "Invalid email address",
               },
             })}
-            className={`w-full px-3 py-2 border rounded text-black focus:outline-none focus:ring ${
-              errors.email ? "border-red-500" : "border-gray-300"
+            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+              errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
-            placeholder="you@example.com"
+            placeholder="example@gmail.com"
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -120,12 +192,15 @@ const Signup = () => {
 
         {/* Password */}
         <div className="mb-4 relative">
-          <label htmlFor="password" className="block mb-1 font-semibold">
+          <label
+            htmlFor="password"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+          >
             Password
           </label>
           <input
-            type={showPassword ? "text" : "password"}
             id="password"
+            type={showPassword ? "text" : "password"}
             {...register("password", {
               required: "Password is required",
               minLength: {
@@ -133,16 +208,20 @@ const Signup = () => {
                 message: "Password must be at least 6 characters",
               },
             })}
-            className={`w-full px-3 py-2 pr-10 border rounded text-black focus:outline-none focus:ring ${
-              errors.password ? "border-red-500" : "border-gray-300"
+            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+              errors.password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
-            placeholder="Enter password"
+            placeholder="********"
           />
           <div
             className="absolute top-9 right-3 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
-            {showPassword ? <EyeOff size={20} color="black" /> : <Eye size={20} color="black"/>}
+            {showPassword ? (
+              <EyeOff size={20} color="black" />
+            ) : (
+              <Eye size={20} color="black" />
+            )}
           </div>
           {errors.password && (
             <p className="text-red-500 text-sm mt-1">
@@ -153,64 +232,68 @@ const Signup = () => {
 
         {/* Confirm Password */}
         <div className="mb-4 relative">
-          <label htmlFor="confirmPassword" className="block mb-1 font-semibold">
+          <label
+            htmlFor="confirmPassword"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+          >
             Confirm Password
           </label>
           <input
-            type={showConfirmPassword ? "text" : "password"}
             id="confirmPassword"
-            {...register("confirmPassword", {
+            type={showConfirmPassword ? "text" : "password"}
+            {...register("confirm_password", {
               required: "Please confirm your password",
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className={`w-full px-3 py-2 pr-10 border rounded text-black focus:outline-none focus:ring ${
-              errors.confirmPassword ? "border-red-500" : "border-gray-300"
+            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+              errors.confirm_password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
-            placeholder="Re-enter password"
+            placeholder="********"
           />
           <div
             className="absolute top-9 right-3 cursor-pointer"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
-            {showConfirmPassword ? <EyeOff size={20} color="black" /> : <Eye size={20} color="black" />}
+            {showConfirmPassword ? (
+              <EyeOff size={20} color="black" />
+            ) : (
+              <Eye size={20} color="black" />
+            )}
           </div>
-          {errors.confirmPassword && (
+          {errors.confirm_password && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.confirmPassword.message}
+              {errors.confirm_password.message}
             </p>
           )}
         </div>
 
         {/* Country */}
         <div className="mb-4">
-          <label htmlFor="country" className="block mb-1 font-semibold">
+          <label
+            htmlFor="country"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+          >
             Country
           </label>
-          <select
-            id="country"
-            {...register("country", {
-              required: "Please select your country",
-            })}
-            className={`w-full px-3 py-2 border rounded text-black focus:outline-none focus:ring ${
-              errors.country ? "border-red-500" : "border-gray-300"
-            }`}
-          >
-            <option value="">Select country</option>
-            {countryList.map((c) => (
-              <option key={c.label} value={c.label}>
-                {c.label}
-                {
-                  // <img
-                  //   src={c.flag}
-                  //   alt={c.label}
-                  //   className="inline-block w-4 h-4 ml-2"
-                  //   style={{ verticalAlign: "middle" }}
-                  // />
-                }
-              </option>
-            ))}
-          </select>
+          <Controller
+            control={control}
+            name="country"
+            rules={{ required: "Please select your country" }}
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={countryList}
+                getOptionValue={(e) => e.value}
+                formatOptionLabel={formatOptionLabel}
+                styles={customStyles}
+                placeholder="Select country"
+                className={`${
+                  errors.country ? "border-red-500" : "border-[#E4E6EC]"
+                }`}
+              />
+            )}
+          />
           {errors.country && (
             <p className="text-red-500 text-sm mt-1">
               {errors.country.message}
@@ -223,41 +306,54 @@ const Signup = () => {
           <label className="inline-flex items-center cursor-pointer">
             <input
               type="checkbox"
-              {...register("terms", {
+              {...register("terms_accepted", {
                 required: "You must accept the terms and conditions",
               })}
-              className={`form-checkbox accent-primary h-5 w-5 cursor-pointer border-gray-300 bg-transparent text-primary rounded focus:ring-2 focus:ring-primary transition duration-200 ease-in-out ${
-                errors.terms ? "border-red-500" : ""
+              className={`form-checkbox accent-[#9a1b39] h-5 w-5 cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
+                errors.terms_accepted ? "border-red-500" : "border-gray-300"
               }`}
             />
-            <span className="ml-2">
+            <span className="text-[13px] ml-2 md:text-[16px] font-switzer text-[#3A3D46]">
               Terms and Conditions
             </span>
           </label>
-          {errors.terms && (
-            <p className="text-red-500 text-sm mt-1">{errors.terms.message}</p>
+          {errors.terms_accepted && (
+            <p className="text-red-500 text-sm mt-1">{errors.terms_accepted.message}</p>
           )}
         </div>
 
+        {/* Submit */}
         <GradientButton
           type="submit"
-          className="w-full bg-sky-300 font-semibold text-white py-2 rounded hover:bg-blue-900 transition"
+          className="w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 "
         >
           Create Account
         </GradientButton>
-        {/* <<button
-          type="submit"
-          className="w-full bg-primary font-semibold text-white py-2 rounded hover:bg-blue-900 transition"
-          >
-          Register
-          </button>> */}
       </form>
-      <div className="flex justify-between items-center gap-10 my-4">
-        <div className="flex-1 h-[.2px] bg-black dark:bg-white" />
-        Or Continue With
-        <div className="flex-1 h-[.1px] bg-black dark:bg-white" />
+
+      {/* Divider */}
+      <div className="flex items-center w-full gap-4 my-3">
+        <div className="flex-1 h-px bg-[#E4E6EC]" />
+        <span className="text-[13px] text-[#3A3D46] font-switzer">
+          Or Continue with
+        </span>
+        <div className="flex-1 h-px bg-[#E4E6EC]" />
       </div>
-      <GoogleLoginButton title="Google" rounded={1} />
+
+      <div className="flex flex-col gap-4 w-full">
+        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+          <Image src={appleIcon} alt="apple icon" width={15} height={15} />
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+            Apple
+          </span>
+        </button>
+        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+          <Image src={googleIcon} alt="google icon" width={20} height={20} />
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+            Google
+          </span>
+        </button>
+      </div>
     </div>
   );
 };

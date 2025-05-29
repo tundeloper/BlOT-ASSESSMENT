@@ -17,7 +17,7 @@ export default function GradientButton({
       {...props}
       className={clsx(
         `inline-block px-4 py-3 rounded-md font-medium text-white
-         bg-primary text-sm shadow-md
+         bg-[#2D439B] text-sm shadow-md font-switzer
          hover:bg-gradient-to-b hover:from-[#463a85] hover:to-[#9a1b39]
          transition-all duration-300 ease-in-out`,
         className
