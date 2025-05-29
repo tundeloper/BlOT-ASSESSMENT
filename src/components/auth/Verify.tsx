@@ -17,7 +17,7 @@ const Verify = () => {
   const isOtpComplete = otp.every((digit) => digit !== "");
 
   const startCountdown = () => {
-    setCountdown(60); // 60 seconds
+    setCountdown(20); // 60 seconds
     timerRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1 && timerRef.current) {
