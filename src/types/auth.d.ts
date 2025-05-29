@@ -1,4 +1,6 @@
 interface AuthUser {
+    full_name?: string;
+    terms_accepted?: boolean;
     email: string;
     password: string;
     country: string;

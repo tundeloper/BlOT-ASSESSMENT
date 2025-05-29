@@ -2,9 +2,10 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import logo from "@/assets/logo2.png";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import Checkbox from "../ui/checkedBox";
 import { useTheme } from "@/context/ThemeContext";
+import GradientButton from "../ui/gradientButton";
 
 const sportsList = [
   "Football",
@@ -16,7 +17,7 @@ const sportsList = [
 ];
 
 const Sports = () => {
-  const router = useRouter();
+//   const router = useRouter();
 
   const {theme} = useTheme()
 
@@ -28,20 +29,20 @@ const Sports = () => {
     );
   };
 
-  //   const handleNext = () => {
-  //     alert(`Selected sports: ${selectedSports.join(', ') || 'None'}`);
-  //   };
+    const handleNext = () => {
+      alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
+    };
 
   //   const handleSkip = () => {
   //     alert('Skipped');
   //   };
 
-  const handleNext = () => {
-    router.push("/onboarding/welcome");
-  };
+//   const handleNext = () => {
+//     router.push("/onboarding/welcome");
+//   };
 
   return (
-    <div className={`md:max-w-[550px] w-full ${theme === "dark" ? 'bg-[#121212]' : 'bg-white'} rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}>
+    <div className={`md:max-w-[550px] w-full bg-white ${theme === "dark" ? 'bg-[#121212]' : 'bg-white'} rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}>
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
         <Image
           src={logo}
@@ -50,7 +51,7 @@ const Sports = () => {
           height={76}
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
-        <h1 className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center ${theme === 'dark' ? 'text-white' : 'text-[#3A3D46]'}`}>
+        <h1 className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] `}>
           What Sports do you love?
         </h1>
       </div>
@@ -72,15 +73,12 @@ const Sports = () => {
         ))}
       </div>
       <div className="flex flex-row w-full gap-4 mt-7">
+        <GradientButton onClick={handleNext} className="flex-1 h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 ">
+            Next
+        </GradientButton>
+
         <button
-          onClick={handleNext}
-          className="w-[50%] flex items-center justify-center h-[50px] bg-[#2D439B] hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer text-white rounded shadow-md font-normal text-[16px] leading-[1.5em]"
-          style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.04)" }}
-        >
-          Next
-        </button>
-        <button
-          className="w-[50%] flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
+          className="flex-1 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
         >
           Skip

@@ -11,6 +11,9 @@ import appleIcon from "@/assets/appleIcon.png";
 import googleIcon from "@/assets/googleIcon.png";
 import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
+// import { useRouter } from "next/router";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 interface FormData {
   full_name: string;
@@ -99,15 +102,25 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  //   const router = useRouter();
 
-  const onSubmit = (data: FormData) => {
-    const formattedData = {
-      ...data,
-      country: data.country?.label || "",
-    };
-    alert(
-      "Form submitted successfully!\n" + JSON.stringify(formattedData, null, 2)
+  const onSubmit = async (data: FormData) => {
+    const response = await axios.post(
+      "https://lazeapi-v2.onrender.com/api/auth/register",
+      { ...data, country: data.country?.label || "" }
     );
+    if (response.data) {
+      enqueueSnackbar("login Successfull", { variant: "success" });
+    } else {
+      enqueueSnackbar(response?.data as string, { variant: "error" });
+    }
+    // const formattedData = {
+    //   ...data,
+    //   country: data.country?.label || "",
+    // };
+    // alert(
+    //   "Form submitted successfully!\n" + JSON.stringify(formattedData, null, 2)
+    // );
   };
 
   return (
@@ -158,7 +171,9 @@ const Signup = () => {
             placeholder="Full Name"
           />
           {errors.full_name && (
-            <p className="text-red-500 text-sm mt-1">{errors.full_name.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.full_name.message}
+            </p>
           )}
         </div>
 
@@ -204,8 +219,16 @@ const Signup = () => {
             {...register("password", {
               required: "Password is required",
               minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters",
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              validate: {
+                hasUppercase: (value) =>
+                  /[A-Z]/.test(value) ||
+                  "Password must contain at least one uppercase letter",
+                hasLowercase: (value) =>
+                  /[a-z]/.test(value) ||
+                  "Password must contain at least one lowercase letter",
               },
             })}
             className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
@@ -318,7 +341,9 @@ const Signup = () => {
             </span>
           </label>
           {errors.terms_accepted && (
-            <p className="text-red-500 text-sm mt-1">{errors.terms_accepted.message}</p>
+            <p className="text-red-500 text-sm mt-1">
+              {errors.terms_accepted.message}
+            </p>
           )}
         </div>
 
