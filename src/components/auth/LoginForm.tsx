@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiEye } from 'react-icons/fi';
@@ -12,9 +12,24 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@/types/validation';
 import { loginUser } from '@/api/auth';
 import { enqueueSnackbar, SnackbarProvider } from 'notistack';
+import { useSearchParams } from 'next/navigation';
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const searchParams = useSearchParams();
+    const errorParams = searchParams.get("error");
+    const accessToken = searchParams.get("id_token");
+    console.log(errorParams, accessToken);
+
+    useEffect(() => {
+        if (errorParams) {
+            enqueueSnackbar(errorParams, { variant: 'error' });
+        }
+        if (accessToken) {
+            enqueueSnackbar('Login successful', { variant: 'success' });
+        }
+    }, [errorParams, accessToken]);
+
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Pick<AuthUser, "email" | "password">>({
         resolver: yupResolver(loginSchema),
         mode: 'onTouched',
@@ -37,7 +52,7 @@ const LoginForm = () => {
                 <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">Welcome Back!</h1>
                 <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
                     Don&apos;t have an account?{' '}
-                    <Link href="/auth/signup" className="text-[#2D439B] hover:text-[#9A1B39] transition-colors">Signup</Link>
+                    <Link href="/auth/register" className="text-[#2D439B] hover:text-[#9A1B39] transition-colors">Signup</Link>
                 </p>
             </div>
 
@@ -97,7 +112,17 @@ const LoginForm = () => {
                     <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">Apple</span>
                 </button>
                 {/* Google */}
-                <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+                <button
+                    onClick={() => {
+                        const url = `https://accounts.google.com/o/oauth2/v2/auth?` +
+                            `client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}` +
+                            `&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}` +
+                            `&response_type=token` +
+                            `&scope=openid%20email%20profile` +
+                            `&response_mode=fragment`;
+                        window.open(url, "_self");
+                    }}
+                    className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
                     <Image src={googleIcon} alt="google icon" width={20} height={20} />
                     <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">Google</span>
                 </button>
