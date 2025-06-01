@@ -1,4 +1,3 @@
-"use client"
 import Verify from '@/components/Auth/Verify';
 import BgWrapper from '@/components/Layout/BgWrapper'
 import React from 'react'

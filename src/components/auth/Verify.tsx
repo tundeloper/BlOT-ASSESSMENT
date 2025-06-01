@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useRef, useState } from "react";
 import GradientButton from "../ui/gradientButton";
 import logo from "@/assets/logo2.png";

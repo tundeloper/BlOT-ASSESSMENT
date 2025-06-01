@@ -1,4 +1,4 @@
-import Signup from '@/components/auth/SignupForm';
+import Signup from '@/components/Auth/SignupForm';
 import BgWrapper from '@/components/Layout/BgWrapper'
 import { Metadata } from 'next';
 import React from 'react'
