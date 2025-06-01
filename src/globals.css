@@ -1,0 +1,36 @@
+@import url('https://fonts.cdnfonts.com/css/switzer');
+@import "tailwindcss";
+
+@utility bg-primary {
+  background-color: #F9FAFB;
+}
+
+@utility font-switzer {
+  font-family: 'Switzer', sans-serif;
+}
+
+@utility shadow-card {
+  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #632e2e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f9fafb;
+    --foreground: #929097;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: 'Switzer', sans-serif;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding:  0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
