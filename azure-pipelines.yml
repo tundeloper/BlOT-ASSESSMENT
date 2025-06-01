@@ -20,13 +20,16 @@ steps:
       npm run build
     displayName: 'npm install and build'
 
-  - task: ArchiveFiles@2
-    inputs:
-      rootFolderOrFile: '$(Build.SourcesDirectory)'
-      includeRootFolder: false
-      archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/frontend.zip'
-      replaceExistingArchive: true
+  - script: |
+      mkdir deploy
+      cp -R .next deploy/.next
+      cp -R public deploy/public
+      cp -R node_modules deploy/node_modules
+      cp package.json deploy/
+      cp next.config.js deploy/ || true
+      cd deploy
+      zip -r ../frontend.zip .
+    displayName: 'Prepare deployment zip'
 
   - upload: $(Build.ArtifactStagingDirectory)/frontend.zip
     artifact: drop
