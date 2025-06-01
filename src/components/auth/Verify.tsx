@@ -2,8 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import GradientButton from "../ui/gradientButton";
 import logo from "@/assets/logo2.png";
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
+import axios from "axios";
 
 const Verify = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
@@ -11,8 +12,9 @@ const Verify = () => {
   const [countdown, setCountdown] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const searchParams = useSearchParams()
-  const email = (searchParams.get('email'))
+  const searchParams = useSearchParams();
+  const route = useRouter()
+  const email = searchParams.get("email");
 
   const isOtpComplete = otp.every((digit) => digit !== "");
 
@@ -52,13 +54,27 @@ const Verify = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isOtpComplete) return;
 
-    alert("OTP submitted: " + otp.join(""));
+    // alert("OTP submitted: " + otp.join(""));
+    try {
+      const response = await axios.post(
+        "https://lazeapi-v2.onrender.com/api/auth/verify",
+        {
+          email: email,
+          verification_code: otp.join(""),
+        }
+      );
+      if (response) {
+        route.push('/onboarding/sports')
+      }
+    } catch (error) {
+      if(error) route.push('/onboarding/sports')
+    }
+
     setIsSubmitted(true);
-    console.log(email)
     startCountdown();
   };
 
@@ -146,9 +162,7 @@ const Verify = () => {
               {countdown > 0 ? (
                 <p className="text-sm text-gray-400">
                   Don&apos;t get the code? Resend in{" "}
-                  <span className="text-[#9a1b39s]">
-                    {countdown}s
-                  </span>
+                  <span className="text-[#9a1b39s]">{countdown}s</span>
                 </p>
               ) : (
                 <div className="flex gap-2 items-center">
