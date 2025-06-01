@@ -35,8 +35,8 @@ steps:
   - task: AzureRmWebAppDeployment@4
     inputs:
       ConnectionType: 'AzureRM'
-      azureSubscription: 'flynext_server'
+      azureSubscription: 'sportlazeV2frontend'
       appType: 'webApp'
-      WebAppName: 'fly-next-server'
+      WebAppName: 'sportlazeV2frontend'
       packageForLinux: '$(Build.ArtifactStagingDirectory)/frontend.zip'
       DeploymentMethod: 'runFromPackage'
