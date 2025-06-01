@@ -1,8 +1,3 @@
-# Node.js with React
-# Build a Node.js project that uses React.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 trigger:
 - develop
 
@@ -18,18 +13,13 @@ steps:
   - script: |
       npm install
       npm run build
-    displayName: 'npm install and build'
+      cp -R .next/static .next/standalone/.next/static
+    displayName: 'Install dependencies, build in standalone mode, and copy static assets'
 
   - script: |
-      mkdir deploy
-      cp -R .next deploy/.next
-      cp -R public deploy/public
-      cp -R node_modules deploy/node_modules
-      cp package.json deploy/
-      cp next.config.js deploy/ || true
-      cd deploy
-      zip -r ../frontend.zip .
-    displayName: 'Prepare deployment zip'
+      cd .next/standalone
+      zip -r $(Build.ArtifactStagingDirectory)/frontend.zip .
+    displayName: 'Archive standalone build for deployment'
 
   - upload: $(Build.ArtifactStagingDirectory)/frontend.zip
     artifact: drop
