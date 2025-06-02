@@ -47,13 +47,23 @@ export default function getApiClient() {
 }
 
 function handleError<T>(error: AxiosError<ApiResponse<T>>): ApiResponse<T> {
-	if (error.response) {
-		return error.response.data;
+	if (error.response?.data?.message) {
+		return {
+			...error.response.data,
+			success: false,
+			message: error.response.data.message,
+		};
+	} else if (error.response) {
+		return {
+			data: {} as T,
+			success: false,
+			message: error.response.statusText || "Server error",
+		};
 	} else if (error.request) {
 		return {
 			data: {} as T,
 			success: false,
-			message: `Request failed: ${error.message}`,
+			message: `No response from server: ${error.message}`,
 		};
 	} else {
 		return {
