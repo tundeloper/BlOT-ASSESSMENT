@@ -13,6 +13,7 @@ import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { useAuthStore } from "@/store/authstore";
 
 interface FormData {
   full_name: string;
@@ -85,6 +86,8 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 
 const Signup = () => {
   const router = useRouter();
+  const login = useAuthStore((state) => state.setUser);
+  const setToken = useAuthStore((state) => state.setToken);
   const {
     register,
     handleSubmit,
@@ -104,15 +107,40 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async (data: FormData) => {
+    setToken('uffuifuifirrytf')
+    login({
+      id: 323,
+      username: "tundeloper",
+      name: "Babatunde",
+      email: "tundeloper",
+      date_of_birth: "string",
+      country: "string",
+      favorite_sport: "string",
+      favorite_team: "string",
+      bio: "string",
+      location: "string",
+      following_count: 12,
+      followers_count: 0,
+      formatted_join_date: "string",
+      formatted_member_since: "wqqw;",
+      profile_picture: "string",
+      banner_image: "string",
+      website: "string",
+      address: "string",
+      city: "",
+      state: "",
+      phoneNumber: "",
+    });
+    router.replace('/home')
     try {
-         const response = await axios.post(
-      "https://lazeapi-v2.onrender.com/api/auth/register",
-      { ...data, country: data.country?.label || "" }
-    );
-    if (response) router.push(`/auth/verify/?email=${data.email}`);
+      const response = await axios.post(
+        "https://lazeapi-v2.onrender.com/api/auth/register",
+        { ...data, country: data.country?.label || "" }
+      );
+      if (response) router.push(`/auth/verify/?email=${data.email}`);
     } catch (error) {
-        router.push(`/auth/verify/?email=${data.email}`);
-        console.error(error)
+      router.push(`/auth/verify/?email=${data.email}`);
+      console.error(error);
     }
     // const formattedData = {
     //   ...data,

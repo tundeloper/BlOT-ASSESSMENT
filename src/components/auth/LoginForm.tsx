@@ -10,9 +10,11 @@ import googleIcon from '@/assets/googleIcon.png'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { loginSchema } from '@/types/validation';
-import { loginUser } from '@/api/auth';
+// import { loginUser } from '@/api/auth';
 import { enqueueSnackbar, SnackbarProvider } from 'notistack';
 import { useSearchParams } from 'next/navigation';
+import { LoginPayload } from '@/types/auth';
+import { post } from '@/utils/api.utils';
 
 const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -30,13 +32,15 @@ const LoginForm = () => {
         }
     }, [errorParams, accessToken]);
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Pick<AuthUser, "email" | "password">>({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<Pick<LoginPayload, "email" | "password">>({
         resolver: yupResolver(loginSchema),
         mode: 'onTouched',
     });
 
-    const onSubmit = async (data: Pick<AuthUser, "email" | "password">) => {
-        const response = await loginUser(data);
+    const onSubmit = async (data: Pick<LoginPayload, "email" | "password">) => {
+        
+        const response = await post({url: '/auth/login', data});
+        console.log(response)
         if (response.success) {
             enqueueSnackbar('Login successful', { variant: 'success' });
         } else {
