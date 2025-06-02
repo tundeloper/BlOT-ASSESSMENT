@@ -7,7 +7,7 @@ pool:
 variables:
   NEXT_PUBLIC_API_BASE_URL: 'https://lazeapi-v2.onrender.com/api'
   NEXT_PUBLIC_GOOGLE_CLIENT_ID: '292887638276-kk8gmqfsjivcnjujhsiqiu5d62rkocqt.apps.googleusercontent.com'  
-  NEXT_PUBLIC_GOOGLE_REDIRECT_URL: 'https://sportlazev2frontend-h4bzchbpb2drcpa8.eastus2-01.azurewebsites.net'
+  NEXT_PUBLIC_GOOGLE_REDIRECT_URL: 'https://sportlazev2frontend-h4bzchbpb2drcpa8.eastus2-01.azurewebsites.net/'
 
 steps:
   - task: UseNode@0
