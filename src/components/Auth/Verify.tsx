@@ -73,10 +73,11 @@ const Verify = () => {
       }
     } catch (error) {
       if(error) route.push('/onboarding/sports')
+      startCountdown();
+
     }
 
     setIsSubmitted(true);
-    startCountdown();
   };
 
   const handleResend = () => {

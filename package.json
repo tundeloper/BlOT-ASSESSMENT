@@ -16,6 +16,7 @@
     "@mui/material": "^7.1.0",
     "@radix-ui/react-select": "^2.2.5",
     "axios": "^1.9.0",
+    "axios-jwt": "^4.0.3",
     "clsx": "^2.1.1",
     "lucide-react": "^0.511.0",
     "next": "15.1.8",
@@ -26,8 +27,10 @@
     "react-icons": "^5.5.0",
     "react-otp-input": "^3.1.1",
     "react-select": "^5.10.1",
+    "react-toastify": "^11.0.5",
     "world-countries": "^5.1.0",
-    "yup": "^1.6.1"
+    "yup": "^1.6.1",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

@@ -13,6 +13,7 @@ import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { enqueueSnackbar } from "notistack";
 
 interface FormData {
   full_name: string;
@@ -102,18 +103,38 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    try {
-         const response = await axios.post(
-      "https://lazeapi-v2.onrender.com/api/auth/register",
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      `https://lazeapi-v2.onrender.com/api/auth/register`,
       { ...data, country: data.country?.label || "" }
     );
-    if (response) router.push(`/auth/verify/?email=${data.email}`);
-    } catch (error) {
-        router.push(`/auth/verify/?email=${data.email}`);
-        console.error(error)
+
+    if (response.data?.success) {
+      router.push(`/auth/verify/?email=${data.email}`);
+      enqueueSnackbar("Registration successful", { variant: "success" });
+    } else {
+      enqueueSnackbar(
+        response.data?.message || "User already exists with this email",
+        { variant: "error" }
+      );
     }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log('error')
+      const message =
+        error.response?.data?.message || "Registration failed. Please try again.";
+      enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
+    } else {
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+    }
+  } finally {
+    setLoading(false);
+  }
+
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",
@@ -350,9 +371,10 @@ const Signup = () => {
         {/* Submit */}
         <GradientButton
           type="submit"
+          disabled={loading}
           className="w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 "
         >
-          Create Account
+          {loading ? "Loading..." : "Create Account"}
         </GradientButton>
       </form>
 

@@ -1,10 +1,11 @@
 import { AxiosError } from "axios";
 import apiAxios from ".";
+import { LoginPayload, SignupPayload, User } from "@/types/auth";
 
 export const loginUser = async (
-  body: Pick<AuthUser, "email" | "password">
+  body: Pick<LoginPayload, "email" | "password">
 ): Promise<{
-  data: AuthUser | string | null;
+  data: LoginPayload | string | null;
   status: number;
   success: boolean;
 }> => {
@@ -32,9 +33,9 @@ export const loginUser = async (
 };
 
 export const registerUser = async (
-  body: Partial<AuthUser>
+  body: Partial<SignupPayload>
 ): Promise<{
-  data: AuthUser | string | null;
+  data: SignupPayload | string | null;
   status: number;
   success: boolean;
 }> => {
@@ -62,7 +63,7 @@ export const registerUser = async (
 };
 
 export const forgotPassword = async (
-  body: Pick<AuthUser, "email">
+  body: Pick<LoginPayload, "email">
 ): Promise<{
   data: { message: string } | string | null;
   status: number;
@@ -92,7 +93,7 @@ export const forgotPassword = async (
 };
 
 export const resetPassword = async (
-  body: { otp: string } & Pick<AuthUser, "password" | "confirm_password">
+  body: { otp: string } & Pick<SignupPayload, "password" | "confirm_password">
 ): Promise<{
   data: { message: string } | string | null;
   status: number;
@@ -124,7 +125,7 @@ export const resetPassword = async (
 export const googleLogin = async (body: {
   access_token: string;
 }): Promise<{
-  data: AuthUser | string | null;
+  data: User | string | null;
   status: number;
   success: boolean;
 }> => {
