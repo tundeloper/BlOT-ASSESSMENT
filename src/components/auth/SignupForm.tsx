@@ -13,7 +13,6 @@ import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { useAuthStore } from "@/store/authstore";
 import { enqueueSnackbar } from "notistack";
 
 interface FormData {
@@ -87,8 +86,6 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 
 const Signup = () => {
   const router = useRouter();
-  const login = useAuthStore((state) => state.setUser);
-  const setToken = useAuthStore((state) => state.setToken);
   const {
     register,
     handleSubmit,
@@ -106,49 +103,38 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    // setToken('uffuifuifirrytf')
-    // login({
-    //   id: 323,
-    //   username: "tundeloper",
-    //   name: "Babatunde",
-    //   email: "tundeloper",
-    //   date_of_birth: "string",
-    //   country: "string",
-    //   favorite_sport: "string",
-    //   favorite_team: "string",
-    //   bio: "string",
-    //   location: "string",
-    //   following_count: 12,
-    //   followers_count: 0,
-    //   formatted_join_date: "string",
-    //   formatted_member_since: "wqqw;",
-    //   profile_picture: "string",
-    //   banner_image: "string",
-    //   website: "string",
-    //   address: "string",
-    //   city: "",
-    //   state: "",
-    //   phoneNumber: "",
-    // });
-    // router.replace('/home')
-    try {
-      const response = await axios.post(
-        `https://lazeapi-v2.onrender.com/api/auth/register`,
-        { ...data, country: data.country?.label || "" }
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      `https://lazeapi-v2.onrender.com/api/auth/register`,
+      { ...data, country: data.country?.label || "" }
+    );
+
+    if (response.data?.success) {
+      router.push(`/auth/verify/?email=${data.email}`);
+      enqueueSnackbar("Registration successful", { variant: "success" });
+    } else {
+      enqueueSnackbar(
+        response.data?.message || "User already exists with this email",
+        { variant: "error" }
       );
-      if (response.data) {
-        router.push(`/auth/verify/?email=${data.email}`);
-        enqueueSnackbar("Login successful", { variant: "success" });
-      } else {
-        enqueueSnackbar("User Already Exist with this email", { variant: "success" });
-      }
-    } catch (error) {
-      if(axios.isAxiosError(error)) {
-        enqueueSnackbar("User Already Exist with this email", { variant: "success" });
-      }
     }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log('error')
+      const message =
+        error.response?.data?.message || "Registration failed. Please try again.";
+      enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
+    } else {
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+    }
+  } finally {
+    setLoading(false);
+  }
+
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",
@@ -385,9 +371,10 @@ const Signup = () => {
         {/* Submit */}
         <GradientButton
           type="submit"
+          disabled={loading}
           className="w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 "
         >
-          Create Account
+          {loading ? "Loading..." : "Create Account"}
         </GradientButton>
       </form>
 
