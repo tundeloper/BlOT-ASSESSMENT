@@ -12,9 +12,9 @@ import googleIcon from "@/assets/googleIcon.png";
 import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
-// import { useAuthStore } from "@/store/authstore";
-import { post } from "@/utils/api.utils";
-import { toast } from "react-toastify";
+import axios from "axios";
+import { useAuthStore } from "@/store/authstore";
+import { enqueueSnackbar } from "notistack";
 
 interface FormData {
   full_name: string;
@@ -87,8 +87,8 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 
 const Signup = () => {
   const router = useRouter();
-  // const login = useAuthStore((state) => state.setUser);
-  // const setToken = useAuthStore((state) => state.setToken);
+  const login = useAuthStore((state) => state.setUser);
+  const setToken = useAuthStore((state) => state.setToken);
   const {
     register,
     handleSubmit,
@@ -132,13 +132,23 @@ const Signup = () => {
     //   state: "",
     //   phoneNumber: "",
     // });
-    router.replace('/home')
-      const response = await post({url: '/auth/register', data})
-      if(response.success) {
+    // router.replace('/home')
+    try {
+      const response = await axios.post(
+        `https://lazeapi-v2.onrender.com/api/auth/register`,
+        { ...data, country: data.country?.label || "" }
+      );
+      if (response.data) {
         router.push(`/auth/verify/?email=${data.email}`);
+        enqueueSnackbar("Login successful", { variant: "success" });
       } else {
-        toast.success('lkslnasln')
+        enqueueSnackbar("User Already Exist with this email", { variant: "success" });
       }
+    } catch (error) {
+      if(axios.isAxiosError(error)) {
+        enqueueSnackbar("User Already Exist with this email", { variant: "success" });
+      }
+    }
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",

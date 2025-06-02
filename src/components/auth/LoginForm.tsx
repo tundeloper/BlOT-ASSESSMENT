@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FiEye } from "react-icons/fi";
@@ -49,7 +49,7 @@ const LoginForm = () => {
 
     if (response.success) {
       enqueueSnackbar("Login successful", { variant: "success" });
-      //  save token, redirect
+      //  save token, redirect)
       
     } else {
       enqueueSnackbar(response.message || "Invalid credentials", { variant: "error" });
