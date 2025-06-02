@@ -10,11 +10,10 @@ import googleIcon from "@/assets/googleIcon.png";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "@/types/validation";
-// import { loginUser } from '@/api/auth';
+import { loginUser } from '@/api/auth';
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 // import { useSearchParams } from 'next/navigation';
 import { LoginPayload } from "@/types/auth";
-import { post } from "@/utils/api.utils";
 // import { useAuthStore } from "@/store/authstore";
 
 const LoginForm = () => {
@@ -44,21 +43,11 @@ const LoginForm = () => {
     });
 
     const onSubmit = async (data: Pick<LoginPayload, "email" | "password">) => {
-        try {
-            const response = await post<{ data: { user: '' } }, typeof data>({ url: "/auth/login", data });
-
-            if (response.success) {
-                enqueueSnackbar("Login successful", { variant: "success" });
-                //  save token, redirect)
-
-            } else {
-                enqueueSnackbar(response.message || "Invalid credentials", { variant: "error" });
-            }
-        } catch (error) {
-            console.error("Unexpected error:", error);
-            enqueueSnackbar("An unexpected error occurred. Please try again.", {
-                variant: "error",
-            });
+        const response = await loginUser(data);
+        if (response.success) {
+            enqueueSnackbar("Login successful", { variant: "success" });
+        } else {
+            enqueueSnackbar(response.data as string, { variant: "error" });
         }
     };
 
