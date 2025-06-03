@@ -27,7 +27,7 @@ const Notification = () => {
   }
 
   return (
-    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card">
+    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card mt-[50%] md:mt-2">
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
         <Image src={logo} alt="logo" width={114} height={76} className='w-[75px] md:w-[114px] h-[50px] md:h-[76px]' />
         <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">

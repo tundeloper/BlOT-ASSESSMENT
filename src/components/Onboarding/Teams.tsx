@@ -92,7 +92,7 @@ const Teams = () => {
 
   return (
     <div
-      className={`md:max-w-5xl w-full ${''
+      className={`md:max-w-5xl w-full mt-8 md:mt-2 ${''
         // theme === "dark" ? "bg-[#121212]" : "bg-white"
       } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
     >

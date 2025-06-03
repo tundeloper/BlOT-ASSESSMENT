@@ -34,7 +34,7 @@ const Sports = () => {
     // alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
     try {
       const response = await axios.put(
-        "https://lazeapi-v2.onrender.com/api/preferences/sports",
+        process.env.NEXT_PUBLIC_API_BASE_URL as string,
         {
           favorite_sports: [selectedSports.join(', ') || ''],
         }
@@ -58,7 +58,7 @@ const Sports = () => {
 
   return (
     <div
-      className={`md:max-w-[550px] w-full bg-white ${
+      className={`md:max-w-[550px] w-full bg-white mt-[50%] md:mt-2 ${
         theme === "dark" ? "bg-[#121212]" : "bg-white"
       } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
     >
