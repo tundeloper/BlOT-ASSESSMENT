@@ -146,7 +146,7 @@ const Signup = () => {
 
   return (
     <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card md:p-[34]">
-      <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-[15rem]">
+      <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-[10rem]">
         <Image
           src={logo}
           alt="logo"
