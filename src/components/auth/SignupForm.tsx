@@ -109,7 +109,7 @@ const Signup = () => {
   try {
     setLoading(true);
     const response = await axios.post(
-      process.env.NEXT_PUBLIC_API_BASE_URL as string,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
       { ...data, country: data.country?.label || "" }
     );
 

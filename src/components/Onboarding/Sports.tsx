@@ -7,6 +7,7 @@ import Checkbox from "../ui/checkedBox";
 import { useTheme } from "@/context/ThemeContext";
 import GradientButton from "../ui/gradientButton";
 import axios from "axios";
+import { getAuthTokensFromLocalStorage } from "@/store/authstore";
 
 const sportsList = [
   "Football",
@@ -34,13 +35,16 @@ const Sports = () => {
     // alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
     try {
       const response = await axios.put(
-        process.env.NEXT_PUBLIC_API_BASE_URL as string,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/notifications`,
         {
           favorite_sports: [selectedSports.join(', ') || ''],
-        }
+        },
+        {headers: {
+          Authorization: `Bearer ${getAuthTokensFromLocalStorage()}`
+        }}
       );
 
-      if (response) {
+      if (response.data) {
         router.push('/onbiarding/teams')
       }
     } catch (error) {

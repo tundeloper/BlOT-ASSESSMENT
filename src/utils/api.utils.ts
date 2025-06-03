@@ -147,6 +147,7 @@ export async function update<T, D>(props: {
 		props
 	);
 }
+
 export async function updatePut<T, D>(props: {
 	data: D;
 	url: string;
