@@ -62,7 +62,7 @@ const Sports = () => {
         theme === "dark" ? "bg-[#121212]" : "bg-white"
       } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
     >
-      <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
+      <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-6">
         <Image
           src={logo}
           alt="logo"
@@ -76,7 +76,7 @@ const Sports = () => {
           What Sports do you love?
         </h1>
       </div>
-      <div className="grid grid-cols-2 gap-y-2 gap-x-[180px] max-w-full mb-6 md:gap-x-[280px]">
+      <div className="grid grid-cols-2 gap-y-2 gap-x-[100px] max-w-full mb-6 md:gap-x-[280px]">
         {sportsList.map((sport) => (
           <label
             key={sport}

@@ -9,7 +9,7 @@ import { ApiResponse } from "../types/auth";
 import { getAuthTokensFromLocalStorage } from "@/store/authstore";
 
 // const baseURL = import.meta.env.VITE_API_URL as string;
-const baseURL = "https://vendmerge-server-budqb4grdngnancf.canadacentral-01.azurewebsites.net/v1"
+export const baseURL = "https://vendmerge-server-budqb4grdngnancf.canadacentral-01.azurewebsites.net/v1"
 
 const tokens = getAuthTokensFromLocalStorage();
 
