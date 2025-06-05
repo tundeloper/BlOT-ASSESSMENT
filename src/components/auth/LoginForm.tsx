@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const state = useAuthStore();
-  const router = useRouter()
+  const router = useRouter();
   // const searchParams = useSearchParams();
   // const errorParams = searchParams.get("error");
   // const accessToken = searchParams.get("id_token");
@@ -47,17 +47,15 @@ const LoginForm = () => {
 
   const onSubmit = async (data: Pick<LoginPayload, "email" | "password">) => {
     try {
-      const response = await post<{ data: { user: User, token: string }}, typeof data>({
+      const response = await post<{ user: User; token: string }, typeof data>({
         url: "/auth/login",
         data,
       });
-
       if (response.success) {
         enqueueSnackbar("Login successful", { variant: "success" });
-        const servResponse = response.data.data.data;
-        state.setUser(servResponse.user);
-        state.setToken(servResponse.token);
-        router.replace('/home')
+        state.setUser(response.data.user, response.data.token);
+        state.setToken(response.data.token);
+        router.replace("/home");
       } else {
         enqueueSnackbar(response.message || "Invalid credentials", {
           variant: "error",
@@ -65,9 +63,9 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      enqueueSnackbar("An unexpected error occurred. Please try again.", {
-        variant: "error",
-      });
+      // enqueueSnackbar("An unexpected error occurred. Please try again.", {
+      //   variant: "error",
+      // });
     }
   };
 

@@ -77,7 +77,7 @@ const Verify = () => {
       if (response.success) {
         console.log(response);
         enqueueSnackbar("Account verified successful", { variant: "success" });
-        state.setUser(response.data?.data.user as User);
+        state.setUser(response.data?.data.user as User, response?.data?.token as string);
         state.setToken(response?.data?.token as string);
         console.log(response);
         router.push("/onboarding/sports");

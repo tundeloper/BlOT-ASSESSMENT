@@ -24,6 +24,7 @@ export type LoginPayload = {
 export type ApiResponse<T> = {
   success: boolean;
   message: string;
-  data: {data: T};
+  data: T;
   detail?: string;
+  token?: string;
 };

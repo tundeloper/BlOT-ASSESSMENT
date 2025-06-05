@@ -7,7 +7,7 @@ import Checkbox from "../ui/checkedBox";
 import { useTheme } from "@/context/ThemeContext";
 import GradientButton from "../ui/gradientButton";
 import axios from "axios";
-import { getAuthTokensFromLocalStorage } from "@/store/authstore";
+import { useAuthStore } from "@/store/authstore";
 
 const sportsList = [
   "Football",
@@ -20,7 +20,7 @@ const sportsList = [
 
 const Sports = () => {
   const router = useRouter();
-
+const token = useAuthStore.getState().token
   const { theme } = useTheme();
 
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
@@ -40,7 +40,7 @@ const Sports = () => {
           favorite_sports: [selectedSports.join(', ') || ''],
         },
         {headers: {
-          Authorization: `Bearer ${getAuthTokensFromLocalStorage()}`
+          Authorization: `Bearer ${token}`
         }}
       );
 
