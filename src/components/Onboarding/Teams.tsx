@@ -89,6 +89,8 @@ const Teams = () => {
       }
     });
 
+    router.push('/onboarding/notificationsn')
+
     alert(JSON.stringify(result, null, 2));
   };
 

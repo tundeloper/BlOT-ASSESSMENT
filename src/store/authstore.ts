@@ -33,7 +33,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           user,
           token,
-          isAuthenticated: !!token,
+          isAuthenticated: true,
         }),
 
       logout: () =>
