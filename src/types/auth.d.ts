@@ -1,10 +1,20 @@
 export type User = {
-  country: string;
-  email: string;
+  id: 33;
   full_name: string;
-  id: number;
+  email: string;
+  country: string;
   is_verified: boolean;
   onboarding_completed: boolean;
+  notification_preferences: {
+    match_start_reminders: boolean;
+    team_news: boolean;
+    weekly_challenges: boolean;
+    leaderboard_updates: boolean;
+  };
+  favorite_teams: string[];
+  favorite_sports: string[];
+  created_at: string;
+  updated_at: string;
 };
 
 export type SignupPayload = {

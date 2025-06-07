@@ -4,10 +4,11 @@ import { useAuthStore } from '@/store/authstore'
 import React from 'react'
 
 export default function Home() {
-  const user = useAuthStore((s) => s.user)
+  const state = useAuthStore()
   return (
     <ProtectedRoute>
-      <div className='bg-pink-300'>{user?.full_name}</div>
+      <div className='bg-pink-300'>{state.user?.full_name}</div>
+      <div className='bg-pink-300'>{state.token}</div>
     </ProtectedRoute>
   )
 }

@@ -53,8 +53,8 @@ const LoginForm = () => {
       });
       if (response.success) {
         enqueueSnackbar("Login successful", { variant: "success" });
-        state.setUser(response.data.user, response.data.token);
-        state.setToken(response.data.token);
+        state.setUser(response.data.user, response.token as string);
+        console.log(response)
         router.replace("/home");
       } else {
         enqueueSnackbar(response.message || "Invalid credentials", {
