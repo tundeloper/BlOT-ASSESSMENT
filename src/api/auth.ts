@@ -125,15 +125,15 @@ export const resetPassword = async (
 export const verifyEmail = async (
   body: { verification_code: string } & Pick<SignupPayload, "email">
 ): Promise<{
-  data: { data: {user: User}, token: string } | null;
+  data: { message: string } | string | null;
   status: number;
   success: boolean;
 }> => {
   try {
-    const {data} = await apiAxios.post("/auth/verify", body);
+    const response = await apiAxios.post("/auth/verify", body);
     return {
-      data: data.data,
-      status: data.status,
+      data: response.data,
+      status: response.status,
       success: true
     };
   } catch (error) {

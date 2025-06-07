@@ -8,7 +8,6 @@ type AuthState = {
   token: string | null;
   hasHydrated: boolean;
   setUser: (user: User, token: string) => void;
-  // signup: (user: User, token: string) => void
   logout: () => void;
   setToken: (token: string) => void;
   setHydrated: () => void;
@@ -34,15 +33,8 @@ export const useAuthStore = create<AuthState>()(
         set({
           user,
           token,
-          isAuthenticated: true,
+          isAuthenticated: !!token,
         }),
-
-      // signup: (user, token) =>
-      //   set({
-      //     user,
-      //     token,
-      //     isAuthenticated: true,
-      //   }),
 
       logout: () =>
         set({

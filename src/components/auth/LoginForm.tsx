@@ -63,9 +63,9 @@ const LoginForm = () => {
       }
     } catch (error) {
       console.error("Unexpected error:", error);
-      // enqueueSnackbar("An unexpected error occurred. Please try again.", {
-      //   variant: "error",
-      // });
+      enqueueSnackbar("An unexpected error occurred. Please try again.", {
+        variant: "error",
+      });
     }
   };
 

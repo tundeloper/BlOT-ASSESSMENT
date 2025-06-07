@@ -16,5 +16,5 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
     return <div>Redirecting to login...</div>
   }
 
-  return <>{children}</>
+  return <div className="mr-[-23px] h-[100rem]">{children}</ div>
 }

@@ -126,7 +126,7 @@ const Signup = () => {
     if (axios.isAxiosError(error)) {
       console.log('error')
       const message =
-        error.response?.data?.message || "Registration failed. Please try again.";
+        error.response?.data?.detail || "Registration failed. Please try again.";
       enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
     } else {
       enqueueSnackbar("An unexpected error occurred", { variant: "error" });
@@ -134,7 +134,7 @@ const Signup = () => {
   } finally {
     setLoading(false);
   }
-
+  
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",

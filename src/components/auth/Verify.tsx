@@ -5,8 +5,6 @@ import logo from "@/assets/logo2.png";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
-// import axios from "axios";
-import { verifyEmail } from "@/api/auth";
 import { useAuthStore } from "@/store/authstore";
 import { User } from "@/types/auth";
 import axios from "axios";
@@ -15,7 +13,7 @@ const Verify = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [countdown, setCountdown] = useState(0);
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const searchParams = useSearchParams();
@@ -69,39 +67,32 @@ const Verify = () => {
     e.preventDefault();
     if (!isOtpComplete) return;
     try {
-      setLoading(true)
-      const response = await verifyEmail({
-        email,
-        verification_code: otp.join(""),
-      });
-      if (response.success) {
-        console.log(response);
-        enqueueSnackbar("Account verified successful", { variant: "success" });
-        state.setUser(response.data?.data.user as User, response?.data?.token as string);
-        // state.setToken(response?.data?.token as string);
-        console.log(state.user);
-        router.push("/onboarding/sports");
-      } else {
-        enqueueSnackbar("Account verification failed try again" as string, {
-          variant: "error",
-        });
-      }
-    } catch (error) {
-      startCountdown();
-      if (axios.isAxiosError(error)) {
-        console.log("error");
-        const message =
-          error.response?.data?.message ||
-          "Registration failed. Please try again.";
-        enqueueSnackbar(message || "Registration failed. Please try again.", {
-          variant: "error",
-        });
-      } else {
-        enqueueSnackbar("An unexpected error occurred", { variant: "error" });
-      }
-    } finally {
-      setLoading(false)
+    setLoading(true);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/verify`,
+      { email, verification_code: otp.join("")}
+    );
+    console.log(response.data)
+
+    if (response.data?.success) {
+      router.push(`/onboarding/sports`);
+      state.setUser(response.data.data as User, response.data.token as string)
+    } else {
+      enqueueSnackbar(
+        response.data?.message || "Already verified login and proceed to the app",
+        { variant: "error" }
+      );
     }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      handleResend()
+      startCountdown()
+    } else {
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+    }
+  } finally {
+    setLoading(false);
+  }
 
     // alert("OTP submitted: " + otp.join(""));
     // try {
@@ -189,7 +180,7 @@ const Verify = () => {
             disabled={loading}
             className={`w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 `}
           >
-            {loading ? 'loading...':'Crate Account'}
+            {loading ? "loading..." : "Crate Account"}
           </GradientButton>
           {/* <button
                   type="submit"

@@ -20,7 +20,7 @@ const sportsList = [
 
 const Sports = () => {
   const router = useRouter();
-const token = useAuthStore.getState().token
+const token = useAuthStore(s => s.token)
   const { theme } = useTheme();
 
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
@@ -34,6 +34,7 @@ const token = useAuthStore.getState().token
   const handleNext = async () => {
     // alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
     try {
+      console.log(token)
       const response = await axios.put(
         `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/notifications`,
         {
