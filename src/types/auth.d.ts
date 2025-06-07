@@ -1,25 +1,10 @@
 export type User = {
-  id: number;
-  username: string;
-  name: string;
-  email: string;
-  date_of_birth: string;
   country: string;
-  favorite_sport: string;
-  favorite_team: string;
-  bio: string;
-  location: string;
-  following_count: number;
-  followers_count: number;
-  formatted_join_date: string;
-  formatted_member_since: string;
-  profile_picture: string;
-  banner_image: string;
-  website: string;
-  address: string;
-  city: string;
-  state: string;
-  phoneNumber: string;
+  email: string;
+  full_name: string;
+  id: number;
+  is_verified: boolean;
+  onboarding_completed: boolean;
 };
 
 export type SignupPayload = {
@@ -40,5 +25,6 @@ export type ApiResponse<T> = {
   success: boolean;
   message: string;
   data: T;
-  detail?: string
+  detail?: string;
+  token?: string;
 };

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function RegisterForm() {
   return (
     <BgWrapper> 
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col items-center justify-center h-full">
         <Signup />     
       </div>
     </BgWrapper>

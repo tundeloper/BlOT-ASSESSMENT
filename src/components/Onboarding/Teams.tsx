@@ -5,6 +5,7 @@ import logo from "@/assets/logo2.png";
 
 import Checkbox from "../ui/checkedBox";
 import GradientButton from "../ui/gradientButton";
+import { useRouter } from "next/navigation";
 
 const sportsWithTeams: Record<string, string[]> = {
   Football: [
@@ -42,6 +43,7 @@ const Teams = () => {
     {}
   );
 
+  const router = useRouter()
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -92,7 +94,7 @@ const Teams = () => {
 
   return (
     <div
-      className={`md:max-w-5xl w-full ${''
+      className={`md:max-w-5xl w-full mt-8 md:mt-2 ${''
         // theme === "dark" ? "bg-[#121212]" : "bg-white"
       } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
     >
@@ -149,6 +151,7 @@ const Teams = () => {
         <button
           className="flex-1 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
+          onClick={() => router.push('/onboarding/welcome')}
         >
           Skip
         </button>

@@ -1,21 +1,29 @@
-"use client"
+"use client";
 import { useEffect, useRef, useState } from "react";
 import GradientButton from "../ui/gradientButton";
 import logo from "@/assets/logo2.png";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { enqueueSnackbar } from "notistack";
+import { useAuthStore } from "@/store/authstore";
+import { User } from "@/types/auth";
 import axios from "axios";
 
 const Verify = () => {
   const [otp, setOtp] = useState<string[]>(new Array(6).fill(""));
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const searchParams = useSearchParams();
-  const route = useRouter()
-  const email = searchParams.get("email");
+  const router = useRouter();
+  const email = searchParams.get("email") as string;
+  const state = useAuthStore();
+
+  useEffect(() => {
+    if (!email) return;
+  }, [email]);
 
   const isOtpComplete = otp.every((digit) => digit !== "");
 
@@ -58,24 +66,51 @@ const Verify = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isOtpComplete) return;
+    try {
+    setLoading(true);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/verify`,
+      { email, verification_code: otp.join("")}
+    );
+    console.log(response.data)
+
+    if (response.data?.success) {
+      router.push(`/onboarding/sports`);
+      state.setUser(response.data.data as User, response.data.token as string)
+    } else {
+      enqueueSnackbar(
+        response.data?.message || "Already verified login and proceed to the app",
+        { variant: "error" }
+      );
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      handleResend()
+      startCountdown()
+    } else {
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+    }
+  } finally {
+    setLoading(false);
+  }
 
     // alert("OTP submitted: " + otp.join(""));
-    try {
-      const response = await axios.post(
-        "https://lazeapi-v2.onrender.com/api/auth/verify",
-        {
-          email: email,
-          verification_code: otp.join(""),
-        }
-      );
-      if (response) {
-        route.push('/onboarding/sports')
-      }
-    } catch (error) {
-      if(error) route.push('/onboarding/sports')
-      startCountdown();
+    // try {
+    //   const response = await axios.post(
+    //     "https://lazeapi-v2.onrender.com/api/auth/verify",
+    //     {
+    //       email: email,
+    //       verification_code: otp.join(""),
+    //     }
+    //   );
+    //   if (response) {
+    //     route.push('/onboarding/sports')
+    //   }
+    // } catch (error) {
+    //   if(error) route.push('/onboarding/sports')
+    //   startCountdown();
 
-    }
+    // }
 
     setIsSubmitted(true);
   };
@@ -103,7 +138,7 @@ const Verify = () => {
 
   return (
     <div
-      className={`md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
+      className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[50%] md:mt-2`}
     >
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
         <Image
@@ -131,7 +166,7 @@ const Verify = () => {
                 type="text"
                 inputMode="numeric"
                 maxLength={1}
-                className="w-12 h-12 text-center text-xl text-[#111827] border rounded focus:outline-none focus:ring "
+                className="w-[39px] h-[39px] text-[#3A3D46] text-center text-xl border rounded focus:outline-none focus:ring "
                 value={digit}
                 onChange={(e) => handleChange(e.target, idx)}
                 onKeyDown={(e) => handleKeyDown(e, idx)}
@@ -142,10 +177,10 @@ const Verify = () => {
 
           <GradientButton
             type="submit"
-            disabled={!isOtpComplete}
+            disabled={loading}
             className={`w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 `}
           >
-            Crate Account
+            {loading ? "loading..." : "Crate Account"}
           </GradientButton>
           {/* <button
                   type="submit"

@@ -109,7 +109,7 @@ const Signup = () => {
   try {
     setLoading(true);
     const response = await axios.post(
-      `https://lazeapi-v2.onrender.com/api/auth/register`,
+      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
       { ...data, country: data.country?.label || "" }
     );
 
@@ -126,7 +126,7 @@ const Signup = () => {
     if (axios.isAxiosError(error)) {
       console.log('error')
       const message =
-        error.response?.data?.message || "Registration failed. Please try again.";
+        error.response?.data?.detail || "Registration failed. Please try again.";
       enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
     } else {
       enqueueSnackbar("An unexpected error occurred", { variant: "error" });
@@ -134,7 +134,7 @@ const Signup = () => {
   } finally {
     setLoading(false);
   }
-
+  
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",
@@ -145,8 +145,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8">
-      <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
+    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card md:p-[34]">
+      <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-[10rem]">
         <Image
           src={logo}
           alt="logo"
@@ -394,7 +394,19 @@ const Signup = () => {
             Apple
           </span>
         </button>
-        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+        <button
+          onClick={() => {
+            const url =
+              `https://accounts.google.com/o/oauth2/v2/auth?` +
+              `client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}` +
+              `&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}` +
+              `&response_type=token` +
+              `&scope=openid%20email%20profile` +
+              `&response_mode=fragment`;
+            window.open(url, "_self");
+          }}
+          className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
+        >
           <Image src={googleIcon} alt="google icon" width={20} height={20} />
           <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
             Google

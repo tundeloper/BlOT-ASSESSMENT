@@ -7,7 +7,7 @@ export default function Home() {
   const user = useAuthStore((s) => s.user)
   return (
     <ProtectedRoute>
-      <div>{user?.name}</div>
+      <div className='bg-pink-300'>{user?.full_name}</div>
     </ProtectedRoute>
   )
 }

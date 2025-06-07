@@ -122,6 +122,36 @@ export const resetPassword = async (
   }
 };
 
+export const verifyEmail = async (
+  body: { verification_code: string } & Pick<SignupPayload, "email">
+): Promise<{
+  data: { message: string } | string | null;
+  status: number;
+  success: boolean;
+}> => {
+  try {
+    const response = await apiAxios.post("/auth/verify", body);
+    return {
+      data: response.data,
+      status: response.status,
+      success: true
+    };
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return {
+        data: error.response?.data?.detail,
+        status: error.response?.status || 500,
+        success: false
+      };
+    }
+    return {
+      data: null,
+      status: 500,
+      success: false
+    };
+  }
+};
+
 export const googleLogin = async (body: {
   access_token: string;
 }): Promise<{

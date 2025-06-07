@@ -7,6 +7,7 @@ import Checkbox from "../ui/checkedBox";
 import { useTheme } from "@/context/ThemeContext";
 import GradientButton from "../ui/gradientButton";
 import axios from "axios";
+import { useAuthStore } from "@/store/authstore";
 
 const sportsList = [
   "Football",
@@ -19,7 +20,7 @@ const sportsList = [
 
 const Sports = () => {
   const router = useRouter();
-
+const token = useAuthStore(s => s.token)
   const { theme } = useTheme();
 
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
@@ -33,14 +34,18 @@ const Sports = () => {
   const handleNext = async () => {
     // alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
     try {
+      console.log(token)
       const response = await axios.put(
-        "https://lazeapi-v2.onrender.com/api/preferences/sports",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/notifications`,
         {
           favorite_sports: [selectedSports.join(', ') || ''],
-        }
+        },
+        {headers: {
+          Authorization: `Bearer ${token}`
+        }}
       );
 
-      if (response) {
+      if (response.data) {
         router.push('/onbiarding/teams')
       }
     } catch (error) {
@@ -58,11 +63,11 @@ const Sports = () => {
 
   return (
     <div
-      className={`md:max-w-[550px] w-full bg-white ${
+      className={`md:max-w-[550px] w-full bg-white mt-[50%] md:mt-2 ${
         theme === "dark" ? "bg-[#121212]" : "bg-white"
       } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
     >
-      <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
+      <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-6">
         <Image
           src={logo}
           alt="logo"
@@ -76,7 +81,7 @@ const Sports = () => {
           What Sports do you love?
         </h1>
       </div>
-      <div className="grid grid-cols-2 gap-y-2 gap-x-[180px] max-w-full mb-6 md:gap-x-[280px]">
+      <div className="grid grid-cols-2 gap-y-2 gap-x-[100px] max-w-full mb-6 md:gap-x-[280px]">
         {sportsList.map((sport) => (
           <label
             key={sport}
