@@ -14,6 +14,7 @@ import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
+import { useAuthStore } from "@/store/authstore";
 
 interface FormData {
   full_name: string;
@@ -86,6 +87,7 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 
 const Signup = () => {
   const router = useRouter();
+  const state = useAuthStore()
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -99,6 +101,8 @@ const Signup = () => {
         })
         .then((data) => {
           console.log(data);
+          state.setUser(data.data.data, data.data.token)
+          router.replace('/home')
         })
         .catch((err) => {
           console.log(err);
