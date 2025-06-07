@@ -4,8 +4,12 @@ import Image from "next/image";
 import Link from 'next/link'
 import logo from "@/assets/logo.png";
 import { googleLogin } from "@/api/auth";
+import { useAuthStore } from "@/store/authstore";
+import { useRouter } from "next/navigation";
 
 const Home = () => {
+  const state = useAuthStore()
+  const router = useRouter()
 
   useEffect(() => {
     const handleGoogleLogin = async () => {
@@ -15,7 +19,8 @@ const Home = () => {
         const accessToken = params.get('access_token');
         if (accessToken) {
           const response = await googleLogin({ access_token: accessToken });
-          console.log(response);
+          state.setUser(response.data.data, response.data.token)
+          router.push("/home")
         }
       }
     };

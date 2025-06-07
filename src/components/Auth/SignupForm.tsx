@@ -4,7 +4,7 @@ import logo from "@/assets/logo2.png";
 import GradientButton from "../ui/gradientButton";
 import { Eye, EyeOff } from "lucide-react";
 import countries from "world-countries";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Link from "next/link";
 import appleIcon from "@/assets/appleIcon.png";
@@ -14,7 +14,6 @@ import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
-import { useAuthStore } from "@/store/authstore";
 
 interface FormData {
   full_name: string;
@@ -87,29 +86,6 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 
 const Signup = () => {
   const router = useRouter();
-  const state = useAuthStore()
-
-  useEffect(() => {
-    const hash = window.location.hash;
-    const params = new URLSearchParams(hash.slice(1)); // remove '#' and parse
-    const accessToken = params.get("access_token");
-
-    if (accessToken) {
-      axios
-        .post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/google`, {
-          access_token: accessToken,
-        })
-        .then((data) => {
-          console.log(data);
-          state.setUser(data.data.data, data.data.token)
-          router.replace('/home')
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -130,38 +106,35 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
-        { ...data, country: data.country?.label || "" }
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
+      { ...data, country: data.country?.label || "" }
+    );
+
+    if (response.data?.success) {
+      router.push(`/auth/verify/?email=${data.email}`);
+      enqueueSnackbar("Registration successful", { variant: "success" });
+    } else {
+      enqueueSnackbar(
+        response.data?.message || "User already exists with this email",
+        { variant: "error" }
       );
-
-      if (response.data?.success) {
-        router.push(`/auth/verify/?email=${data.email}`);
-        enqueueSnackbar("Registration successful", { variant: "success" });
-      } else {
-        enqueueSnackbar(
-          response.data?.message || "User already exists with this email",
-          { variant: "error" }
-        );
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log("error");
-        const message =
-          error.response?.data?.detail ||
-          "Registration failed. Please try again.";
-        enqueueSnackbar(message || "Registration failed. Please try again.", {
-          variant: "error",
-        });
-      } else {
-        enqueueSnackbar("An unexpected error occurred", { variant: "error" });
-      }
-    } finally {
-      setLoading(false);
     }
-
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.log('error')
+      const message =
+        error.response?.data?.detail || "Registration failed. Please try again.";
+      enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
+    } else {
+      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+    }
+  } finally {
+    setLoading(false);
+  }
+  
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",
@@ -426,7 +399,7 @@ const Signup = () => {
             const url =
               `https://accounts.google.com/o/oauth2/v2/auth?` +
               `client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}` +
-              `&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}/register` +
+              `&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URL}` +
               `&response_type=token` +
               `&scope=openid%20email%20profile` +
               `&response_mode=fragment`;

@@ -155,7 +155,7 @@ export const verifyEmail = async (
 export const googleLogin = async (body: {
   access_token: string;
 }): Promise<{
-  data: User | string | null;
+  data: {data: User, token: string};
   status: number;
   success: boolean;
 }> => {
