@@ -45,9 +45,9 @@ const token = useAuthStore(s => s.token)
         }}
       );
 
-      router.push('/onbiarding/teams')
+      router.push('/onboarding/teams')
       if (response.data) {
-        router.push('/onbiarding/teams')
+        router.push('/onboarding/teams')
       }
     } catch (error) {
       console.error(error);
