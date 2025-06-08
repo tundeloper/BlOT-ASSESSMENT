@@ -114,7 +114,7 @@ const Signup = () => {
     );
 
     if (response.data?.success) {
-      router.push(`/auth/verify/?email=${data.email}`);
+      router.push(`/auth/verify?email=${data.email}`);
       enqueueSnackbar("Registration successful", { variant: "success" });
     } else {
       enqueueSnackbar(

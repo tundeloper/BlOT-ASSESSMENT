@@ -25,7 +25,7 @@ const Home = () => {
       }
     };
     handleGoogleLogin();
-  }, []);
+  }, [router, state]);
 
   return (
     <div className="max-w-[500px] md:bg-white rounded md:shadow-card flex flex-col items-center gap-20 p-[64px_48px] mt-[50%] md:mt-2">

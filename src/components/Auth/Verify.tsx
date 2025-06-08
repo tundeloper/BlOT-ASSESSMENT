@@ -75,8 +75,8 @@ const Verify = () => {
     console.log(response.data)
 
     if (response.data?.success) {
-      router.push(`/onboarding/sports`);
       state.setUser(response.data.data as User, response.data.token as string)
+      router.push(`/onboarding/sports`);
     } else {
       enqueueSnackbar(
         response.data?.message || "Already verified login and proceed to the app",
