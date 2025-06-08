@@ -45,6 +45,7 @@ const token = useAuthStore(s => s.token)
         }}
       );
 
+      router.push('/onbiarding/teams')
       if (response.data) {
         router.push('/onbiarding/teams')
       }
