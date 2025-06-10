@@ -112,7 +112,7 @@ const LoginForm = () => {
             id="email"
             type="email"
             placeholder="example@gmail.com"
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
               errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             {...register("email")}
@@ -142,7 +142,7 @@ const LoginForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="*********"
-              className="w-full h-full focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent dark:text-white"
+              className="w-full h-full text-[#7A7F8C] focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent dark:text-white"
               {...register("password")}
               autoComplete="current-password"
               disabled={isSubmitting}

@@ -84,7 +84,7 @@ const Signup = () => {
     display: "flex",
     alignItems: "center",
     gap: "8px",
-    color: theme === "dark" ? 'white' : "dark"
+    color: theme === "dark" ? 'white' : "#7A7F8C"
   }),
   // This removes the vertical separator between value and arrow
   indicatorSeparator: () => ({
@@ -190,7 +190,7 @@ const Signup = () => {
                 message: "Full name must be at least 2 characters",
               },
             })}
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px]  font-switzer ${
+            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px]  font-switzer ${
               errors.full_name ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="Full Name"
@@ -221,7 +221,7 @@ const Signup = () => {
                 message: "Invalid email address",
               },
             })}
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
               errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="example@gmail.com"
@@ -258,7 +258,7 @@ const Signup = () => {
                   "Password must contain at least one lowercase letter",
               },
             })}
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
               errors.password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"
@@ -269,9 +269,9 @@ const Signup = () => {
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? (
-              <EyeOff size={20} color="#e0e1e4" />
+              <EyeOff size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             ) : (
-              <Eye size={20} color="#e0e1e4" />
+              <Eye size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             )}
           </div>
           {errors.password && (
@@ -297,7 +297,7 @@ const Signup = () => {
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
               errors.confirm_password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"
@@ -308,9 +308,9 @@ const Signup = () => {
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             {showConfirmPassword ? (
-              <EyeOff size={20} color="#e0e1e4" />
+              <EyeOff size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             ) : (
-              <Eye size={20} color="#e0e1e4" />
+              <Eye size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             )}
           </div>
           {errors.confirm_password && (
@@ -362,7 +362,7 @@ const Signup = () => {
               {...register("terms_accepted", {
                 required: "You must accept the terms and conditions",
               })}
-              className={`form-checkbox accent-[#9a1b39] h-5 w-5 cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
+              className={`form-checkbox accent-[#9a1b39] h-[18px] w-[18px] cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
                 errors.terms_accepted ? "border-red-500" : "border-gray-300"
               }`}
               disabled={isSubmitting}

@@ -6,6 +6,7 @@ import logo from "@/assets/logo.png";
 import { googleLogin } from "@/api/auth";
 import { useAuthStore } from "@/store/authstore";
 import { useRouter } from "next/navigation";
+import GradientButton from "../ui/gradientButton";
 
 const Home = () => {
   const state = useAuthStore()
@@ -28,7 +29,7 @@ const Home = () => {
   }, [router, state]);
 
   return (
-    <div className="max-w-[500px] md:bg-white rounded md:shadow-card flex flex-col items-center gap-20 p-[64px_48px] mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
+    <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[40%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
       <div className="flex flex-col items-center gap-4 w-[427px]">
         <Image
           src={logo}
@@ -41,20 +42,38 @@ const Home = () => {
           Experience Sports Like Never Before
         </h1>
       </div>
-      <div className="flex flex-row w-full gap-4 mt-7">
-        <Link
-          href="/home"
-          className="w-[50%] flex items-center justify-center h-[50px] bg-[#2D439B] hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer text-white rounded shadow-md font-normal text-[16px] leading-[1.5em]"
-          style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.04)" }}
+      <div className="flex flex-col w-full gap-2 mt-7">
+        <GradientButton
+          onClick={() => router.push("/home")}
+          className="flex-1 p-3 flex items-center justify-center h-[50px] bg-[##2D439B] transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] bg-[] leading-[1.5em]"
+          style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
         >
           Get Started
-        </Link>
+        </GradientButton>
+
+        {/* Divider */}
+      <div className="flex items-center w-full gap-4">
+        <div className="flex-1 h-px bg-[#E4E6EC]" />
+        <span className="text-[13px] text-[#3A3D46] dark:text-[#C9CDD4] font-switzer">
+          OR
+        </span>
+        <div className="flex-1 h-px bg-[#E4E6EC]" />
+      </div>
+
+
         <Link
           href="/auth/login"
-          className="w-[50%] flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
+          className="flex-1 p-3 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
         >
           Login
+        </Link>
+        <Link
+          href="/auth/login"
+          className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
+          style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
+        >
+          Continue as guest
         </Link>
       </div>
     </div>

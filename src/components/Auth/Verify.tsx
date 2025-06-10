@@ -155,7 +155,7 @@ const Verify = () => {
 
   return (
       <div
-        className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300`}
+        className={`max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300`}
       >
         <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
           <Image
