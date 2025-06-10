@@ -11,17 +11,17 @@ import { BsEmojiSmile } from 'react-icons/bs'
 import logo from '@/assets/logo.png'
 
 interface PostProps {
-    userAvatar: string;
-    userName: string;
-    userHandle: string;
-    timestamp: string;
-    content: string;
-    hashtags: string[];
+    userAvatar?: string; // optional for build
+    userName?: string;  // optional for build
+    userHandle?: string;// optional for build
+    timestamp?: string; // optional for build
+    content?: string;   // optional for build
+    hashtags?: string[];// optional for build
     image?: string;
-    likes: number;
-    comments: number;
-    reposts: number;
-    shares: number;
+    likes?: number;     // optional for build
+    comments?: number;  // optional for build
+    reposts?: number;   // optional for build
+    shares?: number;    // optional for build
 }
 
 const Post = ({

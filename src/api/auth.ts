@@ -9,7 +9,7 @@ type GoogleLoginSuccess = {
 };
 
 type GoogleLoginError = {
-  data: string | null; // depending on your API
+  data: {data: User, message: string, token: string} | null;
   status: number;
   success: false;
 };
@@ -179,7 +179,10 @@ export const googleLogin = async (
   } catch (error) {
     if (error instanceof AxiosError) {
       return {
-        data: error.response?.data?.detail ?? null,
+        data:
+          typeof error.response?.data?.detail === "string"
+            ? error.response.data.detail
+            : null,
         status: error.response?.status || 500,
         success: false
       };
@@ -191,4 +194,3 @@ export const googleLogin = async (
     };
   }
 };
-

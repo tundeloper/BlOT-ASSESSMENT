@@ -7,6 +7,7 @@ import { googleLogin } from "@/api/auth";
 import { useAuthStore } from "@/store/authstore";
 import { useRouter } from "next/navigation";
 import GradientButton from "../ui/gradientButton";
+import { User } from "@/types/auth";
 
 const Home = () => {
   const state = useAuthStore()
@@ -20,8 +21,8 @@ const Home = () => {
         const accessToken = params.get('access_token');
         if (accessToken) {
           const response = await googleLogin({ access_token: accessToken });
-          state.setUser(response.data.data, response.data.token)
-          router.push("/home")
+          state.setUser(response.data?.data as User, response.data?.token as string)
+          router.push("/feed")
         }
       }
     };
