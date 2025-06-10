@@ -168,7 +168,7 @@ const LoginForm = () => {
         <div className="flex justify-end">
           <Link
             href="/auth/forgot-password"
-            className="text-[13px] text-[#3A3D46] hover:text-[#2D439B] font-switzer underline"
+            className="text-[13px] text-[#3A3D46] dark:text-[#7A7F8C] hover:text-[#2D439B] font-switzer underline"
           >
             Forgot Password?
           </Link>

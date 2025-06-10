@@ -28,7 +28,7 @@ const Home = () => {
   }, [router, state]);
 
   return (
-    <div className="max-w-[500px] md:bg-white rounded md:shadow-card flex flex-col items-center gap-20 p-[64px_48px] mt-[50%] md:mt-2">
+    <div className="max-w-[500px] md:bg-white rounded md:shadow-card flex flex-col items-center gap-20 p-[64px_48px] mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
       <div className="flex flex-col items-center gap-4 w-[427px]">
         <Image
           src={logo}
@@ -37,13 +37,13 @@ const Home = () => {
           height={100}
           className="w-[92px] md:w-[114px] h-[80px] md:h-[100px]"
         />
-        <h1 className="font-[500] text-[16px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">
+        <h1 className="font-[500] text-[16px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] dark:text-white text-center">
           Experience Sports Like Never Before
         </h1>
       </div>
       <div className="flex flex-row w-full gap-4 mt-7">
         <Link
-          href="/auth/login"
+          href="/home"
           className="w-[50%] flex items-center justify-center h-[50px] bg-[#2D439B] hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer text-white rounded shadow-md font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.04)" }}
         >

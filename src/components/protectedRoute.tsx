@@ -16,7 +16,7 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   }, [hasHydrated, isAuthenticated, router])
 
   if (!hasHydrated) return <div>Loading...</div>
-  if (!isAuthenticated) return <div>Redirecting to login...</div>
+  if (!isAuthenticated) return <div className='flex h-screen items-center justify-center'>loading ...</div>
 
   return <div className="mr-[-23px] h-[100rem]">{children}</div>
 }
