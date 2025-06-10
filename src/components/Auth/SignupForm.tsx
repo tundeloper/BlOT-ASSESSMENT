@@ -13,7 +13,8 @@ import Select from "react-select";
 import { GroupBase, StylesConfig } from "react-select";
 import { useRouter } from "next/navigation";
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import { useTheme } from "@/context/ThemeContext";
 
 interface FormData {
   full_name: string;
@@ -36,40 +37,6 @@ const countryList: CountryOption[] = countries.map((country) => ({
   flag: `https://flagcdn.com/w40/${country.cca2.toLowerCase()}.png`,
 }));
 
-const customStyles: StylesConfig<
-  CountryOption,
-  false,
-  GroupBase<CountryOption>
-> = {
-  control: (base, state) => ({
-    ...base,
-    height: "50px",
-    borderRadius: "6px",
-    borderColor: state.isFocused ? "#2D439B" : "#E4E6EC",
-    boxShadow: "none",
-    fontSize: "16px",
-    fontFamily: "switzer",
-  }),
-  option: (base, state) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    fontFamily: "switzer",
-    backgroundColor: state.isSelected ? "#F0F4FF" : "#fff",
-    color: "#3A3D46",
-  }),
-  singleValue: (base) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-  }),
-  // This removes the vertical separator between value and arrow
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
 
 const formatOptionLabel = ({ label, flag }: CountryOption) => (
   <div className="flex items-center gap-2">
@@ -85,13 +52,54 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 );
 
 const Signup = () => {
+
+  const {theme} = useTheme()
+  const customStyles: StylesConfig<
+  CountryOption,
+  false,
+  GroupBase<CountryOption>
+> = {
+  control: (base, state) => ({
+    ...base,
+    height: "50px",
+    borderRadius: "6px",
+    borderColor: state.isFocused ? "#e4e6ec" : "#e4e6ec",
+    boxShadow: "none",
+    backgroundColor: "transparent",
+    color: theme === "dark" ? 'white': 'black',
+    fontSize: "16px",
+    fontFamily: "switzer",
+  }),
+  option: (base) => ({
+    ...base,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    fontFamily: "switzer",
+    backgroundColor: theme === "dark" ? "transparent" : "transparent",
+    color: "#323335",
+  }),
+  singleValue: (base) => ({
+    ...base,
+    display: "flex",
+    alignItems: "center",
+    gap: "8px",
+    color: theme === "dark" ? 'white' : "dark"
+  }),
+  // This removes the vertical separator between value and arrow
+  indicatorSeparator: () => ({
+    display: "none",
+  }),
+};
+
+
   const router = useRouter();
   const {
     register,
     handleSubmit,
     watch,
     control,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormData>({
     mode: "onTouched",
     defaultValues: {
@@ -103,11 +111,9 @@ const Signup = () => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data: FormData) => {
   try {
-    setLoading(true);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
       { ...data, country: data.country?.label || "" }
@@ -131,9 +137,7 @@ const Signup = () => {
     } else {
       enqueueSnackbar("An unexpected error occurred", { variant: "error" });
     }
-  } finally {
-    setLoading(false);
-  }
+  } 
   
     // const formattedData = {
     //   ...data,
@@ -145,7 +149,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card md:p-[34]">
+    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card md:p-[34] dark:bg-[#121212] transition-colors duration-300">
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-[10rem]">
         <Image
           src={logo}
@@ -154,10 +158,10 @@ const Signup = () => {
           height={76}
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
-        <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">
+        <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] dark:text-white">
           Create Account
         </h1>
-        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
+        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center dark:text-[#C9CDD4]">
           Don&apos;t have an account?{" "}
           <Link
             href="/auth/login"
@@ -168,12 +172,12 @@ const Signup = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full text-[#3A3D46] dark:text-white">
         {/* Name */}
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col gap-2">
           <label
             htmlFor="name"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer"
           >
             Full Name
           </label>
@@ -186,10 +190,11 @@ const Signup = () => {
                 message: "Full name must be at least 2 characters",
               },
             })}
-            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border rounded outline-none text-[16px]  font-switzer ${
               errors.full_name ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="Full Name"
+            disabled={isSubmitting}
           />
           {errors.full_name && (
             <p className="text-red-500 text-sm mt-1">
@@ -199,10 +204,10 @@ const Signup = () => {
         </div>
 
         {/* Email */}
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col gap-2">
           <label
             htmlFor="email"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer"
           >
             Email
           </label>
@@ -220,6 +225,7 @@ const Signup = () => {
               errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="example@gmail.com"
+            disabled={isSubmitting}
           />
           {errors.email && (
             <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
@@ -227,10 +233,10 @@ const Signup = () => {
         </div>
 
         {/* Password */}
-        <div className="mb-4 relative">
+        <div className="mb-4 relative flex flex-col gap-2">
           <label
             htmlFor="password"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer "
           >
             Password
           </label>
@@ -256,15 +262,16 @@ const Signup = () => {
               errors.password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"
+            disabled={isSubmitting}
           />
           <div
-            className="absolute top-9 right-3 cursor-pointer"
+            className="absolute top-[3rem] right-3 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? (
-              <EyeOff size={20} color="black" />
+              <EyeOff size={20} color="#e0e1e4" />
             ) : (
-              <Eye size={20} color="black" />
+              <Eye size={20} color="#e0e1e4" />
             )}
           </div>
           {errors.password && (
@@ -275,10 +282,10 @@ const Signup = () => {
         </div>
 
         {/* Confirm Password */}
-        <div className="mb-4 relative">
+        <div className="mb-4 relative flex flex-col gap-2">
           <label
             htmlFor="confirmPassword"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer"
           >
             Confirm Password
           </label>
@@ -294,15 +301,16 @@ const Signup = () => {
               errors.confirm_password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"
+            disabled={isSubmitting}
           />
           <div
-            className="absolute top-9 right-3 cursor-pointer"
+            className="absolute top-[3rem] right-3 cursor-pointer"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             {showConfirmPassword ? (
-              <EyeOff size={20} color="black" />
+              <EyeOff size={20} color="#e0e1e4" />
             ) : (
-              <Eye size={20} color="black" />
+              <Eye size={20} color="#e0e1e4" />
             )}
           </div>
           {errors.confirm_password && (
@@ -313,10 +321,10 @@ const Signup = () => {
         </div>
 
         {/* Country */}
-        <div className="mb-4">
+        <div className="mb-4 flex flex-col gap-2">
           <label
             htmlFor="country"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer"
           >
             Country
           </label>
@@ -335,6 +343,7 @@ const Signup = () => {
                 className={`${
                   errors.country ? "border-red-500" : "border-[#E4E6EC]"
                 }`}
+                isDisabled={isSubmitting}
               />
             )}
           />
@@ -356,8 +365,9 @@ const Signup = () => {
               className={`form-checkbox accent-[#9a1b39] h-5 w-5 cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
                 errors.terms_accepted ? "border-red-500" : "border-gray-300"
               }`}
+              disabled={isSubmitting}
             />
-            <span className="text-[13px] ml-2 md:text-[16px] font-switzer text-[#3A3D46]">
+            <span className="text-[13px] ml-2 md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">
               Terms and Conditions
             </span>
           </label>
@@ -371,26 +381,26 @@ const Signup = () => {
         {/* Submit */}
         <GradientButton
           type="submit"
-          disabled={loading}
+          disabled={isSubmitting}
           className="w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 "
         >
-          {loading ? "Loading..." : "Create Account"}
+          {isSubmitting ? "Loading..." : "Create Account"}
         </GradientButton>
       </form>
 
       {/* Divider */}
       <div className="flex items-center w-full gap-4 my-3">
         <div className="flex-1 h-px bg-[#E4E6EC]" />
-        <span className="text-[13px] text-[#3A3D46] font-switzer">
+        <span className="text-[13px] text-[#3A3D46] dark:text-[#C9CDD4] font-switzer">
           Or Continue with
         </span>
         <div className="flex-1 h-px bg-[#E4E6EC]" />
       </div>
 
       <div className="flex flex-col gap-4 w-full">
-        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all dark:text-[#C9CDD4]">
           <Image src={appleIcon} alt="apple icon" width={15} height={15} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
             Apple
           </span>
         </button>
@@ -408,11 +418,12 @@ const Signup = () => {
           className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
         >
           <Image src={googleIcon} alt="google icon" width={20} height={20} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
             Google
           </span>
         </button>
       </div>
+      <SnackbarProvider />
     </div>
   );
 };

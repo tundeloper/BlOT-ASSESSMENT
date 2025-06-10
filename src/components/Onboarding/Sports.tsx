@@ -4,10 +4,10 @@ import React, { useState } from "react";
 import logo from "@/assets/logo2.png";
 import { useRouter } from "next/navigation";
 import Checkbox from "../ui/checkedBox";
-import { useTheme } from "@/context/ThemeContext";
 import GradientButton from "../ui/gradientButton";
 import axios from "axios";
 import { useAuthStore } from "@/store/authstore";
+import Link from "next/link";
 
 const sportsList = [
   "Football",
@@ -20,8 +20,7 @@ const sportsList = [
 
 const Sports = () => {
   const router = useRouter();
-const token = useAuthStore(s => s.token)
-  const { theme } = useTheme();
+  const token = useAuthStore((s) => s.token);
 
   const [selectedSports, setSelectedSports] = useState<string[]>([]);
 
@@ -34,20 +33,24 @@ const token = useAuthStore(s => s.token)
   const handleNext = async () => {
     // alert(`Selected sports: [${selectedSports.join(', ') || ''}]`);
     try {
-      console.log(token)
+      console.log(token);
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/notifications`,
+        `${
+          process.env.NEXT_PUBLIC_API_BASE_URL as string
+        }/preferences/notifications`,
         {
-          favorite_sports: [selectedSports.join(', ') || ''],
+          favorite_sports: [selectedSports.join(", ") || ""],
         },
-        {headers: {
-          Authorization: `Bearer ${token}`
-        }}
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      router.push('/onboarding/teams')
+      router.push("/onboarding/teams");
       if (response.data) {
-        router.push('/onboarding/teams')
+        router.push("/onboarding/teams");
       }
     } catch (error) {
       console.error(error);
@@ -63,11 +66,7 @@ const token = useAuthStore(s => s.token)
   //   };
 
   return (
-    <div
-      className={`md:max-w-[550px] w-full bg-white mt-[50%] md:mt-2 ${
-        theme === "dark" ? "bg-[#121212]" : "bg-white"
-      } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
-    >
+    <div className="md:max-w-[550px] w-full bg-white mt-[50%] md:mt-2 rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8 dark:bg-[#121212] transition-colors duration-300">
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-6">
         <Image
           src={logo}
@@ -77,7 +76,7 @@ const token = useAuthStore(s => s.token)
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
         <h1
-          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] `}
+          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] dark:text-white`}
         >
           What Sports do you love?
         </h1>
@@ -110,13 +109,13 @@ const token = useAuthStore(s => s.token)
           Next
         </GradientButton>
 
-        <button
+        <Link
           className="flex-1 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
-          onClick={() => router.push('/onboarding/welcome')}
+          href="/onboarding/welcome"
         >
           Skip
-        </button>
+        </Link>
       </div>
     </div>
   );

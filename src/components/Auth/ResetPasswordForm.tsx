@@ -32,12 +32,12 @@ const ResetPasswordForm = () => {
     };
 
     return (
-        <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-[22px] md:shadow-card md:[32px]">
+        <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-[22px] md:shadow-card md:[32px] dark:bg-[#121212] transition-colors duration-300">
             {/* Header */}
             <div className="flex flex-col items-center gap-2 w-[427px]">
                 <Image src={logo} alt="logo" width={114} height={76} className='w-[75px] md:w-[114px] h-[50px] md:h-[76px]' />
-                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">Reset Password</h1>
-                <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
+                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">Reset Password</h1>
+                <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center dark:text-[#C9CDD4]">
                     Password must be at least 8 characters
                 </p>
             </div>
@@ -45,7 +45,7 @@ const ResetPasswordForm = () => {
             {/* Form */}
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className='flex flex-col gap-2'>
-                    <label htmlFor="password" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Enter OTP</label>
+                    <label htmlFor="password" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">Enter OTP</label>
                     <OtpInput
                         value={otp}
                         onChange={setOtp}
@@ -63,7 +63,7 @@ const ResetPasswordForm = () => {
                 </div>
                 {/* Password */}
                 <div className="flex flex-col gap-2 relative">
-                    <label htmlFor="password" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Password</label>
+                    <label htmlFor="password" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">Password</label>
                     <div className={`flex items-center gap-2 border rounded px-4 w-full h-[50px] ${errors.password ? 'border-red-500' : 'border-[#E4E6EC]'}`}>
                         <input
                             id="password"
@@ -80,7 +80,7 @@ const ResetPasswordForm = () => {
                 </div>
                 {/* Confirm Password */}
                 <div className="flex flex-col gap-2 relative">
-                    <label htmlFor="confirmPassword" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Confirm Password</label>
+                    <label htmlFor="confirmPassword" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">Confirm Password</label>
                     <div className={`flex items-center gap-2 border rounded px-4 w-full h-[50px] ${errors.confirm_password ? 'border-red-500' : 'border-[#E4E6EC]'}`}>
                         <input
                             id="confirmPassword"

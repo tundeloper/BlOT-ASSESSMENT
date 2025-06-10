@@ -6,6 +6,7 @@ import logo from "@/assets/logo2.png";
 import Checkbox from "../ui/checkedBox";
 import GradientButton from "../ui/gradientButton";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const sportsWithTeams: Record<string, string[]> = {
   Football: [
@@ -89,16 +90,14 @@ const Teams = () => {
       }
     });
 
-    router.push('/onboarding/notificationsn')
+    router.push('/onboarding/notification')
 
     alert(JSON.stringify(result, null, 2));
   };
 
   return (
     <div
-      className={`md:max-w-5xl w-full mt-8 md:mt-2 ${''
-        // theme === "dark" ? "bg-[#121212]" : "bg-white"
-      } rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8`}
+      className={`md:max-w-5xl w-full mt-8 md:mt-2 rounded flex flex-col items-center gap-1 p-8 md:shadow-card md:p-8 dark:bg-[#121212] transition-colors duration-300`}
     >
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
         <Image
@@ -109,7 +108,7 @@ const Teams = () => {
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
         <h1
-          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46]`}
+          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] dark:text-white`}
         >
           Pick Your Favorite Teams
         </h1>
@@ -150,13 +149,13 @@ const Teams = () => {
         >
           Next
         </GradientButton>
-        <button
+        <Link
           className="flex-1 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
-          onClick={() => router.push('/onboarding/welcome')}
+          href='/onboarding/welcome'
         >
           Skip
-        </button>
+        </Link>
       </div>
     </div>
   );

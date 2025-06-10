@@ -27,12 +27,12 @@ const ForgotPasswordForm = () => {
     };
 
     return (
-        <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[50%] md:mt-0">
+        <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[50%] md:mt-0 dark:bg-[#121212] transition-colors duration-300">
             {/* Header */}
             <div className="flex flex-col items-center gap-2 w-[427px]">
                 <Image src={logo} alt="logo" width={114} height={76} className='w-[75px] md:w-[114px] h-[50px] md:h-[76px]' />
-                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">Forgot Password?</h1>
-                <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center max-w-[327px] md:max-w-[427px]">
+                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">Forgot Password?</h1>
+                <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center max-w-[327px] md:max-w-[427px] ">
                     Enter your email address and we&apos;ll email you a password reset link
                 </p>
             </div>

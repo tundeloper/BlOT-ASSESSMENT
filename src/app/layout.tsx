@@ -14,12 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="overflow-y-scroll">
-      <ThemeProvider>
         <body>
+      <ThemeProvider>
           {/* <ThemeToggleButton /> */}
           {children}
-        </body>
       </ThemeProvider>
+        </body>
     </html>
   );
 }

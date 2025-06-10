@@ -4,7 +4,7 @@ import GradientButton from "../ui/gradientButton";
 import logo from "@/assets/logo2.png";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
-import { enqueueSnackbar } from "notistack";
+import { SnackbarProvider, useSnackbar } from "notistack";
 import { useAuthStore } from "@/store/authstore";
 import { User } from "@/types/auth";
 import axios from "axios";
@@ -15,6 +15,7 @@ const Verify = () => {
   const [countdown, setCountdown] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { enqueueSnackbar } = useSnackbar();
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -67,32 +68,36 @@ const Verify = () => {
     e.preventDefault();
     if (!isOtpComplete) return;
     try {
-    setLoading(true);
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/verify`,
-      { email, verification_code: otp.join("")}
-    );
-    console.log(response.data)
-
-    if (response.data?.success) {
-      state.setUser(response.data.data as User, response.data.token as string)
-      router.push(`/onboarding/sports`);
-    } else {
-      enqueueSnackbar(
-        response.data?.message || "Already verified login and proceed to the app",
-        { variant: "error" }
+      setLoading(true);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/verify`,
+        { email, verification_code: otp.join("") }
       );
+      console.log(response.data);
+
+      if (response.data) {
+        state.setUser(
+          response.data.data as User,
+          response.data.token as string
+        );
+        router.push(`/onboarding/sports`);
+      } else {
+        enqueueSnackbar(
+          response.data?.message ||
+            "Already verified login and proceed to the app",
+          { variant: "error" }
+        );
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setIsSubmitted(true);
+        startCountdown();
+      } else {
+        enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+      }
+    } finally {
+      setLoading(false);
     }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      handleResend()
-      startCountdown()
-    } else {
-      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
-    }
-  } finally {
-    setLoading(false);
-  }
 
     // alert("OTP submitted: " + otp.join(""));
     // try {
@@ -111,15 +116,27 @@ const Verify = () => {
     //   startCountdown();
 
     // }
-
-    setIsSubmitted(true);
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     setOtp(new Array(6).fill(""));
     setIsSubmitted(false);
     startCountdown();
     enqueueSnackbar("OTP resent check your email", { variant: "success" });
+    console.log("resend");
+    try {
+      const response = await axios.post(
+        `${
+          process.env.NEXT_PUBLIC_API_BASE_URL as string
+        }/auth/resend-verification`,
+        { email }
+      );
+      console.log(response);
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+      }
+    }
   };
 
   //   useEffect(() => {
@@ -137,52 +154,52 @@ const Verify = () => {
   }, []);
 
   return (
-    <div
-      className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[50%] md:mt-2`}
-    >
-      <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
-        <Image
-          src={logo}
-          alt="logo"
-          width={114}
-          height={76}
-          className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
-        />
-        <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">
-          Verify Account
-        </h1>
-        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
-          Enter the OTP code sent to your email
-        </p>
+      <div
+        className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300`}
+      >
+        <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
+          <Image
+            src={logo}
+            alt="logo"
+            width={114}
+            height={76}
+            className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
+          />
+          <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">
+            Verify Account
+          </h1>
+          <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] dark:text-[#C9CDD4] text-center">
+            Enter the OTP code sent to your email
+          </p>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col w-full items-center gap-6 mt-6"
-        >
-          <div className="flex space-x-2 justify-center mb-6">
-            {otp.map((digit, idx) => (
-              <input
-                key={idx}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                className="w-[39px] h-[39px] text-[#3A3D46] text-center text-xl border rounded focus:outline-none focus:ring "
-                value={digit}
-                onChange={(e) => handleChange(e.target, idx)}
-                onKeyDown={(e) => handleKeyDown(e, idx)}
-                autoComplete="one-time-code"
-              />
-            ))}
-          </div>
-
-          <GradientButton
-            type="submit"
-            disabled={loading}
-            className={`w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 `}
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col w-full items-center gap-6 mt-6"
           >
-            {loading ? "loading..." : "Crate Account"}
-          </GradientButton>
-          {/* <button
+            <div className="flex space-x-2 justify-center mb-6">
+              {otp.map((digit, idx) => (
+                <input
+                  key={idx}
+                  type="text"
+                  inputMode="numeric"
+                  maxLength={1}
+                  className="w-[39px] h-[39px] text-[#3A3D46] dark:text-white text-center text-xl border rounded focus:outline-none focus:ring "
+                  value={digit}
+                  onChange={(e) => handleChange(e.target, idx)}
+                  onKeyDown={(e) => handleKeyDown(e, idx)}
+                  autoComplete="one-time-code"
+                />
+              ))}
+            </div>
+
+            <GradientButton
+              type="submit"
+              disabled={loading}
+              className={`w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 `}
+            >
+              {loading ? "Verifying..." : "Crate Account"}
+            </GradientButton>
+            {/* <button
                   type="submit"
                   disabled={!isOtpComplete}
                   className={`w-full py-2 rounded text-white font-semibold transition ${
@@ -194,32 +211,33 @@ const Verify = () => {
                   Submit
                 </button> */}
 
-          {isSubmitted && (
-            <div className="text-center ">
-              {countdown > 0 ? (
-                <p className="text-sm text-gray-400">
-                  Don&apos;t get the code? Resend in{" "}
-                  <span className="text-[#9a1b39s]">{countdown}s</span>
-                </p>
-              ) : (
-                <div className="flex gap-2 items-center">
+            {isSubmitted && (
+              <div className="text-center ">
+                {countdown > 0 ? (
                   <p className="text-sm text-gray-400">
-                    Don&apos;t get the code?
+                    Don&apos;t get the code? Resend in{" "}
+                    <span className="text-[#9a1b39s]">{countdown}s</span>
                   </p>
-                  <button
-                    type="button"
-                    onClick={handleResend}
-                    className="text-sm text-blue-600 underline hover:text-blue-800"
-                  >
-                    Resend OTP
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </form>
+                ) : (
+                  <div className="flex gap-2 items-center">
+                    <p className="text-sm text-gray-400">
+                      Don&apos;t get the code?
+                    </p>
+                    <button
+                      type="button"
+                      onClick={handleResend}
+                      className="text-sm text-blue-600 underline hover:text-blue-800"
+                    >
+                      Resend OTP
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </form>
+        </div>
+        <SnackbarProvider />
       </div>
-    </div>
   );
 };
 

@@ -70,7 +70,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[10%] md:mt-2">
+    <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[10%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
       {/* Header */}
       <div className="flex flex-col items-center gap-2 w-[427px]">
         <Image
@@ -80,10 +80,10 @@ const LoginForm = () => {
           height={76}
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
-        <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center">
+        <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">
           Welcome Back!
         </h1>
-        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center">
+        <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center dark:text-[#C9CDD4]">
           Don&apos;t have an account?{" "}
           <Link
             href="/auth/register"
@@ -104,7 +104,7 @@ const LoginForm = () => {
         <div className="flex flex-col gap-2">
           <label
             htmlFor="email"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white"
           >
             Email
           </label>
@@ -129,7 +129,7 @@ const LoginForm = () => {
         <div className="flex flex-col gap-2 relative">
           <label
             htmlFor="password"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white"
           >
             Password
           </label>
@@ -142,7 +142,7 @@ const LoginForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="*********"
-              className="w-full h-full focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent"
+              className="w-full h-full focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent dark:text-white"
               {...register("password")}
               autoComplete="current-password"
               disabled={isSubmitting}
@@ -186,7 +186,7 @@ const LoginForm = () => {
       {/* Divider */}
       <div className="flex items-center w-full gap-4">
         <div className="flex-1 h-px bg-[#E4E6EC]" />
-        <span className="text-[13px] text-[#3A3D46] font-switzer">
+        <span className="text-[13px] text-[#3A3D46] dark:text-[#C9CDD4] font-switzer">
           Or Continue with
         </span>
         <div className="flex-1 h-px bg-[#E4E6EC]" />
@@ -197,7 +197,7 @@ const LoginForm = () => {
         {/* Apple */}
         <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
           <Image src={appleIcon} alt="apple icon" width={15} height={15} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
             Apple
           </span>
         </button>
@@ -216,7 +216,7 @@ const LoginForm = () => {
           className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
         >
           <Image src={googleIcon} alt="google icon" width={20} height={20} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
             Google
           </span>
         </button>

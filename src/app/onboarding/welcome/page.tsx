@@ -1,8 +1,8 @@
-import Welcome from '@/components/Onboarding/Welcome'
 import BgWrapper from '@/components/Layout/BgWrapper'
 import AuthHeader from '@/components/Layout/AuthHeader'
 import { Metadata } from 'next';
 import React from 'react'
+import Welcome from '@/components/Onboarding/Welcome';
 
 export const metadata: Metadata = {
     title: "Welcome - SportLaze",
@@ -27,8 +27,8 @@ export const metadata: Metadata = {
 export default function WelcomePage() {
     return (
         <BgWrapper>
-            <AuthHeader />
-            <div className="flex flex-col items-center justify-center h-full w-[100%]">
+            <AuthHeader showProgress={true} progress={95} />
+            <div className="flex flex-col items-center justify-center h-screen w-[100%]">
                 <Welcome />
             </div>
         </BgWrapper>
