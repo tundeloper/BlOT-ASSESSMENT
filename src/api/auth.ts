@@ -2,6 +2,20 @@ import { AxiosError } from "axios";
 import apiAxios from ".";
 import { LoginPayload, SignupPayload, User } from "@/types/auth";
 
+type GoogleLoginSuccess = {
+  data: { data: User; token: string };
+  status: number;
+  success: true;
+};
+
+type GoogleLoginError = {
+  data: string | null; // depending on your API
+  status: number;
+  success: false;
+};
+
+type GoogleLoginResponse = GoogleLoginSuccess | GoogleLoginError;
+
 export const loginUser = async (
   body: Pick<LoginPayload, "email" | "password">
 ): Promise<{
@@ -152,13 +166,9 @@ export const verifyEmail = async (
   }
 };
 
-export const googleLogin = async (body: {
-  access_token: string;
-}): Promise<{
-  data: {data: User, token: string};
-  status: number;
-  success: boolean;
-}> => {
+export const googleLogin = async (
+  body: { access_token: string }
+): Promise<GoogleLoginResponse> => {
   try {
     const response = await apiAxios.post("/auth/oauth/google", body);
     return {
@@ -169,7 +179,7 @@ export const googleLogin = async (body: {
   } catch (error) {
     if (error instanceof AxiosError) {
       return {
-        data: error.response?.data?.detail,
+        data: error.response?.data?.detail ?? null,
         status: error.response?.status || 500,
         success: false
       };
@@ -181,3 +191,4 @@ export const googleLogin = async (body: {
     };
   }
 };
+

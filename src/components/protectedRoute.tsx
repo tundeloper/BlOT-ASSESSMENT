@@ -18,5 +18,5 @@ export default function ProtectedRoute({ children }: { children: React.ReactNode
   if (!hasHydrated) return <div>Loading...</div>
   if (!isAuthenticated) return <div className='flex h-screen items-center justify-center'>loading ...</div>
 
-  return <div className="mr-[-23px] h-[100rem]">{children}</div>
+  return <div className="">{children}</div>
 }
