@@ -31,9 +31,9 @@ const trendingTopics: TrendingTopic[] = [
 
 const Trends = () => {
   return (
-    <div className="bg-white p-4 rounded flex flex-col gap-4 shadow-[0px_0px_0px_1px_rgba(255,255,255,1)] w-[100%]">
+    <div className="bg-white dark:bg-[#121212] p-4 rounded flex flex-col gap-4 shadow-[0px_0px_0px_1px_rgba(255,255,255,1)] md:shadow-none w-[100%] transition-colors duration-300">
       <div className="flex justify-between items-center">
-        <h2 className="text-[16px] font-medium text-[#1E1E1E]">
+        <h2 className="text-[16px] font-medium text-[#1E1E1E] dark:text-white">
           Trends for you
         </h2>
         <button className="text-[13px] font-medium text-[#2D439B] cursor-pointer">
@@ -48,17 +48,17 @@ const Trends = () => {
             className="flex justify-between items-center"
           >
             <div className="flex flex-col gap-1">
-              <span className="text-[14px] text-[#3A3D46]">
+              <span className="text-[14px] text-[#3A3D46] dark:text-[#C9CDD4]">
                 {topic.category}
               </span>
-              <span className="text-[14px] font-medium text-[#1E1E1E]">
+              <span className="text-[14px] font-medium text-[#1E1E1E] dark:text-white">
                 {topic.title}
               </span>
-              <span className="text-[12px] text-[#3A3D46]">
+              <span className="text-[12px] text-[#3A3D46] dark:text-[#C9CDD4]">
                 {topic.location}
               </span>
             </div>
-            <span className="text-[10px] text-[#1E1E1E] w-[54px] text-right">
+            <span className="text-[10px] text-[#1E1E1E] w-[54px] text-right dark:text-white">
               {topic.posts}
             </span>
           </div>

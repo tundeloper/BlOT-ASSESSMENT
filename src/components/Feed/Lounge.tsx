@@ -33,7 +33,7 @@ const lounges: LoungeItem[] = [
 
 const Lounge = () => {
   return (
-    <div className="bg-white rounded flex flex-col w-full">
+    <div className="bg-white rounded flex flex-col w-full dark:bg-[#121212] transition-colors duration-300">
       <div className="flex justify-between items-center p-4 bg-gradient-to-br from-[#2D439B] to-[#9A1B39] rounded-t-[4px]">
         <h2 className="text-[16px] font-medium text-white">
           My Lounges
@@ -52,10 +52,10 @@ const Lounge = () => {
             }`}
           >
             <div className="flex flex-col gap-0.5">
-              <span className="text-[14px] font-medium text-[#1E1E1E]">
+              <span className="text-[14px] font-medium text-[#1E1E1E] dark:text-white">
                 {lounge.name}
               </span>
-              <span className="text-[12px] text-[#3A3D46]">
+              <span className="text-[12px] text-[#3A3D46] dark:text-[#C9CDD4]">
                 {lounge.activeUsers}
               </span>
             </div>

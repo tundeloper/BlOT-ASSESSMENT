@@ -8,6 +8,8 @@ import EmojiIcons from "@/assets/svg/emoji_Icon";
 import PollIcon from "@/assets/svg/poll";
 import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
+import globe from "../../assets/globe.png"
+// import user from "../../assets/user.png"s
 
 const AddPost = () => {
   const { theme } = useTheme();
@@ -32,13 +34,13 @@ const AddPost = () => {
 
   return (
     <div
-      className="bg-inherit md:bg-white rounded p-0 md:p-4 flex flex-col gap-2.5 dark:bg-inherit dark:md:bg-[#121212]"
+      className="bg-inherit md:bg-white rounded p-0 md:p-4 flex flex-col gap-2.5 dark:bg-inherit dark:md:bg-[#121212] transition-colors duration-300"
       id="create-post"
     >
       {/* user details  */}
       <div className="flex gap-2">
         <Avatar
-          src="/image/user.png"
+          src={'/image/user.png'}
           className="h-[40px] w-[40px] md:h-[50px] md:w-[50px]"
           sx={{ width: 50, height: 50 }}
         />
@@ -48,7 +50,7 @@ const AddPost = () => {
           </p>
           <button className="flex gap-2 cursor-pointer">
             <Image
-              src="/image/globe.png"
+              src={globe}
               height={16}
               width={16}
               alt="globe image"
@@ -63,7 +65,7 @@ const AddPost = () => {
       {/* post field  */}
       <div>
         <textarea
-          className="w-full bg-[#F9FAFB] p text-gray-400 dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none dark:bg-[#35383F]"
+          className="w-full bg-[#F9FAFB] p text-gray-400 md:p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"
           value={text}
