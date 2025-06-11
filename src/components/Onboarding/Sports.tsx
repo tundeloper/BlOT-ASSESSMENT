@@ -5,9 +5,10 @@ import logo from "@/assets/logo2.png";
 import { useRouter } from "next/navigation";
 import Checkbox from "../ui/checkedBox";
 import GradientButton from "../ui/gradientButton";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useAuthStore } from "@/store/authstore";
 import Link from "next/link";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 const sportsList = [
   "Football",
@@ -48,12 +49,15 @@ const Sports = () => {
         }
       );
 
-      router.push("/onboarding/teams");
       if (response.data) {
+        enqueueSnackbar("successful", { variant: "success" });
         router.push("/onboarding/teams");
       }
     } catch (error) {
-      console.error(error);
+      if (isAxiosError(error)) {
+        enqueueSnackbar("unauthorize", { variant: "error" });
+        router.push("/auth/register");
+      }
     }
   };
 
@@ -117,6 +121,7 @@ const Sports = () => {
           Skip
         </Link>
       </div>
+      <SnackbarProvider />
     </div>
   );
 };

@@ -37,7 +37,6 @@ const countryList: CountryOption[] = countries.map((country) => ({
   flag: `https://flagcdn.com/w40/${country.cca2.toLowerCase()}.png`,
 }));
 
-
 const formatOptionLabel = ({ label, flag }: CountryOption) => (
   <div className="flex items-center gap-2">
     <Image
@@ -52,46 +51,44 @@ const formatOptionLabel = ({ label, flag }: CountryOption) => (
 );
 
 const Signup = () => {
-
-  const {theme} = useTheme()
+  const { theme } = useTheme();
   const customStyles: StylesConfig<
-  CountryOption,
-  false,
-  GroupBase<CountryOption>
-> = {
-  control: (base, state) => ({
-    ...base,
-    height: "50px",
-    borderRadius: "6px",
-    borderColor: state.isFocused ? "#e4e6ec" : "#e4e6ec",
-    boxShadow: "none",
-    backgroundColor: "transparent",
-    color: theme === "dark" ? 'white': 'black',
-    fontSize: "16px",
-    fontFamily: "switzer",
-  }),
-  option: (base) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    fontFamily: "switzer",
-    backgroundColor: theme === "dark" ? "transparent" : "transparent",
-    color: "#323335",
-  }),
-  singleValue: (base) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    color: theme === "dark" ? 'white' : "#7A7F8C"
-  }),
-  // This removes the vertical separator between value and arrow
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-};
-
+    CountryOption,
+    false,
+    GroupBase<CountryOption>
+  > = {
+    control: (base, state) => ({
+      ...base,
+      height: "50px",
+      borderRadius: "6px",
+      borderColor: state.isFocused ? "#e4e6ec" : "#e4e6ec",
+      boxShadow: "none",
+      backgroundColor: "transparent",
+      color: theme === "dark" ? "white" : "black",
+      fontSize: "16px",
+      fontFamily: "switzer",
+    }),
+    option: (base) => ({
+      ...base,
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      fontFamily: "switzer",
+      backgroundColor: theme === "dark" ? "transparent" : "transparent",
+      color: "#323335",
+    }),
+    singleValue: (base) => ({
+      ...base,
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      color: theme === "dark" ? "white" : "#7A7F8C",
+    }),
+    // This removes the vertical separator between value and arrow
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+  };
 
   const router = useRouter();
   const {
@@ -113,32 +110,36 @@ const Signup = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubmit = async (data: FormData) => {
-  try {
-    const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
-      { ...data, country: data.country?.label || "" }
-    );
-
-    if (response.data?.success) {
-      router.push(`/auth/verify?email=${data.email}`);
-      enqueueSnackbar("Registration successful", { variant: "success" });
-    } else {
-      enqueueSnackbar(
-        response.data?.message || "User already exists with this email",
-        { variant: "error" }
+    console.log(data)
+    try {
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/auth/register`,
+        { ...data, country: data.country?.label || "" }
       );
+
+      if (response.data?.success) {
+        router.push(`/auth/verify?email=${data.email}`);
+        enqueueSnackbar("Registration successful", { variant: "success" });
+      } else {
+        enqueueSnackbar(
+          response.data?.message || "User already exists with this email",
+          { variant: "error" }
+        );
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log("error");
+        const message =
+          error.response?.data?.detail ||
+          "Registration failed. Please try again.";
+        enqueueSnackbar(message || "Registration failed. Please try again.", {
+          variant: "error",
+        });
+      } else {
+        enqueueSnackbar("An unexpected error occurred", { variant: "error" });
+      }
     }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.log('error')
-      const message =
-        error.response?.data?.detail || "Registration failed. Please try again.";
-      enqueueSnackbar(message || "Registration failed. Please try again.", { variant: "error" });
-    } else {
-      enqueueSnackbar("An unexpected error occurred", { variant: "error" });
-    }
-  } 
-  
+
     // const formattedData = {
     //   ...data,
     //   country: data.country?.label || "",
@@ -172,7 +173,11 @@ const Signup = () => {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="w-full text-[#3A3D46] dark:text-white">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="w-full text-[#3A3D46] dark:text-white"
+      >
         {/* Name */}
         <div className="mb-4 flex flex-col gap-2">
           <label
@@ -269,7 +274,10 @@ const Signup = () => {
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? (
-              <EyeOff size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
+              <EyeOff
+                size={20}
+                color={theme === "dark" ? "white" : "#7A7F8C"}
+              />
             ) : (
               <Eye size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             )}
@@ -308,7 +316,10 @@ const Signup = () => {
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             {showConfirmPassword ? (
-              <EyeOff size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
+              <EyeOff
+                size={20}
+                color={theme === "dark" ? "white" : "#7A7F8C"}
+              />
             ) : (
               <Eye size={20} color={theme === "dark" ? "white" : "#7A7F8C"} />
             )}
@@ -356,21 +367,30 @@ const Signup = () => {
 
         {/* Terms */}
         <div className="mb-6">
-          <label className="inline-flex items-center cursor-pointer">
-            <input
-              type="checkbox"
-              {...register("terms_accepted", {
-                required: "You must accept the terms and conditions",
-              })}
-              className={`form-checkbox accent-[#9a1b39] h-[18px] w-[18px] cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
-                errors.terms_accepted ? "border-red-500" : "border-gray-300"
-              }`}
-              disabled={isSubmitting}
-            />
-            <span className="text-[13px] ml-2 md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">
-              Terms and Conditions
-            </span>
-          </label>
+          <Controller
+            name="terms_accepted"
+            control={control}
+            rules={{ required: "You must accept the terms and conditions" }}
+            render={({ field }) => (
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={field.value || false}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
+                  className={`form-checkbox accent-[#9a1b39] h-[18px] w-[18px] cursor-pointer bg-transparent text-primary rounded focus:ring-1 focus:ring-primary transition duration-200 ease-in-out ${
+                    errors.terms_accepted ? "border-red-500" : "border-gray-300"
+                  }`}
+                  disabled={isSubmitting}
+                />
+                <span className="text-[13px] ml-2 md:text-[16px] font-switzer text-[#3A3D46] dark:text-white">
+                  Terms and Conditions
+                </span>
+              </label>
+            )}
+          />
           {errors.terms_accepted && (
             <p className="text-red-500 text-sm mt-1">
               {errors.terms_accepted.message}

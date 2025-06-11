@@ -55,7 +55,7 @@ const LoginForm = () => {
         enqueueSnackbar("Login successful", { variant: "success" });
         state.setUser(response.data.user, response.token as string);
         console.log(response)
-        router.replace("/home");
+        router.replace("/feed");
       } else {
         enqueueSnackbar(response.message || "Invalid credentials", {
           variant: "error",
