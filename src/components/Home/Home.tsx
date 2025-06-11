@@ -82,7 +82,7 @@ const Home = () => {
           </Link>
           <Link
             href="/auth/login"
-            className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
+            className="flex items-center gap-2 border text-[#3A3D46] dark:text-[#C9CDD4] border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all dark:hover:text-black"
             style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
           >
             Continue as guest

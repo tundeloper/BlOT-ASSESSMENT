@@ -195,9 +195,9 @@ const LoginForm = () => {
       {/* Social Buttons */}
       <div className="flex flex-col gap-4 w-full">
         {/* Apple */}
-        <button className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
+        <button className="flex items-center gap-2 border border-[#E4E6EC] dark:hover:text-black rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all">
           <Image src={appleIcon} alt="apple icon" width={15} height={15} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4] dark:hover:text-black">
             Apple
           </span>
         </button>
@@ -213,10 +213,10 @@ const LoginForm = () => {
               `&response_mode=fragment`;
             window.open(url, "_self");
           }}
-          className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center hover:bg-gray-50 transition-all"
+          className="flex items-center gap-2 border border-[#E4E6EC] rounded px-4 py-3 w-full cursor-pointer justify-center dark:hover:text-black   hover:bg-gray-50 transition-all"
         >
           <Image src={googleIcon} alt="google icon" width={20} height={20} />
-          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4]">
+          <span className="font-switzer font-medium text-[16px] text-[#3A3D46] dark:text-[#C9CDD4] dark:hover:text-black">
             Google
           </span>
         </button>

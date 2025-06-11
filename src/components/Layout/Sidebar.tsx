@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { sidebarPaths } from '@/constants/sidebarPaths';
 import { BsChevronLeft } from 'react-icons/bs';
+import { useTheme } from '@/context/ThemeContext';
 
 interface SidebarProps {
     open: boolean;
@@ -16,6 +17,8 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
     const pathname = usePathname();
     const mainPaths = sidebarPaths.filter(path => path.section === 'main');
     const bottomPaths = sidebarPaths.filter(path => path.section === 'bottom');
+      const { toggleTheme } = useTheme();
+    
 
     return (
         <Drawer
@@ -115,7 +118,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                 {/* Collapse button */}
                 <div
                     className="mt-auto p-[10px_16px] bg-[#E4E6EC] border-t border-[#F0F0F0] flex items-center cursor-pointer"
-                    onClick={onClose}
+                    onClick={() => {toggleTheme(); onClose()}}
                 >
                     <BsChevronLeft size={16} color="#3A3D46" />
                 </div>
