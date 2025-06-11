@@ -265,7 +265,7 @@ const Signup = () => {
             disabled={isSubmitting}
           />
           <div
-            className="absolute top-[3rem] right-3 cursor-pointer"
+            className="absolute top-[2.8rem] right-3 cursor-pointer"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? (
@@ -304,7 +304,7 @@ const Signup = () => {
             disabled={isSubmitting}
           />
           <div
-            className="absolute top-[3rem] right-3 cursor-pointer"
+            className="absolute top-[2.8rem] right-3 cursor-pointer"
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             {showConfirmPassword ? (
