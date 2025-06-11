@@ -85,7 +85,7 @@ const Sports = () => {
         {sportsList.map((sport) => (
           <label
             key={sport}
-            className="flex items-center space-x-2 cursor-pointer"
+            className="flex items-center space-x-2 cursor-pointer text-[#7A7F8C]"
           >
             {/* <input
               type="checkbox"

@@ -16,12 +16,12 @@ const Checkbox: React.FC<CustomCheckboxProps> = ({ checked, onChange }) => {
         className="peer hidden"
       />
       <div className={`
-        w-[16px] h-[16px] border-[1px] border-[#3A3D46] 
+        w-[16px] h-[16px] border-[1px] border-[#7A7F8C] 
         flex items-center justify-center
       `}>
         {checked && (
           <svg
-            className="w-3 h-3 text-[#3A3D46]"
+            className="w-3 h-3 text-[#7A7F8C]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
