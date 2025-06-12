@@ -1,11 +1,27 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Post from './Post'
+import { getFeed } from '@/api/feed'
+import { CircularProgress } from '@mui/material'
 
 type FeedType = 'following' | 'for-you';
 
 const Feeds = () => {
   const [activeTab, setActiveTab] = useState<FeedType>('following');
+  const [feed, setFeed] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchFeed = async () => {
+      setLoading(true);
+      const res = await getFeed();
+      if (res.success) {
+        setFeed(res.data || []);
+      }
+      setLoading(false);
+    }
+    fetchFeed();
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4">
@@ -15,8 +31,8 @@ const Feeds = () => {
             <button
               onClick={() => setActiveTab('following')}
               className={`px-4 py-1 rounded-full text-[10px] cursor-pointer transition-all ${activeTab === 'following'
-                  ? 'bg-[#2D439B] text-white'
-                  : 'text-[#3A3D46] hover:bg-gray-50'
+                ? 'bg-[#2D439B] text-white'
+                : 'text-[#3A3D46] hover:bg-gray-50'
                 }`}
             >
               Following
@@ -24,8 +40,8 @@ const Feeds = () => {
             <button
               onClick={() => setActiveTab('for-you')}
               className={`px-4 py-1 rounded-full text-[10px] cursor-pointer transition-all ${activeTab === 'for-you'
-                  ? 'bg-[#2D439B] text-white'
-                  : 'text-[#3A3D46] hover:bg-gray-50'
+                ? 'bg-[#2D439B] text-white'
+                : 'text-[#3A3D46] hover:bg-gray-50'
                 }`}
             >
               For You
@@ -35,7 +51,17 @@ const Feeds = () => {
       </div>
 
       <div className="flex flex-col gap-4 mt-4 md:mt-0 h-[70vh] md:h-[57vh] overflow-y-auto scrollbar-hide pb-6">
-        <Post />
+        {
+          loading ? (
+            <div className="flex justify-center items-center h-full">
+              <CircularProgress size={40} sx={{ color: '#2D439B' }} />
+            </div>
+          ) : (
+            feed.map((post) => (
+              <Post key={post.id} post={post} />
+            ))
+          )
+        }
       </div>
     </div>
   );
