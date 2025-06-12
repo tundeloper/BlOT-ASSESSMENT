@@ -1,5 +1,7 @@
-import React from 'react';
+'use client'
+import React, { useEffect } from 'react';
 import CircularProgressWithLabel from '../ui/CircularProgressWithLabel';
+import { getTrending } from '@/api/trending';
 
 interface TrendingTopic {
   category: string;
@@ -30,6 +32,15 @@ const trendingTopics: TrendingTopic[] = [
 ];
 
 const Trends = () => {
+
+  useEffect(() => {
+    const fetchTrending = async () => {
+      const response = await getTrending();
+      console.log(response);
+    };
+    fetchTrending();
+  }, []);
+
   return (
     <div className="bg-white dark:bg-[#121212] p-4 rounded flex flex-col gap-4 shadow-[0px_0px_0px_1px_rgba(255,255,255,1)] md:shadow-none w-[100%] transition-colors duration-300">
       <div className="flex justify-between items-center">

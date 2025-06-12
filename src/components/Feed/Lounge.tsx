@@ -1,6 +1,8 @@
-import React from 'react';
+'use client'
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import logo from '@/assets/logo.png';
+import { getLounges } from '@/api/lounges';
 
 interface LoungeItem {
   name: string;
@@ -32,6 +34,15 @@ const lounges: LoungeItem[] = [
 ];
 
 const Lounge = () => {
+
+  useEffect(() => {
+    const fetchLounges = async () => {
+      const response = await getLounges();
+      console.log(response);
+    };
+    fetchLounges();
+  }, []);
+
   return (
     <div className="bg-white rounded flex flex-col w-full dark:bg-[#121212] transition-colors duration-300">
       <div className="flex justify-between items-center p-4 bg-gradient-to-br from-[#2D439B] to-[#9A1B39] rounded-t-[4px]">
