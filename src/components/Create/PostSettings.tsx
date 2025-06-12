@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronUp, MapPin, Settings, Users } from "lucide-react";
 import VisibilitySelector from "./Visibility";
 import TagUser from "./TagUser";
+import Location from "./location";
 
 export default function PostSettings() {
   const [openSection, setOpenSection] = useState<"post" | "comment" | null>(
@@ -50,7 +51,7 @@ export default function PostSettings() {
         </div>
         <ChevronUp className="w-4 h-4 text-gray-500 dark:text-white" />
       </div>
-      {addLocation && <TagUser onChange={setAddLocation} />}
+      {addLocation && <Location onChange={setAddLocation} />}
 
       {/* Post settings */}
       <div>

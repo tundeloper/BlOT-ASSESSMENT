@@ -57,7 +57,7 @@ const Home = () => {
         </div>
         <div className="flex flex-col w-full gap-2 mt-7">
           <GradientButton
-            onClick={() => router.push("/home")}
+            onClick={() => router.push("/feed")}
             className="flex-1 p-3 flex items-center justify-center h-[50px] bg-[##2D439B] transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] bg-[] leading-[1.5em]"
             style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
           >
