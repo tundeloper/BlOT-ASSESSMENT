@@ -16,7 +16,7 @@ const CreatePost = () => {
             <Lounge />
             <Channel />
         </div>
-        <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh] relative'>
+        <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh] relative overflow-y-auto scrollbar-hide'>
             <AddPost />
         </div>
         <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>

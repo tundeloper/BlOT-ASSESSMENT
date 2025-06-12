@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { sidebarPaths } from '@/constants/sidebarPaths';
 import { BsChevronLeft } from 'react-icons/bs';
 import { useTheme } from '@/context/ThemeContext';
+import { useAuthStore } from '@/store/authstore';
 
 interface SidebarProps {
     open: boolean;
@@ -15,6 +16,7 @@ interface SidebarProps {
 const Sidebar = ({ open, onClose }: SidebarProps) => {
     const router = useRouter();
     const pathname = usePathname();
+    const logout = useAuthStore((s) => s.logout)
     const mainPaths = sidebarPaths.filter(path => path.section === 'main');
     const bottomPaths = sidebarPaths.filter(path => path.section === 'bottom');
       const { toggleTheme } = useTheme();
@@ -93,6 +95,9 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                             <li
                                 key={path.path}
                                 onClick={() => {
+                                    if (path.path === "/auth/login") {
+                                        logout()
+                                    }
                                     router.push(path.path);
                                     onClose();
                                 }}

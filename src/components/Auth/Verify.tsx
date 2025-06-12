@@ -29,7 +29,7 @@ const Verify = () => {
   const isOtpComplete = otp.every((digit) => digit !== "");
 
   const startCountdown = () => {
-    setCountdown(10); // 60 seconds
+    setCountdown(60); // 60 seconds
     timerRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev === 1 && timerRef.current) {
@@ -122,7 +122,6 @@ const Verify = () => {
     setOtp(new Array(6).fill(""));
     setIsSubmitted(false);
     startCountdown();
-    enqueueSnackbar("OTP resent check your email", { variant: "success" });
     console.log("resend");
     try {
       const response = await axios.post(
@@ -132,6 +131,7 @@ const Verify = () => {
         { email }
       );
       console.log(response);
+      enqueueSnackbar("OTP resent check your email", { variant: "success" });
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);

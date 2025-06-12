@@ -7,21 +7,18 @@ import Checkbox from "../ui/checkedBox";
 import GradientButton from "../ui/gradientButton";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import axios, { isAxiosError } from "axios";
+import { enqueueSnackbar } from "notistack";
+import { useAuthStore } from "@/store/authstore";
 
 const sportsWithTeams: Record<string, string[]> = {
-  Football: [
-    "Arsenal",
-    "Chelsea",
-    "Barcelona",
-    "Man-city", 
-    "Others",
-  ],
+  Football: ["Arsenal", "Chelsea", "Barcelona", "Man-city", "Others"],
   Basketball: [
     "L.A Lakers",
     "Golden State Warriors",
     "Boston Celtics",
     "Chicago Bulls",
-    "Others"
+    "Others",
   ],
   "National Football League (NFL)": [
     "Arizona cardinals",
@@ -30,7 +27,7 @@ const sportsWithTeams: Record<string, string[]> = {
     "Baltimore ravens",
     "Others",
   ],
-  "Major League Baseball (MLB)" : [
+  "Major League Baseball (MLB)": [
     "Arizona diamondbacks",
     "Atlanta braves",
     "Chicago cubs",
@@ -44,7 +41,8 @@ const Teams = () => {
     {}
   );
 
-  const router = useRouter()
+  const router = useRouter();
+  const token = useAuthStore((s) => s.token);
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -76,11 +74,34 @@ const Teams = () => {
     });
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     const result: Record<string, string> = {};
 
-    Object.entries(sportsWithTeams).forEach(([sport, teams]) => {
+    Object.entries(sportsWithTeams).forEach(async ([sport, teams]) => {
       const selected = selectedTeams[sport] || [];
+      try {
+        result[sport] = selected.join(", ");
+        const response = await axios.put(
+          `https://lazeapi-v2.onrender.com/api/preferences/teams`,
+          result,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.data) {
+          enqueueSnackbar("successful", { variant: "success" });
+          router.push("/onboarding/notification");
+        }
+      } catch (error) {
+        if (isAxiosError(error)) {
+          enqueueSnackbar("unauthorize", { variant: "error" });
+          router.push("/auth/register");
+        }
+      }
+
       if (selected.length === teams.length) {
         result[sport] = "All selected";
       } else if (selected.length === 0) {
@@ -90,9 +111,7 @@ const Teams = () => {
       }
     });
 
-    router.push('/onboarding/notification')
-
-    alert(JSON.stringify(result, null, 2));
+    // alert(JSON.stringify(result, null, 2));
   };
 
   return (
@@ -152,7 +171,7 @@ const Teams = () => {
         <Link
           className="flex-1 flex items-center justify-center h-[50px] bg-[#D9D9D9] hover:bg-[#D9D9D9]/80 transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
-          href='/onboarding/welcome'
+          href="/onboarding/welcome"
         >
           Skip
         </Link>

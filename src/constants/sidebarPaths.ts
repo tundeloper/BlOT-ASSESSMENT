@@ -87,7 +87,7 @@ export const sidebarPaths: SidebarPath[] = [
   },
   {
     label: 'Logout',
-    path: '/logout',
+    path: '/auth/login',
     icon: TbLogout2,
     section: 'bottom',
     color: '#FF4D4F'

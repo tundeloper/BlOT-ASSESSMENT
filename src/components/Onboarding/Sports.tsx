@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import logo from "@/assets/logo2.png";
 import { useRouter } from "next/navigation";
 import Checkbox from "../ui/checkedBox";
@@ -36,11 +36,9 @@ const Sports = () => {
     try {
       console.log(token);
       const response = await axios.put(
-        `${
-          process.env.NEXT_PUBLIC_API_BASE_URL as string
-        }/preferences/notifications`,
+        `https://lazeapi-v2.onrender.com/api/preferences/sports`,
         {
-          favorite_sports: [selectedSports.join(", ") || ""],
+          favorite_sport: selectedSports.join(", ") || ""
         },
         {
           headers: {

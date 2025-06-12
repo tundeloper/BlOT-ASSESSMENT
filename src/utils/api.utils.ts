@@ -13,8 +13,6 @@ export const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 const tokens = getAuthTokensFromLocalStorage();
 
-console.log(tokens)
-
 const apiClient = axios.create({
 	baseURL,
 	headers: {

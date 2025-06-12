@@ -35,7 +35,7 @@ const AddPost = () => {
 
   return (
     <div
-      className="bg-inherit md:bg-white rounded p-0 md:p-4 flex flex-col gap-2.5 dark:bg-inherit dark:md:bg-[#121212] transition-colors duration-300"
+      className="bg-inherit md:bg-white h-fit rounded p-0 md:p-4 flex flex-col gap-2.5 dark:bg-inherit dark:md:bg-[#121212] transition-colors duration-300"
       id="create-post"
     >
       {/* user details  */}

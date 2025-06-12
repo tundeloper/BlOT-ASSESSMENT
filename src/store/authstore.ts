@@ -21,6 +21,7 @@ export function getAuthTokensFromLocalStorage() {
     return parsed.state.token;
   }
 }
+
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
@@ -36,24 +37,26 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: true,
         }),
 
-      logout: () =>
-        set({
+      logout: () => {
+        // localStorage.removeItem("auth-storage")
+        return set({
           user: null,
           token: null,
           isAuthenticated: false,
-        }),
+        });
+      },
 
       setToken: (token) => set({ token }),
       setHydrated: () => set({ hasHydrated: true }),
     }),
     {
-      name: 'auth-storage',
+      name: "auth-storage",
       storage: createJSONStorage(() => localStorage),
       onRehydrateStorage: () => {
         return (state) => {
-          state?.setHydrated()
-        }
-      }
+          state?.setHydrated();
+        };
+      },
     }
   )
-)
+);

@@ -20,7 +20,7 @@ export default function PostSettings() {
 
   const [commentVisibility, setCommentVisibility] = useState<
     "everyone" | "followers" | "private"
-  >("followers");
+  >("everyone");
 
   const toggleSection = (section: "post" | "comment") => {
     setOpenSection((prev) => (prev === section ? null : section));
@@ -32,7 +32,7 @@ export default function PostSettings() {
       : "rotate-0 transition-transform duration-300";
 
   return (
-    <div className="w-full bg-inherit rounded-md shado space-y-2 text-sm text-gray-800 dark:text-white transition-colors duration-300">
+    <div className="w-full bg-inherit rounded-md mt-4 space-y-2 text-sm text-gray-800 dark:text-white transition-colors duration-300">
       {/* Tag people */}
       <div className="flex items-center justify-between cursor-pointer px-2 py-2 rounded" onClick={() => setTag(prev => !prev)}>
         <div className="flex items-center gap-2">
