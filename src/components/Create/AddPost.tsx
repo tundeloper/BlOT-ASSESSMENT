@@ -9,6 +9,7 @@ import PollIcon from "@/assets/svg/poll";
 import { useTheme } from "@/context/ThemeContext";
 import { useState } from "react";
 import globe from "../../assets/globe.png"
+import PostSettings from "./PostSettings";
 // import user from "../../assets/user.png"s
 
 const AddPost = () => {
@@ -53,7 +54,7 @@ const AddPost = () => {
               src={globe}
               height={16}
               width={16}
-              alt="globe image"
+              alt="globe"
             />
             <span className="text-[10px] md:text-[13px] font-switzer dark:text-[#C9CDD4]">
               Post to everyone
@@ -65,7 +66,7 @@ const AddPost = () => {
       {/* post field  */}
       <div>
         <textarea
-          className="w-full bg-[#F9FAFB] p text-gray-400 md:p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none dark:bg-[#35383F] transition-colors duration-300"
+          className="w-full bg-[#F9FAFB] p text-gray-400 p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none scrollbar-hide dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"
           value={text}
@@ -119,6 +120,7 @@ const AddPost = () => {
           </GradientButton>
         </div>
       </div>
+      <PostSettings />
     </div>
   );
 };
