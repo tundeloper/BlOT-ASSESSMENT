@@ -10,7 +10,7 @@ const Welcome = () => {
   const state = useAuthStore();
   return (
     <ProtectedRoute>
-      <div className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[50%] dark:bg-[#121212] transition-colors duration-300`}>
+      <div className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[40%] dark:bg-[#121212] transition-colors duration-300`}>
         <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
           <Image
             src={logo}

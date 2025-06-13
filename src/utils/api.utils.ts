@@ -31,10 +31,10 @@ const apiClient = axios.create({
 const requestRefresh: TokenRefreshRequest = async (): Promise<
 	IAuthTokens | string
 > => {
-	const response = await axios.post(`${baseURL}/auth/refresh`);
+	const response = await axios.post(`${baseURL}/auth/login`);
 	return {
 		accessToken: response.data.token,
-		refreshToken: response.data.refreshToken,
+		refreshToken: response.data,
 	};
 };
 

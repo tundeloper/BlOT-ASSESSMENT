@@ -9,7 +9,7 @@ const BackIcons: React.FC<{ fill: string }> = ({ fill }) => {
     >
       <path
         d="M5.41658 3.83301L2.5 6.33301L5.41658 9.24967"
-        stroke="#1E1E1E"
+        stroke={fill}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

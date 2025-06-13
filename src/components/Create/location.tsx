@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { MapPin, Search } from 'lucide-react';
 import BackIcons from "@/assets/svg/backIcon";
+import { useTheme } from "@/context/ThemeContext";
 
 
 interface Props {
@@ -64,6 +65,7 @@ export default function Location({onChange}: Props) {
     const [userCoords, setUserCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [search, setSearch] = useState('');
   const [locations, setLocations] = useState<{ title: string; address?: string; distance: string }[]>([]);
+  const {theme} = useTheme()
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -95,7 +97,7 @@ export default function Location({onChange}: Props) {
     return <div className="absolute top-0 right-0 p-2 text-[13px] md:text-[16px] md:p-4 text-[#1E1E1E] h-full w-full bg-white dark:bg-[#121212]">
         <div className="flex justify-between">
             <div className="flex gap-3">
-                <div onClick={() => onChange(false)} className="cursor-pointer"><BackIcons fill="#1E1E1E" /></div>
+                <div onClick={() => onChange(false)} className="cursor-pointer"><BackIcons fill={theme === "dark" ? "white" : "#1E1E1E"} /></div>
                 <span className="text-[13px] md:text-[16px] text-[#1E1E1E] dark:text-white">Add location</span>
             </div>
             <button className="text-[#2D439B] cursor-pointer" onClick={() => {onChange(false)}}>Next</button>
@@ -109,9 +111,9 @@ export default function Location({onChange}: Props) {
           placeholder="search location"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-grow bg-[#F9FAFB] dark:bg-black p-2 rounded-r-sm rounded-l-none text-gray-400 placeholder-gray-400 focus:outline-none dark:text-white"
+          className="flex-grow bg-[#F9FAFB] h-[35px] dark:bg-black p-2 rounded-r-sm rounded-l-none text-gray-400 placeholder-gray-400 focus:outline-none dark:text-white"
         />
-        <button className="bg-[#2D439B] p-3 cursor-pointer rounded-sm">
+        <button className="bg-[#2D439B] h-[35px] px-3 cursor-pointer">
           <Search className="text-white" size={18} />
         </button>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import { Avatar } from "@mui/material";
+import { Avatar, ClickAwayListener } from "@mui/material";
 import Image from "next/image";
 import GradientButton from "../ui/gradientButton";
 import ImageIcon from "@/assets/svg/image";
@@ -7,17 +7,55 @@ import GifIcon from "@/assets/svg/gif";
 import EmojiIcons from "@/assets/svg/emoji_Icon";
 import PollIcon from "@/assets/svg/poll";
 import { useTheme } from "@/context/ThemeContext";
-import { useState } from "react";
-import globe from "../../assets/globe.png"
+import { useEffect, useRef, useState } from "react";
+import globe from "../../assets/globe.png";
 import PostSettings from "./PostSettings";
+import { X } from "lucide-react";
+import EmojiPicker, { Theme } from "emoji-picker-react";
+import axios from "axios";
+import { useAuthStore } from "@/store/authstore";
+import { enqueueSnackbar } from "notistack";
+
 // import user from "../../assets/user.png"s
 
+type FilePreview = {
+  file: File;
+  previewUrl: string;
+  type: "image" | "video";
+};
+
 const AddPost = () => {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [files, setFiles] = useState<FilePreview[]>([]);
   const { theme } = useTheme();
+  const state = useAuthStore();
 
   const MAX_CHARS = 200;
 
   const [text, setText] = useState("");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    const newPreviews: FilePreview[] = selectedFiles.map((file) => {
+      const url = URL.createObjectURL(file);
+      const type: "image" | "video" = file.type.startsWith("video")
+        ? "video"
+        : "image";
+      return { file, previewUrl: url, type };
+    });
+
+    // ✅ This avoids nesting arrays
+    setFiles((prev) => [...prev, ...newPreviews]);
+  };
+
+  useEffect(() => {
+    console.log(files);
+  }, [files]);
+
+  const removeFile = (index: number) => {
+    setFiles((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     if (e.target.value.length <= MAX_CHARS) {
@@ -25,9 +63,34 @@ const AddPost = () => {
     }
   };
 
-  const handleSubmit = () => {
-    if (text.trim()) {
+  const handleSubmit = async () => {
+    if (text.trim() && files.length > 0) {
       // TODO: Add your API submission logic here
+      const formData = new FormData();
+      formData.append("content", text);
+      files.forEach((item) => {
+        formData.append("media", item.file);
+      });
+      try {
+        const response = await axios.post(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/posts`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${state.token}`,
+            },
+          }
+        );
+        console.log(response);
+        if (response.data) {
+          enqueueSnackbar("Successful", { variant: "success" });
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          enqueueSnackbar("Unauthorize", { variant: "success" });
+        }
+      }
       console.log("Submitted:", text);
       setText("");
     }
@@ -41,7 +104,7 @@ const AddPost = () => {
       {/* user details  */}
       <div className="flex gap-2">
         <Avatar
-          src={'/image/user.png'}
+          src={"/image/user.png"}
           className="h-[40px] w-[40px] md:h-[50px] md:w-[50px]"
           sx={{ width: 50, height: 50 }}
         />
@@ -50,12 +113,7 @@ const AddPost = () => {
             Chinagozie Anyanwu
           </p>
           <button className="flex gap-2 cursor-pointer">
-            <Image
-              src={globe}
-              height={16}
-              width={16}
-              alt="globe"
-            />
+            <Image src={globe} height={16} width={16} alt="globe" />
             <span className="text-[10px] md:text-[13px] font-switzer dark:text-[#C9CDD4]">
               Post to everyone
             </span>
@@ -91,21 +149,84 @@ const AddPost = () => {
         </div>
       </div>
 
+      {/* post preview */}
+      {files.length > 0 && (
+        <div className="grid grid-cols-2 gap-2">
+          {files.map((item, index) => (
+            <div key={index} className="relative group">
+              {item.type === "image" ? (
+                <Image
+                  src={item.previewUrl}
+                  className="w-full h-40 object-cover rounded-md"
+                  alt="preview"
+                  width={20}
+                  height={20}
+                />
+              ) : (
+                <video
+                  src={item.previewUrl}
+                  className="w-full h-40 object-cover rounded-md"
+                  controls
+                />
+              )}
+              <button
+                onClick={() => removeFile(index)}
+                className="absolute top-1 right-1 p-1 bg-black/60 rounded-full text-white hover:bg-[#9A1B39]"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* post content  */}
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         <div className="flex gap-3">
-          <button>
+          <label className="cursor-pointer">
             <ImageIcon fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
-          </button>
-          <button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*,video/*"
+              multiple
+              disabled={files.length > 4}
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </label>
+
+          {/* Gif */}
+          <label>
             <GifIcon fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
-          </button>
-          <button>
-            <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
-          </button>
-          <button>
+          </label>
+
+          {/* emoji */}
+          <label className="realative cursor-pointer">
+            <div onClick={() => setShowEmojiPicker(true)}>
+              <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
+            </div>
+            {showEmojiPicker && (
+              <ClickAwayListener onClickAway={() => setShowEmojiPicker(false)}>
+                <div className="absolute top-6 scrollbar-hide">
+                  {showEmojiPicker && (
+                    <EmojiPicker
+                      onEmojiClick={(e) => setText((prev) => prev + e.emoji)}
+                      width="auto"
+                      autoFocusSearch
+                      skinTonesDisabled
+                      style={{ scrollbarColor: "red" }}
+                      theme={theme === "dark" ? Theme.DARK : Theme.LIGHT}
+                    />
+                  )}
+                </div>
+              </ClickAwayListener>
+            )}
+          </label>
+          {/* pol */}
+          <label>
             <PollIcon fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
-          </button>
+          </label>
         </div>
         <div className="w-[177px] md:w-[270px] gap-3 flex text-white text-[10px] md:text-[13px]">
           <button className="flex-1 bg-[#7A7F8C] rounded-sm py-1 md:py-2 cursor-pointer">
@@ -113,7 +234,7 @@ const AddPost = () => {
           </button>
           <GradientButton
             onClick={handleSubmit}
-            disabled={!text.trim()}
+            disabled={!text.trim() && files.length === 0}
             className="flex-1 py-1 md:py-2  text-[10px] md:text-[13px] cursor-pointer"
           >
             Post

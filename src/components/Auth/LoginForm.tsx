@@ -57,7 +57,7 @@ const LoginForm = () => {
         console.log(response)
         router.replace("/feed");
       } else {
-        enqueueSnackbar(response.message || "Invalid credentials", {
+        enqueueSnackbar("Invalid credentials", {
           variant: "error",
         });
       }
