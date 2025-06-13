@@ -64,14 +64,14 @@ const Post = ({ post }: { post: Post }) => {
                     <div className="flex flex-wrap gap-2">
                         {post?.media_files?.map((media) => (
                             <div key={media.id} className="mt-2.5 w-full aspect-video rounded overflow-hidden grow">
-                                <Image
+                                {media && <Image
                                     src={media.media_url}
                                     alt="Post image"
                                     width={500}
                                     height={300}
                                     className="w-full h-full object-cover"
                                     unoptimized={true}
-                                />
+                                />}
                             </div>
                         ))}
                     </div>
