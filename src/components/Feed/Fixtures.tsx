@@ -1,9 +1,10 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SiPremierleague } from 'react-icons/si'
 import { IoChevronDown } from 'react-icons/io5'
 import Image from 'next/image'
 import logo from '@/assets/logo.png'
+import { getFixtures } from '@/api/livescore'
 
 interface Match {
   homeTeam: {
@@ -54,6 +55,14 @@ const fixtures: FixtureDay[] = [
 
 const Fixtures = () => {
   const [activeDay, setActiveDay] = useState<string>('Today');
+
+  useEffect(() => {
+    const fetchFixtures = async () => {
+      const response = await getFixtures();
+      console.log(response);
+    };
+    fetchFixtures();
+  }, []);
 
   const toggleDay = (date: string) => {
     setActiveDay(activeDay === date ? '' : date);

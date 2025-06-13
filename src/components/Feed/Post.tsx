@@ -8,41 +8,14 @@ import { BiRepost } from 'react-icons/bi'
 import { PiShareFatLight } from 'react-icons/pi'
 import { IoBookmarkOutline } from 'react-icons/io5'
 import { BsEmojiSmile } from 'react-icons/bs'
-import logo from '@/assets/logo.png'
+import { timeAgo } from '@/utils/helper'
+import { PostMoreDropdown } from './PostModal'
 
-interface PostProps {
-    userAvatar?: string; // optional for build
-    userName?: string;  // optional for build
-    userHandle?: string;// optional for build
-    timestamp?: string; // optional for build
-    content?: string;   // optional for build
-    hashtags?: string[];// optional for build
-    image?: string;
-    likes?: number;     // optional for build
-    comments?: number;  // optional for build
-    reposts?: number;   // optional for build
-    shares?: number;    // optional for build
-}
-
-const Post = ({
-    userAvatar = logo.src,
-    userName = "Marvin McKinney",
-    userHandle = "@marvins",
-    timestamp = "23 Aug at 4:21pm",
-    content = "⚽Watch Giannis dominate with a monster dunk in OT!",
-    hashtags = ["#Liverpool", "#UCL"],
-    image = logo.src,
-    likes = 30,
-    comments = 12,
-    reposts = 1,
-    shares = 3
-}: PostProps) => {
+const Post = ({ post }: { post: Post }) => {
     const [isLiked, setIsLiked] = useState(false);
-    const [likeCount, setLikeCount] = useState(likes);
-
+    const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
     const handleLike = () => {
         setIsLiked(!isLiked);
-        setLikeCount(prev => isLiked ? prev - 1 : prev + 1);
     };
 
     return (
@@ -52,8 +25,8 @@ const Post = ({
                     <div className="flex items-center gap-1">
                         <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                             <Image
-                                src={userAvatar}
-                                alt={userName}
+                                src={post?.profile_picture}
+                                alt={post?.name}
                                 width={32}
                                 height={32}
                                 className="w-full h-full object-cover"
@@ -62,38 +35,46 @@ const Post = ({
                         <div className="flex flex-col">
                             <div className="flex items-center gap-1">
                                 <span className="text-[13px] text-[#1E1E1E] font-normal">
-                                    {userName}
+                                    {post?.name}
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-[#3A3D46]">{userHandle}</span>
-                                <span className="text-[8px] text-[#3A3D46]">{timestamp}</span>
+                                <span className="text-[10px] text-[#3A3D46]">{post?.username}</span>
+                                <span className="text-[8px] text-[#3A3D46]">{timeAgo(post?.created_at)}</span>
                             </div>
                         </div>
                     </div>
-                    <button className="p-2">
-                        <BsThreeDotsVertical size={24} className="text-[#3A3D46]" />
-                    </button>
+                    <div className="relative">
+                        <button className="p-2 cursor-pointer" onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}>
+                            <BsThreeDotsVertical size={24} className="text-[#3A3D46]" />
+                        </button>
+                        {isMoreDropdownOpen && (
+                            <PostMoreDropdown username={post?.username} onClose={() => setIsMoreDropdownOpen(false)} />
+                        )}
+                    </div>
                 </div>
 
                 <div className="px-4">
                     <div className="max-w-[341px]">
-                        <p className="text-[13px] text-[#3A3D46]">{content}</p>
+                        <p className="text-[13px] text-[#3A3D46]">{post?.content}</p>
                         <p className="text-[13px] text-[#2D439B]">
-                            {hashtags.join(' ')}
+                            {post?.hashtags}
                         </p>
                     </div>
-                    {image && (
-                        <div className="mt-2.5 w-full aspect-video rounded overflow-hidden">
-                            <Image
-                                src={image}
-                                alt="Post image"
-                                width={500}
-                                height={300}
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                        {post?.media_files?.map((media) => (
+                            <div key={media.id} className="mt-2.5 w-full aspect-video rounded overflow-hidden grow">
+                                <Image
+                                    src={media.media_url}
+                                    alt="Post image"
+                                    width={500}
+                                    height={300}
+                                    className="w-full h-full object-cover"
+                                    unoptimized={true}
+                                />
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <div className="px-4">
@@ -108,22 +89,22 @@ const Post = ({
                                 ) : (
                                     <AiOutlineHeart size={20} className="text-[#3A3D46]" />
                                 )}
-                                <span className="text-[13px] text-[#3A3D46]">{likeCount}</span>
+                                <span className="text-[13px] text-[#3A3D46]">{post?.likes_count}</span>
                             </button>
 
                             <button className="flex items-end gap-0.5">
                                 <IoChatbubbleOutline size={20} className="text-[#3A3D46]" />
-                                <span className="text-[13px] text-[#3A3D46]">{comments}</span>
+                                <span className="text-[13px] text-[#3A3D46]">{post?.comments_count}</span>
                             </button>
 
                             <button className="flex items-end gap-0.5">
                                 <BiRepost size={20} className="text-[#3A3D46]" />
-                                <span className="text-[13px] text-[#3A3D46]">{reposts}</span>
+                                <span className="text-[13px] text-[#3A3D46]">{post?.reposts_count}</span>
                             </button>
 
                             <button className="flex items-end gap-0.5">
                                 <PiShareFatLight size={20} className="text-[#3A3D46]" />
-                                <span className="text-[13px] text-[#3A3D46]">{shares}</span>
+                                <span className="text-[13px] text-[#3A3D46]">{post?.shares_count}</span>
                             </button>
                         </div>
 
@@ -137,8 +118,8 @@ const Post = ({
                     <div className="flex items-center gap-4">
                         <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                             <Image
-                                src={userAvatar}
-                                alt={userName}
+                                src={post?.profile_picture}
+                                alt={post?.name}
                                 width={32}
                                 height={32}
                                 className="w-full h-full object-cover"

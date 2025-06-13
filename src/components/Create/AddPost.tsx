@@ -14,7 +14,7 @@ import { X } from "lucide-react";
 import EmojiPicker, { Theme } from "emoji-picker-react";
 import axios from "axios";
 import { useAuthStore } from "@/store/authstore";
-import { enqueueSnackbar } from "notistack";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 // import user from "../../assets/user.png"s
 
@@ -64,7 +64,6 @@ const AddPost = () => {
   };
 
   const handleSubmit = async () => {
-    if (text.trim() && files.length > 0) {
       // TODO: Add your API submission logic here
       const formData = new FormData();
       formData.append("content", text);
@@ -91,9 +90,7 @@ const AddPost = () => {
           enqueueSnackbar("Unauthorize", { variant: "success" });
         }
       }
-      console.log("Submitted:", text);
-      setText("");
-    }
+    //   setText("");
   };
 
   return (
@@ -242,6 +239,7 @@ const AddPost = () => {
         </div>
       </div>
       <PostSettings />
+      <SnackbarProvider />
     </div>
   );
 };
