@@ -50,7 +50,7 @@ export default function VisibilitySelector({type, value, onChange}: Props) {
               type="checkbox"
               checked={isSelected}
               readOnly
-              className="form-checkbox h-4 w-4 accent-[#2D439B] text-[#2D439B] rounded cursor-pointer"
+              className="form-checkbox appearance-auto bg-transparent h-4 w-4 accent-[#2D439B] text-[#2D439B] rounded cursor-pointer"
             />
           </label>
         );

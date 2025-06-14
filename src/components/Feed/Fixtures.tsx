@@ -69,7 +69,7 @@ const Fixtures = () => {
   };
 
   return (
-    <div className="bg-white rounded flex flex-col w-full">
+    <div className="bg-white rounded flex flex-col w-full dark:bg-[#121212] transition-colors duration-300">
       <div className="flex justify-between items-center p-4 bg-gradient-to-br from-[#2D439B] to-[#9A1B39] rounded-t-[4px]">
         <h2 className="text-[16px] font-medium text-white">
           Weekly Fixtures
@@ -95,7 +95,7 @@ const Fixtures = () => {
               onClick={() => toggleDay(day.date)}
               className="flex justify-between items-center w-full cursor-pointer"
             >
-              <span className="text-[13px] text-[#3A3D46]">{day.date}</span>
+              <span className="text-[13px] text-[#3A3D46] dark:text-[#C9CDD4]">{day.date}</span>
               <IoChevronDown 
                 size={16} 
                 className={`text-[#3A3D46] transform transition-transform duration-200 ${
@@ -109,7 +109,7 @@ const Fixtures = () => {
                 {day.matches.map((match, matchIndex) => (
                   <div key={matchIndex} className="flex items-center justify-between gap-2.5">
                     <div className="flex items-center gap-1 w-[85px] justify-end">
-                      <span className="text-[13px] font-medium text-[#1E1E1E]">
+                      <span className="text-[13px] font-medium text-[#1E1E1E] dark:text-white">
                         {match.homeTeam.name}
                       </span>
                       <div className="w-5 h-5 rounded-full overflow-hidden">
@@ -137,7 +137,7 @@ const Fixtures = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <span className="text-[13px] font-medium text-[#1E1E1E]">
+                      <span className="text-[13px] font-medium text-[#1E1E1E] dark:text-white">
                         {match.awayTeam.name}
                       </span>
                     </div>

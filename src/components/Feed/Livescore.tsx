@@ -36,7 +36,7 @@ const Livescore = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded flex flex-col w-full">
+    <div className="bg-white rounded flex flex-col w-full dark:bg-[#121212] transition-colors duration-300">
       <div className="flex justify-between items-center p-4 bg-gradient-to-br from-[#2D439B] to-[#9A1B39] rounded-t-[4px]">
         <h2 className="text-[16px] font-medium text-white">
           Livescores
@@ -82,7 +82,7 @@ const LivescoreItem = ({ livescore }: { livescore: Livescore }) => {
 
       <div className="flex flex-col items-center w-[75px]">
         <Image src={livescore?.league?.logo} width={40} height={40} alt="Chelsea" className="w-[30px] h-[30px] object-contain" />
-        <span className="text-[13px] font-semibold text-[#1E1E1E] text-center">
+        <span className="text-[13px] font-semibold text-[#1E1E1E] text-center dark:text-white">
           {livescore?.status}
         </span>
         <span className="text-[10px] font-extrabold bg-gradient-to-r from-[#2D439B] via-[#6A2B70] to-[#9A1B39] text-transparent bg-clip-text">

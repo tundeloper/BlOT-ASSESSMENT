@@ -1,9 +1,13 @@
 export type User = {
-  id: 33;
+  id: number;
   full_name: string;
+  name: string;
   username: string;
   email: string;
   country: string;
+  profile_picture: string;
+  banner_image: string;
+  website: string;
   is_verified: boolean;
   onboarding_completed: boolean;
   notification_preferences: {

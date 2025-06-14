@@ -81,13 +81,14 @@ const AddPost = () => {
             },
           }
         );
-        console.log(response);
         if (response.data) {
           enqueueSnackbar("Successful", { variant: "success" });
+          setText("");
+          setFiles([])
         }
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          enqueueSnackbar("Unauthorize", { variant: "success" });
+          enqueueSnackbar("Unauthorize", { variant: "error" });
         }
       }
     //   setText("");

@@ -24,9 +24,9 @@ const Predictions = () => {
   };
 
   return (
-    <div className="bg-white rounded flex flex-col w-full p-4 gap-4">
+    <div className="bg-white rounded flex flex-col w-full p-4 gap-4 dark:bg-[#121212] transition-colors duration-300">
       <div className="flex justify-between items-center">
-        <h2 className="text-[16px] font-medium text-[#1E1E1E]">
+        <h2 className="text-[16px] font-medium text-[#1E1E1E] dark:text-white">
           Predictions
         </h2>
         <button className="text-[13px] text-[#2D439B] cursor-pointer">
@@ -52,7 +52,7 @@ const Predictions = () => {
       </div>
 
       <div className="flex flex-col gap-2.5">
-        <span className="text-[13px] font-medium text-[#3A3D46]">
+        <span className="text-[13px] font-medium text-[#3A3D46] dark:text-[#C9CDD4]">
           Voting options
         </span>
         <div className="flex flex-col gap-2">
@@ -72,7 +72,7 @@ const Predictions = () => {
               </button>
               <div className="flex-1">
                 <div className="flex justify-between items-center">
-                  <span className="text-[13px] text-[#3A3D46]">{option.name}</span>
+                  <span className="text-[13px] text-[#3A3D46] dark:text-[#C9CDD4]">{option.name}</span>
                   <span className="text-[8px] text-[#2D439B]">[{option.votes}% votes]</span>
                 </div>
                 <div className="h-1.5 bg-[#E4E6EC] rounded-full mt-0.5 overflow-hidden">

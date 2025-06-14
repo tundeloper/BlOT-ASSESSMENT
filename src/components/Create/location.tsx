@@ -105,7 +105,7 @@ export default function Location({onChange}: Props) {
         <div className="bg-inherit text-white rounded-md space-y-4 mt-3">
       {/* Search Bar */}
       <div className="flex items-center bg-gray-[#35383F] px-3 py-1 rounded">
-        <MapPin className="text-gray-400 mr-2" size={18} />
+        <MapPin className="text-gray-400 mr-2" size={20} />
         <input
           type="text"
           placeholder="search location"
