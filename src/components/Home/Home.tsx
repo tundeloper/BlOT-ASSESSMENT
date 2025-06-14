@@ -8,6 +8,7 @@ import { useAuthStore } from "@/store/authstore";
 import { useRouter } from "next/navigation";
 import GradientButton from "../ui/gradientButton";
 import { User } from "@/types/auth";
+import { CircularProgress } from "@mui/material";
 
 const Home = () => {
   const [loading, setloading] = useState<boolean>(false);
@@ -39,7 +40,7 @@ const Home = () => {
     <>
       {loading && (
         <div className="fixed h-screen bg-[#3a3d4644] w-screen flex items-center justify-center z-10">
-          <span>loading ...</span>
+          <CircularProgress size={40} sx={{ color: '#2D439B' }} />
         </div>
       )}
       <div className="relative max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[40%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
