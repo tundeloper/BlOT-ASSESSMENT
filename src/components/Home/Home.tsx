@@ -24,6 +24,7 @@ const Home = () => {
         if (accessToken) {
           setloading(true);
           const response = await googleLogin({ access_token: accessToken });
+          console.log(response)
           state.setUser(
             response.data?.data as User,
             response.data?.token as string
