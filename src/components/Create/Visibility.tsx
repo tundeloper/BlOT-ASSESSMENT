@@ -31,7 +31,7 @@ export default function VisibilitySelector({type, value, onChange}: Props) {
 
   return (
     <div className="bg-transparent text-inherit pl-8 mt-5 rounded-md w-full space-y-3">
-      <h3 className="text-sm font-semibold">{type === "post" ? "Who can see your posts post?" : "Who can comment on this post?"}</h3>
+      <h3 className="text-sm font-semibold">{type === "post" ? "Who can see your post?" : "Who can comment on this post?"}</h3>
 
       {options.map(({ label, value: optionValue, icon: Icon }) => {
         const isSelected = optionValue === value;
