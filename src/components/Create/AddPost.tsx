@@ -27,6 +27,7 @@ type FilePreview = {
 const AddPost = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<FilePreview[]>([]);
   const { theme } = useTheme();
   const state = useAuthStore();
@@ -71,6 +72,7 @@ const AddPost = () => {
         formData.append("media", item.file);
       });
       try {
+        setLoading(true)
         const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/posts`,
           formData,
@@ -86,6 +88,7 @@ const AddPost = () => {
           setText("");
           setFiles([])
         }
+        setLoading(false)
       } catch (error) {
         if (axios.isAxiosError(error)) {
           enqueueSnackbar("Unauthorize", { variant: "error" });
@@ -232,10 +235,10 @@ const AddPost = () => {
           </button>
           <GradientButton
             onClick={handleSubmit}
-            disabled={!text.trim() && files.length === 0}
+            disabled={!text.trim() && files.length === 0 || loading}
             className="flex-1 py-1 md:py-2  text-[10px] md:text-[13px] cursor-pointer"
           >
-            Post
+            {loading ? "Posting" : "Post"}
           </GradientButton>
         </div>
       </div>

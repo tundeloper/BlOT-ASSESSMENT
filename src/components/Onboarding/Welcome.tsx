@@ -21,7 +21,7 @@ const Welcome = () => {
           />
           <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">
             <span className="mr-2">🎉</span> Welcome,{" "}
-            {state.user?.full_name && state.user?.full_name.split(" ")}!
+            {state.user?.name && state.user?.name}!
           </h1>
           <p className="text-[#7A7F8C] dark:text-[#C9CDD4]">Your Sportlaze experience is ready!</p>
         </div>
