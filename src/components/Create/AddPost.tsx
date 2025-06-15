@@ -90,6 +90,7 @@ const AddPost = () => {
         }
         setLoading(false)
       } catch (error) {
+        setLoading(false)
         if (axios.isAxiosError(error)) {
           enqueueSnackbar("Unauthorize", { variant: "error" });
         }
