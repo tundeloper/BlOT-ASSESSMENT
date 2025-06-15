@@ -82,7 +82,7 @@ const Teams = () => {
       try {
         result[sport] = selected.join(", ");
         const response = await axios.put(
-          `https://lazeapi-v2.onrender.com/api/preferences/teams`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/sports`,
           result,
           {
             headers: {

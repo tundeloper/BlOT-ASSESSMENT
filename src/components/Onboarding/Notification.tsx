@@ -28,7 +28,7 @@ const Notification = () => {
 
     try {
       const response = await axios.put(
-        `https://lazeapi-v2.onrender.com/api/preferences/notifications`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/sports`,
         notificationPrefs,
         {
           headers: {
@@ -75,14 +75,14 @@ const Notification = () => {
             checked={matchStartReminders}
             onChange={(e) => setMatchStartReminders(e.target.checked)}
           />
-          <p>Match start reminders</p>
+          <p className="dark:text-[#C9CDD4]">Match start reminders</p>
         </div>
         <div className="flex items-center justify-start w-[100%] md:w-[50%]">
           <Switch
             checked={teamNews}
             onChange={(e) => setTeamNews(e.target.checked)}
           />
-          <p>Team news</p>
+          <p className="dark:text-[#C9CDD4]">Team news</p>
         </div>
       </div>
 
@@ -93,14 +93,14 @@ const Notification = () => {
             checked={weeklyChallenge}
             onChange={(e) => setWeeklyChallenge(e.target.checked)}
           />
-          <p>Weekly challenges</p>
+          <p className="dark:text-[#C9CDD4]">Weekly challenges</p>
         </div>
         <div className="flex items-center justify-start w-[100%] md:w-[50%]">
           <Switch
             checked={leaderboardUpdate}
             onChange={(e) => setLeaderboardUpdate(e.target.checked)}
           />
-          <p>Leaderboard updates</p>
+          <p className="dark:text-[#C9CDD4]">Leaderboard updates</p>
         </div>
       </div>
 

@@ -10,7 +10,7 @@ const Welcome = () => {
   const state = useAuthStore();
   return (
     <ProtectedRoute>
-      <div className={`md:max-w-[550px] w-full bg-white md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card ml-2 md:p-[32px] mt-[40%] dark:bg-[#121212] transition-colors duration-300`}>
+      <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-8 md:shadow-card mt-[0%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
         <div className="flex flex-col items-center gap-2 w-[427px] mb-7">
           <Image
             src={logo}
@@ -26,7 +26,7 @@ const Welcome = () => {
           <p className="text-[#7A7F8C] dark:text-[#C9CDD4]">Your Sportlaze experience is ready!</p>
         </div>
         <Link
-          className="w-[100%] flex items-center justify-center h-[50px] bg-[#2D439B] hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer text-white rounded shadow-md font-normal text-[16px] leading-[1.5em]"
+          className="w-full flex items-center justify-center h-[50px] bg-[#2D439B] hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer text-white rounded shadow-md font-normal text-[16px] leading-[1.5em]"
           style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.04)" }}
           href='/feed'
         >

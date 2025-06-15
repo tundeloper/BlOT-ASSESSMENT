@@ -36,7 +36,7 @@ const Sports = () => {
     try {
       console.log(token);
       const response = await axios.put(
-        `https://lazeapi-v2.onrender.com/api/preferences/sports`,
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/preferences/sports`,
         {
           favorite_sport: selectedSports.join(", ") || ""
         },
