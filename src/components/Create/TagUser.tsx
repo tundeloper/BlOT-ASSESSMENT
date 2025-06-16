@@ -8,6 +8,8 @@ import axios from "axios";
 
 interface Props {
   onChange: Dispatch<SetStateAction<boolean>>;
+  tags: User[];
+  setTags: Dispatch<SetStateAction<User[]>>;
 }
 
 // interface User {
@@ -49,26 +51,44 @@ interface Props {
 //   },
 // ];
 
-export default function TagUser({ onChange }: Props) {
+export default function TagUser({ onChange, tags, setTags }: Props) {
   const { theme } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
-  const [tags, setTags] = useState<User[]>([]);
-  const [user, setUser] = useState<User[]>([])
+  const [user, setUser] = useState<User[]>([]);
 
   // const filteredUsers = users.filter((user) =>
   //   user.name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
 
+  const getInitials = (name: string): string => {
+  const parts = name
+    .trim()
+    .split(" ")
+    .filter(Boolean); // remove empty strings from extra spaces
+  const first = parts[0]?.[0] || "";
+  const second = parts[1]?.[0] || "";
+  return (first + second).toUpperCase();
+};
+
   useEffect(() => {
-    const fetchUser = async () => {
-      if (searchTerm.trim() === "" ) return 
-      const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL as string}/search/users`, {params: {
-          query: searchTerm,
-        },})
-        setUser(data)
+    try {
+      const fetchUser = async () => {
+        if (searchTerm.trim() === "") return;
+        const { data } = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/search/users`,
+          {
+            params: {
+              query: searchTerm,
+            },
+          }
+        );
+        setUser(data);
+      };
+      fetchUser();
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
-    fetchUser()
-  }, [searchTerm])
+  }, [searchTerm]);
 
   const handleTag = (user: User) => {
     if (!tags.find((t) => t.username === user.username)) {
@@ -126,10 +146,12 @@ export default function TagUser({ onChange }: Props) {
                 className="w-10 h-10 rounded-full"
                 // width={20}
                 // height={20}
-                sx={{bgcolor: "#2D439B"}}
-              >{`${user.name.split(' ')[0][0]}${user.name.split(' ')[1][0]}`}</Avatar>
+                sx={{ bgcolor: "#2D439B" }}
+              >{getInitials(user.name)}</Avatar>
               <div>
-                <p className="font-medium dark:text-white text-[13px] md:text-[16px]">{user.name}</p>
+                <p className="font-medium dark:text-white text-[13px] md:text-[16px]">
+                  {user.name}
+                </p>
                 <p className="text-sm text-gray-400">
                   {user.username}
                   {/* {user.isFollowing && (
@@ -155,17 +177,19 @@ export default function TagUser({ onChange }: Props) {
                       src={tag.profile_picture}
                       alt={tag.name}
                       className="w-8 h-8 rounded-full"
-                    //   width={20}
-                    //   height={20}
-                    sx={{bgcolor: "#2D439B"}}
-              >{`${tag.name.split(' ')[0][0]}${tag.name.split(' ')[1][0]}`}</Avatar>
+                      sx={{ bgcolor: "#2D439B" }}
+                    >
+                      {getInitials(tag.name)}
+                    </Avatar>
                     <div>
-                      <p className="text-sm font-medium dark:text-white">{tag.name}</p>
+                      <p className="text-sm font-medium dark:text-white">
+                        {tag.name}
+                      </p>
                       <p className="text-xs text-gray-400">{tag.username}</p>
                     </div>
                   </div>
                   <button onClick={() => removeTag(tag.username)}>
-                    <X size={16} className="dark:text-white cursor-pointer"/>
+                    <X size={16} className="dark:text-white cursor-pointer" />
                   </button>
                 </div>
               ))}
