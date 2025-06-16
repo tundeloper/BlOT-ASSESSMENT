@@ -133,9 +133,9 @@ export default function Location({onChange, onLocation}: Props) {
 
 
   return (
-    <div className="w-full h-full absolute top-0 right-0 bg-inherit text-white p-4 rounded-md space-y-4">
+    <div className="absolute top-0 right-0 p-2 text-[13px] md:text-[16px] md:p-4 text-[#1E1E1E] h-full w-full bg-white dark:bg-[#121212]">
       <div className="flex justify-between">
-              <div className="flex gap-3">
+              <div className="flex gap-3 mb-3">
                 <div onClick={() => onChange(false)} className="cursor-pointer">
                   <BackIcons fill={theme === "dark" ? "white" : "#1E1E1E"} />
                 </div>
@@ -153,8 +153,10 @@ export default function Location({onChange, onLocation}: Props) {
               </button>
             </div>
       {/* Search bar */}
-      <div className="flex rounded">
-        <MapPin className="text-gray-400 mr-2 h-full" />
+      <div className="flex rounded mb-3">
+        <div className="flex items-center">
+        <MapPin className="text-gray-400 mr-2 h-full" size={25} />
+        </div>
         <input
           type="text"
           placeholder="Search location..."
@@ -162,7 +164,7 @@ export default function Location({onChange, onLocation}: Props) {
           onChange={(e) => setSearch(e.target.value)}
           className="flex-grow bg-[#F9FAFB] dark:bg-black dark:text-[#C9CDD4] py-2 px-2 placeholder-gray-400 focus:outline-none"
         />
-        <button onClick={handleSearchClick} className="px-2 bg-[#2D439B] hover:bg-[#2D439B]-700 transition-colors">
+        <button onClick={handleSearchClick} className="px-3 bg-[#2D439B] hover:bg-[#2D439B]-700 transition-colors">
           <Search className="text-white" size={19} />
         </button>
       </div>
