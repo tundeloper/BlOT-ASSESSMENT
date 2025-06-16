@@ -44,7 +44,7 @@ export default function PostSettings() {
           <span className="text-[13px] md:text-[16px]">Tag people</span>
         </div>
         <div className="flex items-center gap-2">
-          {tags.length > 0 && tags.map((tag, index) => <span key={index} className="text-[12px] text-gray-800 dark:text-white rounded-full">{tag.username}</span>)}
+          {tags.length > 0 && tags.map((tag, index) => <span key={index} className="text-[8px] md:text-[12px] text-gray-800 dark:text-white rounded-full">{tag.username}</span>)}
         <ChevronUp className="w-4 h-4 text-gray-500 dark:text-white" />
         </div>
       </div>

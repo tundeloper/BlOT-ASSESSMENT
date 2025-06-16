@@ -177,7 +177,7 @@ export default function Location({onChange, onLocation}: Props) {
         {loading && <p className="text-xs text-gray-500">Searching...</p>}
         <ul className="space-y-3">
           {locations.map((loc, idx) => (
-            <li key={idx} className="border-b" onClick={() => {onLocation(loc.title); onChange(false);}}>
+            <li key={idx} className="hover:bg-gray-500 px-2 py-1 rounded-md" onClick={() => {onLocation(loc.title); onChange(false);}}>
               <div className="flex justify-between text-sm">
                 <span className="text-black dark:text-white">{loc.title}</span>
                 <span className="text-gray-400">{loc.distance}</span>
