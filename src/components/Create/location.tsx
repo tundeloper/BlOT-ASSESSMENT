@@ -140,17 +140,17 @@ export default function Location({onChange, onLocation}: Props) {
                   <BackIcons fill={theme === "dark" ? "white" : "#1E1E1E"} />
                 </div>
                 <span className="text-[13px] md:text-[16px] text-[#1E1E1E] dark:text-white">
-                  Tag people
+                  Add location
                 </span>
               </div>
-              <button
+              {/* <button
                 className="text-[#2D439B] cursor-pointer"
                 onClick={() => {
                   onChange(false);
                 }}
               >
                 Next
-              </button>
+              </button> */}
             </div>
       {/* Search bar */}
       <div className="flex rounded mb-3">
