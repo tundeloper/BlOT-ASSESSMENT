@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import VideoCard from '@/components/Trending/VideoCard'
 import backIcon from '@/assets/backIcon.png'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const videos = [
     {
@@ -42,11 +43,11 @@ const videos = [
 const LoungeVideo = () => {
     const [isMuted, setIsMuted] = useState(true);
     const [activeTab, setActiveTab] = useState<string>('trending');
-
+    const router = useRouter()
     return (
         <div className='flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4 h-[86vh] overflow-y-auto scrollbar-hide pb-6 md:pb-4'>
             <div className='flex justify-between items-center mb-2'>
-                <button className='cursor-pointer'>
+                <button className='cursor-pointer' onClick={() => router.back()}>
                     <Image src={backIcon} alt='back' width={24} height={24} />
                 </button>
                 <div className="p-[1px] rounded-full border border-[#D9D9D9]">

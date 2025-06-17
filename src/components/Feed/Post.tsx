@@ -138,7 +138,7 @@ const Post = ({ post }: { post: Post }) => {
                     </div>
                     <div className="flex flex-wrap gap-2">
                         {post?.media_files?.slice(0, 4).map((media) => (
-                            <div key={media.id} className="mt-2.5 w-[49%] aspect-video rounded overflow-hidden grow">
+                            <div key={media.id} className="mt-2.5 w-[45%] aspect-video rounded overflow-hidden grow">
                                 {media && renderMedia(media)}
                             </div>
                         ))}

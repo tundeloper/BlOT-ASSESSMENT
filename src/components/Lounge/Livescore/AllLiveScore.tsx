@@ -1,12 +1,15 @@
+'use client'
 import React from 'react'
 import Image from 'next/image'
 import backIcon from '@/assets/backIcon.png'
 import ScoreLeague from './ScoreLeague'
+import { useRouter } from 'next/navigation'
 
 const AllLiveScore = () => {
+  const router = useRouter()
   return (
     <div className='flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4 h-[86vh] overflow-y-auto scrollbar-hide pb-6 md:pb-4'>
-      <button className='cursor-pointer'>
+      <button className='cursor-pointer' onClick={() => router.back()}>
         <Image src={backIcon} alt='back' width={24} height={24} />
       </button>
       <div>
