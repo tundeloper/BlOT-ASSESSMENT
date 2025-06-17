@@ -15,7 +15,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import axios from "axios";
 import { useAuthStore } from "@/store/authstore";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
-import PollCreator from "./PollCreator";
+import PollCreator, { Option } from "./PollCreator";
 
 // import user from "../../assets/user.png"s
 
@@ -30,7 +30,19 @@ const AddPost = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const [togglePoll, setTogglePoll] = useState<boolean>(false);
   const [loading, setLoading] = useState(false)
+
   const [files, setFiles] = useState<FilePreview[]>([]);
+  const [choices, setChoices] = useState<string[]>(["", ""]);
+    const [pollLength, setPollLength] = useState<{
+      days: Option;
+      hours: Option;
+      minutes: Option;
+    }>({
+      days: { value: 1, label: "1" },
+      hours: { value: 1, label: "1" },
+      minutes: { value: 1, label: "1" },
+    });
+
   const { theme } = useTheme();
   const state = useAuthStore();
 
@@ -126,7 +138,7 @@ const AddPost = () => {
 
       {/* post field  */}
       <div>
-        {togglePoll ? <PollCreator /> : <textarea
+        {togglePoll ? <PollCreator choices={choices} setChoices={setChoices} pollLength={pollLength} setPollLength={setPollLength} onchange={setTogglePoll}/> : <textarea
           className="w-full bg-[#F9FAFB] p text-gray-400 p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none scrollbar-hide dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"

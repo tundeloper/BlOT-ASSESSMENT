@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { X, Plus } from "lucide-react";
 import Select, { GroupBase, StylesConfig } from "react-select";
 import { useTheme } from "@/context/ThemeContext";
@@ -6,95 +6,113 @@ import { useTheme } from "@/context/ThemeContext";
 const MAX_CHOICES = 4;
 const MIN_CHOICES = 2;
 
-type Option = { value: number; label: string };
+export type Option = { value: number; label: string };
 
-const generateOptions = (max: number,) =>
+interface Props {
+  choices: string[];
+  setChoices: Dispatch<SetStateAction<string[]>>;
+  onchange: Dispatch<SetStateAction<boolean>>;
+  pollLength: {
+    days: Option;
+    hours: Option;
+    minutes: Option;
+  };
+  setPollLength: Dispatch<
+    SetStateAction<{
+      days: Option;
+      hours: Option;
+      minutes: Option;
+    }>
+  >;
+}
+
+const generateOptions = (max: number) =>
   Array.from({ length: max }, (_, i) => ({
     value: i,
     label: `${i + 1}`,
   }));
 
-const dayOptions = generateOptions(8,);
-const hourOptions = generateOptions(24,);
+const dayOptions = generateOptions(8);
+const hourOptions = generateOptions(24);
 const minuteOptions = generateOptions(60);
 
-const PollCreator = () => {
-    const theme = useTheme().theme
-    const customStyles: StylesConfig<Option, false, GroupBase<Option>> = {
-  control: (base) => ({
-    ...base,
-    height: "50px",
-    borderRadius: "6px",
-    borderColor: "transparent",
-    boxShadow: "none",
-    backgroundColor: "transparent",
-    color: theme === "dark" ? "white" : "black",
-    fontSize: "16px",
-    fontFamily: "switzer",
-    '&:hover': {
-      borderColor: "transparent", // prevents blue border on hover
-    },
-  }),
+const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollLength, onchange}) => {
+  const theme = useTheme().theme;
+  const customStyles: StylesConfig<Option, false, GroupBase<Option>> = {
+    control: (base) => ({
+      ...base,
+      height: "50px",
+      borderRadius: "6px",
+      borderColor: "transparent",
+      boxShadow: "none",
+      backgroundColor: "transparent",
+      color: theme === "dark" ? "white" : "black",
+      fontSize: "16px",
+      fontFamily: "switzer",
+      "&:hover": {
+        borderColor: "transparent", // prevents blue border on hover
+      },
+    }),
 
-  option: (base) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    fontFamily: "switzer",
-    backgroundColor: theme === "dark" ? "white" : "#7A7F8C", // force remove all background
-    color: theme === "dark" ? "black" : "white",
-    cursor: "pointer",
+    option: (base) => ({
+      ...base,
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
+      fontFamily: "switzer",
+      backgroundColor: theme === "dark" ? "white" : "#7A7F8C", // force remove all background
+      color: theme === "dark" ? "black" : "white",
+      cursor: "pointer",
 
-    "&:hover": {
-      backgroundColor: "#2D439B !important",
-    },
-    "&:active": {
-      backgroundColor: "transparent !important",
-    },
-    "&:focus": {
-      backgroundColor: "transparent !important",
-    },
-  }),
+      "&:hover": {
+        backgroundColor: "#2D439B !important",
+      },
+      "&:active": {
+        backgroundColor: "transparent !important",
+      },
+      "&:focus": {
+        backgroundColor: "transparent !important",
+      },
+    }),
 
-  menu: (base) => ({
-    ...base,
-    backgroundColor: "transparent",
-    boxShadow: "none",
-    border: "transparent",
-  }),
+    menu: (base) => ({
+      ...base,
+      backgroundColor: "transparent",
+      boxShadow: "none",
+      border: "transparent",
+    }),
 
-  singleValue: (base) => ({
-    ...base,
-    display: "flex",
-    alignItems: "center",
-    gap: "8px",
-    color: theme === "dark" ? "white" : "#7A7F8C",
-  }),
-
-  indicatorSeparator: () => ({
-    display: "none",
-  }),
-
-  dropdownIndicator: (base) => ({
-    ...base,
-    color: theme === "dark" ? "white" : "#7A7F8C",
-    "&:hover": {
+    singleValue: (base) => ({
+      ...base,
+      display: "flex",
+      alignItems: "center",
+      gap: "8px",
       color: theme === "dark" ? "white" : "#7A7F8C",
-    },
-  }),
-};
+    }),
 
-  const [choices, setChoices] = useState(["", ""]);
-  const [pollLength, setPollLength] = useState<{
-    days: Option;
-    hours: Option;
-    minutes: Option;
-  }>({
-    days: { value: 1, label: "1" },
-    hours: { value: 1, label: "1" },
-    minutes: { value: 1, label: "1" },
-  });
+    indicatorSeparator: () => ({
+      display: "none",
+    }),
+
+    dropdownIndicator: (base) => ({
+      ...base,
+      color: theme === "dark" ? "white" : "#7A7F8C",
+      "&:hover": {
+        color: theme === "dark" ? "white" : "#7A7F8C",
+      },
+    }),
+  };
+
+  // const [choices, setChoices] = useState(["", ""]);
+  // const [pollLength, setPollLength] = useState<{
+  //   days: Option;
+  //   hours: Option;
+  //   minutes: Option;
+  // }>({
+  //   days: { value: 1, label: "1" },
+  //   hours: { value: 1, label: "1" },
+  //   minutes: { value: 1, label: "1" },
+  // });
 
   const handleChoiceChange = (index: number, value: string) => {
     const updated = [...choices];
@@ -121,6 +139,8 @@ const PollCreator = () => {
   //   };
 
   const handleRemovePoll = () => {
+    onchange(false);
+    // Reset choices and poll length when removing the poll
     setChoices(["", ""]);
     setPollLength({
       days: { value: 1, label: "1" },
@@ -171,7 +191,9 @@ const PollCreator = () => {
         </label>
         <div className="flex space-x-2">
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">Days</span>
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+              Days
+            </span>
             <Select
               className="flex-1 pt-4"
               styles={customStyles}
@@ -183,28 +205,32 @@ const PollCreator = () => {
             />
           </label>
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">Hours</span>
-          <Select
-            className="flex-1 pt-4"
-            styles={customStyles}
-            options={hourOptions}
-            value={pollLength.hours}
-            onChange={(selected) =>
-              setPollLength((prev) => ({ ...prev, hours: selected! }))
-            }
-          />
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+              Hours
+            </span>
+            <Select
+              className="flex-1 pt-4"
+              styles={customStyles}
+              options={hourOptions}
+              value={pollLength.hours}
+              onChange={(selected) =>
+                setPollLength((prev) => ({ ...prev, hours: selected! }))
+              }
+            />
           </label>
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">Minutes</span>
-          <Select
-            className="flex-1 pt-4"
-            styles={customStyles}
-            options={minuteOptions}
-            value={pollLength.minutes}
-            onChange={(selected) =>
-              setPollLength((prev) => ({ ...prev, minutes: selected! }))
-            }
-          />
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+              Minutes
+            </span>
+            <Select
+              className="flex-1 pt-4"
+              styles={customStyles}
+              options={minuteOptions}
+              value={pollLength.minutes}
+              onChange={(selected) =>
+                setPollLength((prev) => ({ ...prev, minutes: selected! }))
+              }
+            />
           </label>
         </div>
       </div>
