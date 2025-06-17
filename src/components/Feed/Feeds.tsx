@@ -13,7 +13,7 @@ const Feeds = () => {
   const [feed, setFeed] = useState<Post[]>([]);
   const [followers, setFollowers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
-
+  console.log(followers);
   useEffect(() => {
     const fetchFeed = async () => {
       setLoading(true);
