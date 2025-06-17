@@ -6,9 +6,11 @@ import Image from 'next/image';
 import logo from '@/assets/logo2.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useTheme } from '@/context/ThemeContext';
+import { useAuthStore } from '@/store/authstore';
 
 const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
   const {theme} = useTheme()
+  const {user} = useAuthStore()
   return (
     <header className="bg-white h-[72px] dark:bg-[#121212] px-4 md:px-8 flex items-center justify-between">
       <div className="flex items-center gap-4">
@@ -44,8 +46,8 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
           <IoSettingsOutline size={24} className="text-[#3A3D46] dark:text-white" />
         </div>
 
-        <div className="hidden md:block w-10 h-10 rounded-full bg-gray-200 cursor-pointer">
-          <Image src="/images/profile.png" alt="profile" width={40} height={40} />
+        <div className="hidden md:block w-10 h-10 rounded-full overflow-hidden bg-gray-200 cursor-pointer">
+          <Image src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name?.trim() || 'Anonymous')}`} alt="profile" width={40} height={40} />
         </div>
       </div>
     </header>

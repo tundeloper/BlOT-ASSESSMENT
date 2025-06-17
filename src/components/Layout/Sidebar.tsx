@@ -4,7 +4,7 @@ import { Drawer } from '@mui/material';
 import { useRouter, usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { sidebarPaths } from '@/constants/sidebarPaths';
-import { BsChevronLeft } from 'react-icons/bs';
+import { LuMoon, LuSun } from 'react-icons/lu';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuthStore } from '@/store/authstore';
 
@@ -16,11 +16,11 @@ interface SidebarProps {
 const Sidebar = ({ open, onClose }: SidebarProps) => {
     const router = useRouter();
     const pathname = usePathname();
-    const logout = useAuthStore((s) => s.logout)
+    const { logout, user } = useAuthStore()
     const mainPaths = sidebarPaths.filter(path => path.section === 'main');
     const bottomPaths = sidebarPaths.filter(path => path.section === 'bottom');
-      const { toggleTheme } = useTheme();
-    
+    const { toggleTheme, theme } = useTheme();
+
 
     return (
         <Drawer
@@ -38,7 +38,7 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                 <div className="p-[16px_13px] border-b border-[#F0F0F0] flex items-center gap-4">
                     <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                         <Image
-                            src="/images/profile.png"
+                            src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name?.trim() || 'Anonymous')}`}
                             alt="Profile"
                             width={32}
                             height={32}
@@ -46,10 +46,10 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                     </div>
                     <div>
                         <div className="text-[13px] text-[#1E1E1E]">
-                            Chinagozie Anyanwu
+                            {user?.name || 'Anonymous'}
                         </div>
                         <div className="text-[10px] font-medium text-[#7A7F8C]">
-                            @china123
+                            @{user?.username || 'Anonymous'}
                         </div>
                     </div>
                 </div>
@@ -64,11 +64,10 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                                     router.push(path.path);
                                     onClose();
                                 }}
-                                className={`h-10 px-4 cursor-pointer flex items-center gap-2 ${
-                                    pathname === path.path
+                                className={`h-10 px-4 cursor-pointer flex items-center gap-2 ${pathname === path.path
                                         ? 'bg-[#2D439B]'
                                         : 'hover:bg-black/[0.04]'
-                                }`}
+                                    }`}
                             >
                                 <span className="min-w-[32px]">
                                     <path.icon
@@ -77,9 +76,8 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                                     />
                                 </span>
                                 <span
-                                    className={`text-sm font-[Roboto] ${
-                                        pathname === path.path ? 'text-white' : 'text-[#1E1E1E]'
-                                    }`}
+                                    className={`text-sm font-[Roboto] ${pathname === path.path ? 'text-white' : 'text-[#1E1E1E]'
+                                        }`}
                                 >
                                     {path.label}
                                 </span>
@@ -123,9 +121,9 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                 {/* Collapse button */}
                 <div
                     className="mt-auto p-[10px_16px] bg-[#E4E6EC] border-t border-[#F0F0F0] flex items-center cursor-pointer"
-                    onClick={() => {toggleTheme(); onClose()}}
+                    onClick={() => { toggleTheme(); onClose() }}
                 >
-                    <BsChevronLeft size={16} color="#3A3D46" />
+                    {theme === 'dark' ? <LuSun size={16} color="#3A3D46" /> : <LuMoon size={16} color="#3A3D46" />}
                 </div>
             </div>
         </Drawer>

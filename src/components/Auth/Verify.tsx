@@ -77,7 +77,7 @@ const Verify = () => {
 
       if (response.data) {
         state.setUser(
-          response.data.data as User,
+          response.data.data?.user as User,
           response.data.token as string
         );
         router.push(`/onboarding/sports`);
@@ -197,7 +197,7 @@ const Verify = () => {
               disabled={loading}
               className={`w-full h-[50px] text-[16px] text-white hover:bg-[#2D439B]/80 transition-all duration-300 cursor-pointer font-switzer font-normal rounded shadow-md disabled:opacity-60 bg-[#2D439B] py-2 `}
             >
-              {loading ? "Verifying..." : "Crate Account"}
+              {loading ? "Verifying..." : "Create Account"}
             </GradientButton>
             {/* <button
                   type="submit"

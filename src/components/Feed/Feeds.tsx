@@ -3,20 +3,27 @@ import React, { useEffect, useState } from 'react'
 import Post from './Post'
 import { getFeed } from '@/api/feed'
 import { CircularProgress } from '@mui/material'
+import { User } from '@/types/auth'
+import { getFollowers } from '@/api/user'
 
 type FeedType = 'following' | 'for-you';
 
 const Feeds = () => {
   const [activeTab, setActiveTab] = useState<FeedType>('following');
   const [feed, setFeed] = useState<Post[]>([]);
+  const [followers, setFollowers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchFeed = async () => {
       setLoading(true);
-      const res = await getFeed();
-      if (res.success) {
-        setFeed(res.data || []);
+      const [feedRes, followersRes] = await Promise.all([getFeed(), getFollowers()]);
+      console.log(followersRes);
+      if (feedRes.success) {
+        setFeed(feedRes.data || []);
+      }
+      if (followersRes.success) {
+        setFollowers(followersRes.data || []);
       }
       setLoading(false);
     }
@@ -24,7 +31,7 @@ const Feeds = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4">
+    <div className="flex flex-col gap-4 bg-inherit md:bg-white dark:bg-[#121212] rounded p-0 md:p-4">
       <div className="flex justify-start md:justify-end">
         <div className="p-[1px] rounded-full border border-[#D9D9D9]">
           <div className="flex rounded-full">
@@ -32,7 +39,7 @@ const Feeds = () => {
               onClick={() => setActiveTab('following')}
               className={`px-4 py-1 rounded-full text-[10px] cursor-pointer transition-all ${activeTab === 'following'
                 ? 'bg-[#2D439B] text-white'
-                : 'text-[#3A3D46] hover:bg-gray-50'
+                : 'text-[#3A3D46] hover:bg-gray-50 dark:text-white'
                 }`}
             >
               Following
@@ -41,7 +48,7 @@ const Feeds = () => {
               onClick={() => setActiveTab('for-you')}
               className={`px-4 py-1 rounded-full text-[10px] cursor-pointer transition-all ${activeTab === 'for-you'
                 ? 'bg-[#2D439B] text-white'
-                : 'text-[#3A3D46] hover:bg-gray-50'
+                : 'text-[#3A3D46] hover:bg-gray-50 dark:text-white'
                 }`}
             >
               For You

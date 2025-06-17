@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { getLivescore } from '@/api/livescore'
-import { enqueueSnackbar } from 'notistack'
 import { CircularProgress } from '@mui/material'
 
 const Livescore = () => {
@@ -28,7 +27,7 @@ const Livescore = () => {
       if (res.success) {
         setLivescore(res.data?.matches || []);
       } else {
-        enqueueSnackbar("Failed to fetch livescore", { variant: 'error' });
+        console.log(res);
       }
       setLoading(false);
     }
