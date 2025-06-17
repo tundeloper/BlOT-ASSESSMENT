@@ -31,7 +31,7 @@ const Feeds = () => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-4 bg-inherit md:bg-white dark:bg-[#121212] rounded p-0 md:p-4">
+    <div className="flex flex-col gap-4 bg-inherit md:bg-white md:dark:bg-[#121212] rounded p-0 md:p-4">
       <div className="flex justify-start md:justify-end">
         <div className="p-[1px] rounded-full border border-[#D9D9D9]">
           <div className="flex rounded-full">
