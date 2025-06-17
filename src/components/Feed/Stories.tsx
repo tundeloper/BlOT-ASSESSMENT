@@ -48,11 +48,11 @@ const Stories = () => {
   };
 
   return (
-    <div className="bg-inherit md:bg-white rounded p-0 md:p-4 flex flex-col gap-2.5">
+    <div className="bg-inherit md:bg-white dark:bg-[#121212] rounded p-0 md:p-4 flex flex-col gap-2.5">
       <div className="hidden md:flex justify-between items-center">
         <button className="flex items-center gap-1 cursor-pointer">
-          <span className="text-[10px] text-[#3A3D46]">All stories</span>
-          <IoChevronDown size={16} className="text-[#3A3D46]" />
+          <span className="text-[10px] text-[#3A3D46] dark:text-white">All stories</span>
+          <IoChevronDown size={16} className="text-[#3A3D46] dark:text-white" />
         </button>
 
         <div className="flex items-center gap-2">
@@ -109,7 +109,7 @@ const Stories = () => {
                 </div>
               )}
             </div>
-            <span className="text-[8px] text-[#3A3D46] text-center w-full truncate">
+            <span className="text-[8px] text-[#3A3D46] text-center w-full truncate dark:text-white">
               {story.name}
             </span>
           </div>
