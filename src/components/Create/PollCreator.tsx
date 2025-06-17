@@ -180,18 +180,18 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
             className="text-2xl text-gray-600 hover:text-blue-600"
             aria-label="Add choice"
           >
-            <Plus size={24} className="text-[#3A3D46] hover:text-[#2D439B]" />
+            <Plus size={24} className="text-[#3A3D46] dark:text-white hover:text-[#2D439B]" />
           </button>
         </div>
       )}
 
       <div>
-        <label className="block font-medium text-gray-700 mb-1">
+        <label className="block font-medium text-[#3A3D46] dark:text-white mb-1">
           Poll Length
         </label>
         <div className="flex space-x-2">
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Days
             </span>
             <Select
@@ -205,7 +205,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
             />
           </label>
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Hours
             </span>
             <Select
@@ -219,7 +219,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
             />
           </label>
           <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
-            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C]">
+            <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Minutes
             </span>
             <Select
@@ -238,7 +238,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
       <div className="text-center">
         <button
           onClick={handleRemovePoll}
-          className="text-red-600 hover:underline font-medium"
+          className="text-[10px] md:text-[13px] text-[#9A1B39] hover:underline font-medium"
         >
           Remove poll
         </button>
