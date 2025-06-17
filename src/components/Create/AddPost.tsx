@@ -15,6 +15,7 @@ import EmojiPicker, { Theme } from "emoji-picker-react";
 import axios from "axios";
 import { useAuthStore } from "@/store/authstore";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
+import PollCreator from "./PollCreator";
 
 // import user from "../../assets/user.png"s
 
@@ -27,6 +28,7 @@ type FilePreview = {
 const AddPost = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const [togglePoll, setTogglePoll] = useState<boolean>(false);
   const [loading, setLoading] = useState(false)
   const [files, setFiles] = useState<FilePreview[]>([]);
   const { theme } = useTheme();
@@ -46,7 +48,6 @@ const AddPost = () => {
       return { file, previewUrl: url, type };
     });
 
-    // ✅ This avoids nesting arrays
     setFiles((prev) => [...prev, ...newPreviews]);
   };
 
@@ -125,13 +126,13 @@ const AddPost = () => {
 
       {/* post field  */}
       <div>
-        <textarea
+        {togglePoll ? <PollCreator /> : <textarea
           className="w-full bg-[#F9FAFB] p text-gray-400 p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none scrollbar-hide dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"
           value={text}
           onChange={handleChange}
-        />
+        />}
         <div className="flex justify-between items-center mt-2">
           <div />
           {/* <button
@@ -145,9 +146,9 @@ const AddPost = () => {
           >
             Post
           </button> */}
-          <span className="text-sm text-gray-500">
+          {!togglePoll && <span className="text-sm text-gray-500">
             {text.length} / {MAX_CHARS}
-          </span>
+          </span>}
         </div>
       </div>
 
@@ -226,7 +227,7 @@ const AddPost = () => {
             )}
           </label>
           {/* pol */}
-          <label>
+          <label onClick={() => {setTogglePoll((prev) => !prev)}} className="cursor-pointer">
             <PollIcon fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
           </label>
         </div>
