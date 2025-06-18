@@ -27,14 +27,14 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
             anchor="left"
             open={open}
             onClose={onClose}
-            variant="temporary"
             sx={{
-                width: 207,
-                backgroundColor: 'white',
+                "& .MuiDrawer-paper": {
+                    width: "207px",
+                    backgroundColor: theme === 'dark' ? '#1E1E1E' : '#FFFFFF',
+                },
             }}
         >
             <div className="flex flex-col h-full">
-                {/* Header with user info */}
                 <div className="p-[16px_13px] border-b border-[#F0F0F0] flex items-center gap-4">
                     <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                         <Image
@@ -45,16 +45,15 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                         />
                     </div>
                     <div>
-                        <div className="text-[13px] text-[#1E1E1E]">
+                        <div className="text-[13px] text-[#1E1E1E] dark:text-white">
                             {user?.name || 'Anonymous'}
                         </div>
-                        <div className="text-[10px] font-medium text-[#7A7F8C]">
+                        <div className="text-[10px] font-medium text-[#7A7F8C] dark:text-gray-400">
                             @{user?.username || 'Anonymous'}
                         </div>
                     </div>
                 </div>
 
-                {/* Main navigation */}
                 <nav className="flex-1">
                     <ul className="pt-0">
                         {mainPaths.map((path) => (
@@ -65,18 +64,18 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                                     onClose();
                                 }}
                                 className={`h-10 px-4 cursor-pointer flex items-center gap-2 ${pathname === path.path
-                                        ? 'bg-[#2D439B]'
-                                        : 'hover:bg-black/[0.04]'
+                                    ? 'bg-[#2D439B]'
+                                    : 'hover:bg-black/[0.04]'
                                     }`}
                             >
                                 <span className="min-w-[32px]">
                                     <path.icon
                                         size={18}
-                                        color={pathname === path.path ? '#FFFFFF' : '#3A3D46'}
+                                        className={`text-[#3A3D46] dark:text-white ${pathname === path.path ? 'text-white' : ''}`}
                                     />
                                 </span>
                                 <span
-                                    className={`text-sm font-[Roboto] ${pathname === path.path ? 'text-white' : 'text-[#1E1E1E]'
+                                    className={`text-sm font-[Roboto] ${pathname === path.path ? 'text-white' : 'text-[#1E1E1E] dark:text-white'
                                         }`}
                                 >
                                     {path.label}
@@ -86,7 +85,6 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                     </ul>
                 </nav>
 
-                {/* Bottom navigation */}
                 <div className="border-t border-[#F0F0F0]">
                     <ul className="pt-0">
                         {bottomPaths.map((path) => (
@@ -104,12 +102,11 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                                 <span className="min-w-[32px]">
                                     <path.icon
                                         size={18}
-                                        color={path.color || '#3A3D46'}
+                                        className='text-[#3A3D46] dark:text-white'
                                     />
                                 </span>
                                 <span
-                                    className="text-sm font-[Roboto]"
-                                    style={{ color: path.color || '#1E1E1E' }}
+                                    className="text-sm font-[Roboto] dark:text-white"
                                 >
                                     {path.label}
                                 </span>
@@ -118,12 +115,11 @@ const Sidebar = ({ open, onClose }: SidebarProps) => {
                     </ul>
                 </div>
 
-                {/* Collapse button */}
                 <div
-                    className="mt-auto p-[10px_16px] bg-[#E4E6EC] border-t border-[#F0F0F0] flex items-center cursor-pointer"
+                    className="mt-auto p-[10px_16px] bg-[#E4E6EC] border-t border-[#F0F0F0] dark:bg-gray-800 flex items-center cursor-pointer"
                     onClick={() => { toggleTheme(); onClose() }}
                 >
-                    {theme === 'dark' ? <LuSun size={16} color="#3A3D46" /> : <LuMoon size={16} color="#3A3D46" />}
+                    {theme === 'dark' ? <LuSun size={16} color="#FFFFFF" /> : <LuMoon size={16} color="#3A3D46" />}
                 </div>
             </div>
         </Drawer>
