@@ -2,10 +2,11 @@ import React from 'react'
 import Contributors from '../Contributors'
 import JoinLounge from '../JoinLounge'
 import LoungeNav from '../LoungeNav'
-import Fixtures from '@/components/Feed/Fixtures'
 import AllLiveScore from './AllLiveScore'
 import Predictions from '@/components/Feed/Predictions'
-import Livescore from '@/components/Feed/Livescore'
+import Upcoming from '../Upcoming'
+import Finished from '../Finished'
+import MatchFilter from '../MatchFilter'
 
 const ScorePage = () => {
     return (
@@ -19,8 +20,9 @@ const ScorePage = () => {
                 <AllLiveScore />
             </div>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
-                <Livescore />
-                <Fixtures />
+                <MatchFilter />
+                <Upcoming />
+                <Finished />
                 <Predictions />
             </div>
         </div>

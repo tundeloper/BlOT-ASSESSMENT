@@ -61,7 +61,7 @@ const Stories = () => {
             className={`h-6 w-6 flex items-center justify-center rounded ${
               canScrollLeft
                 ? 'bg-[#2D439B] text-white cursor-pointer'
-                : 'bg-[#F5F5F5] text-[#7A7F8C] cursor-not-allowed'
+                : 'bg-[#F5F5F5] dark:bg-[#121212] text-[#7A7F8C] cursor-not-allowed'
             }`}
             disabled={!canScrollLeft}
           >
@@ -72,7 +72,7 @@ const Stories = () => {
             className={`h-6 w-6 flex items-center justify-center rounded ${
               canScrollRight
                 ? 'bg-[#2D439B] text-white cursor-pointer'
-                : 'bg-[#F5F5F5] text-[#7A7F8C] cursor-not-allowed'
+                : 'bg-[#F5F5F5] dark:bg-[#121212] text-[#7A7F8C] cursor-not-allowed'
             }`}
             disabled={!canScrollRight}
           >
@@ -105,7 +105,7 @@ const Stories = () => {
                 />
               </div>
               {story.isYourStory && (
-                <div className="absolute bottom-0 right-0 w-5 h-5 rounded-[5px] bg-[#2D439B] border-2 border-white flex items-center justify-center">
+                <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-[#2D439B] border-2 border-white flex items-center justify-center">
                   <IoAddOutline size={14} className="text-white" />
                 </div>
               )}
