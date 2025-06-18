@@ -108,7 +108,7 @@ const Post = ({ post }: { post: Post }) => {
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-[#3A3D46] dark:text-white">{post?.username}</span>
+                                <span className="text-[10px] text-[#3A3D46] dark:text-white">@{post?.username}</span>
                                 <span className="text-[8px] text-[#3A3D46] dark:text-white">{timeAgo(post?.created_at)}</span>
                             </div>
                         </div>
@@ -180,7 +180,7 @@ const Post = ({ post }: { post: Post }) => {
                             {isBookmarked ? (
                                 <IoMdBookmark size={24} color='#2D439B' />
                             ) : (
-                                <IoBookmarkOutline size={24} color='#3A3D46' />
+                                <IoBookmarkOutline size={24} className='text-[#3A3D46] dark:text-white' />
                             )}
                         </button>
                     </div>
@@ -198,35 +198,35 @@ const Post = ({ post }: { post: Post }) => {
                             />
                         </div>
                         <div className="flex-1">
-                            <div className={`flex flex-col gap-2 w-full rounded bg-[#E4E6EC] px-3 ${isCommentFocused ? 'py-3' : 'py-1'}`}>
+                            <div className={`flex flex-col gap-2 w-full rounded bg-[#E4E6EC] dark:bg-[#1A1C20] px-3 ${isCommentFocused ? 'py-3' : 'py-1'}`}>
                                 <div className="flex items-center gap-2 w-full">
                                     <input
                                         type="text"
                                         placeholder="Write a comment"
-                                        className="flex-1 bg-transparent text-[12px] text-[#3A3D46] outline-none placeholder:text-[#3A3D46] h-[30px]"
+                                        className="flex-1 bg-transparent text-[12px] text-[#3A3D46] dark:text-white outline-none placeholder:text-[#3A3D46] dark:placeholder:text-white h-[30px]"
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
                                         onFocus={() => setIsCommentFocused(true)}
                                     />
                                     {!isCommentFocused && <button className='cursor-pointer'>
-                                        <BsEmojiSmile size={17} className="text-[#3A3D46]" />
+                                        <BsEmojiSmile size={17} className="text-[#3A3D46] dark:text-white" />
                                     </button>}
                                 </div>
                                 {isCommentFocused && <div className='flex justify-between w-full items-center'>
                                     <div className='flex gap-4 items-center'>
                                         <label htmlFor="image" className='cursor-pointer'>
-                                            <CiImageOn size={20} className="text-[#3A3D46]" />
+                                            <CiImageOn size={20} className="text-[#3A3D46] dark:text-white" />
                                         </label>
                                         <input type="file" id="image" className="hidden" />
                                         <button className='cursor-pointer'>
-                                            <HiOutlineGif size={20} className="text-[#3A3D46]" />
+                                            <HiOutlineGif size={20} className="text-[#3A3D46] dark:text-white" />
                                         </button>
                                         <button className='cursor-pointer'>
-                                            <BsEmojiSmile size={18} className="text-[#3A3D46]" />
+                                            <BsEmojiSmile size={18} className="text-[#3A3D46] dark:text-white" />
                                         </button>
                                     </div>
                                     <button onClick={handleComment} className='cursor-pointer'>
-                                        <AiOutlineSend size={20} className="text-[#3A3D46]" />
+                                        <AiOutlineSend size={20} className="text-[#3A3D46] dark:text-white" />
                                     </button>
                                 </div>}
                             </div>
