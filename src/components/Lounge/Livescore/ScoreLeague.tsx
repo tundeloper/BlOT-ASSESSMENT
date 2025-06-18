@@ -87,10 +87,10 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
 
                     <div className="flex items-start gap-2">
                         <div className="flex flex-col">
-                            <span className="text-[16px] font-medium text-[#1E1E1E]">
+                            <span className="text-[16px] font-medium text-[#1E1E1E] dark:text-white">
                                 {leagueName}
                             </span>
-                            <span className="text-[13px] font-normal text-[#3A3D46]">
+                            <span className="text-[13px] font-normal text-[#3A3D46] dark:text-white">
                                 {country}
                             </span>
                         </div>
@@ -98,7 +98,7 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
                         {isLive && (
                             <div className="border border-[#9A1B39] rounded-full px-2 py-0.5 flex items-center gap-1 mt-1">
                                 <RxDot className="w-2.5 h-2.5 text-[#9A1B39]" />
-                                <span className="text-[8px] font-normal text-[#3A3D46]">
+                                <span className="text-[10px] font-normal text-[#3A3D46] dark:text-white">
                                     Live
                                 </span>
                             </div>
@@ -108,13 +108,13 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
 
                 <button
                     onClick={onViewAll}
-                    className="text-[13px] font-normal text-[#2D439B] hover:underline"
+                    className="text-[13px] font-normal text-[#2D439B] dark:text-white hover:underline"
                 >
                     View All
                 </button>
             </div>
 
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4 w-full">
                 <ScoreItem livescore={livescore} />
                 <ScoreItem livescore={livescore} />
             </div>
