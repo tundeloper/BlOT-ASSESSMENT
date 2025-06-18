@@ -70,7 +70,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[10%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
+    <div className="max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-[22px] md:p-[34px] md:shadow-card mt-[10%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
       {/* Header */}
       <div className="flex flex-col items-center gap-2 w-[427px]">
         <Image
@@ -80,7 +80,7 @@ const LoginForm = () => {
           height={76}
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
-        <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">
+        <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-[#FFFFFF]">
           Welcome Back!
         </h1>
         <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center dark:text-[#C9CDD4]">
@@ -112,7 +112,7 @@ const LoginForm = () => {
             id="email"
             type="email"
             placeholder="example@gmail.com"
-            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] bg-white border dark:border-transparent text-[#7A7F8C] dark:text-[#C9CDD4] dark:bg-[#2A2D34] rounded outline-none text-[16px] font-switzer ${
               errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             {...register("email")}
@@ -129,12 +129,12 @@ const LoginForm = () => {
         <div className="flex flex-col gap-2 relative">
           <label
             htmlFor="password"
-            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-white"
+            className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]  dark:text-white"
           >
             Password
           </label>
           <div
-            className={`flex items-center gap-2 border rounded px-4 w-full h-[50px] ${
+            className={`flex items-center gap-2 border dark:border-transparent bg-white dark:bg-[#2A2D34] rounded px-4 w-full h-[50px] ${
               errors.password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
           >
@@ -142,7 +142,7 @@ const LoginForm = () => {
               id="password"
               type={showPassword ? "text" : "password"}
               placeholder="*********"
-              className="w-full h-full text-[#7A7F8C] focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent dark:text-white"
+              className="w-full h-full bg-wh text-[#7A7F8C] focus:ring-[#2D439B] outline-none text-[16px] font-switzer pr-10 bg-transparent dark:text-[#C9CDD4]"
               {...register("password")}
               autoComplete="current-password"
               disabled={isSubmitting}
@@ -150,12 +150,12 @@ const LoginForm = () => {
             {showPassword ? (
               <FiEye
                 onClick={() => setShowPassword(false)}
-                className="cursor-pointer"
+                className="cursor-pointer dark:text-[#9ea0a7]"
               />
             ) : (
               <FiEyeOff
                 onClick={() => setShowPassword(true)}
-                className="cursor-pointer"
+                className="cursor-pointer dark:text-[#9ea0a7]"
               />
             )}
           </div>

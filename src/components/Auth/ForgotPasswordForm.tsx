@@ -31,7 +31,7 @@ const ForgotPasswordForm = () => {
             {/* Header */}
             <div className="flex flex-col items-center gap-2 w-[427px]">
                 <Image src={logo} alt="logo" width={114} height={76} className='w-[75px] md:w-[114px] h-[50px] md:h-[76px]' />
-                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">Forgot Password?</h1>
+                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-[#FFFFFF]">Forgot Password?</h1>
                 <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center max-w-[327px] md:max-w-[427px] ">
                     Enter your email address and we&apos;ll email you a password reset link
                 </p>
@@ -41,12 +41,14 @@ const ForgotPasswordForm = () => {
             <form className="flex flex-col gap-4 w-full" onSubmit={handleSubmit(onSubmit)} noValidate>
                 {/* Email */}
                 <div className="flex flex-col gap-2">
-                    <label htmlFor="email" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46]">Email</label>
+                    <label htmlFor="email" className="text-[13px] md:text-[16px] font-switzer text-[#3A3D46] dark:text-[#FFFFFF]">Email</label>
                     <input
                         id="email"
                         type="email"
                         placeholder="example@gmail.com"
-                        className={`w-full px-4 h-[50px] border rounded outline-none text-[16px] font-switzer ${errors.email ? 'border-red-500' : 'border-[#E4E6EC]'}`}
+                        className={`w-full px-4 h-[50px] bg-white border dark:border-transparent text-[#7A7F8C] dark:text-[#C9CDD4] dark:bg-[#2A2D34] rounded outline-none text-[16px] font-switzer ${
+              errors.email ? "border-red-500" : "border-[#E4E6EC]"
+            }`}
                         {...register('email')}
                         autoComplete="email"
                         disabled={isSubmitting}

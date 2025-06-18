@@ -48,9 +48,9 @@ const Stories = () => {
   };
 
   return (
-    <div className="bg-inherit md:bg-white dark:bg-[#121212] rounded p-0 md:p-4 flex flex-col gap-2.5">
+    <div className="bg-inherit md:bg-white dark:bg-[#121212] rounded p-0 md:p-2 flex flex-col gap-2.5">
       <div className="hidden md:flex justify-between items-center">
-        <button className="flex items-center gap-1 cursor-pointer">
+        <button className="flex items-center cursor-pointer">
           <span className="text-[10px] text-[#3A3D46] dark:text-white">All stories</span>
           <IoChevronDown size={16} className="text-[#3A3D46] dark:text-white" />
         </button>
@@ -86,6 +86,7 @@ const Stories = () => {
         onScroll={handleScroll}
         className="flex gap-4 overflow-x-auto scrollbar-hide"
       >
+        
         {stories.map((story) => (
           <div
             key={story.id}

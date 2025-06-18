@@ -36,7 +36,7 @@ const ResetPasswordForm = () => {
             {/* Header */}
             <div className="flex flex-col items-center gap-2 w-[427px]">
                 <Image src={logo} alt="logo" width={114} height={76} className='w-[75px] md:w-[114px] h-[50px] md:h-[76px]' />
-                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">Reset Password</h1>
+                <h1 className="font-[500] text-[20px] md:text-[31px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-[#FFFFFF]">Reset Password</h1>
                 <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] text-center dark:text-[#C9CDD4]">
                     Password must be at least 8 characters
                 </p>

@@ -165,7 +165,7 @@ const Verify = () => {
             height={76}
             className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
           />
-          <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-white">
+          <h1 className="font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] text-center dark:text-[#FFFFFF]">
             Verify Account
           </h1>
           <p className="text-[13px] md:text-[16px] font-switzer text-[#7A7F8C] dark:text-[#C9CDD4] text-center">

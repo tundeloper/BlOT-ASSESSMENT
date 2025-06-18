@@ -63,8 +63,9 @@ const Signup = () => {
       borderRadius: "6px",
       borderColor: state.isFocused ? "#e4e6ec" : "#e4e6ec",
       boxShadow: "none",
-      backgroundColor: "transparent",
-      color: theme === "dark" ? "white" : "black",
+      backgroundColor: theme === "dark" ? "#2A2D34" : "white",
+      border: theme === "dark" ? "transparent" : "1px solid #bdbfc57d",  
+      color: theme === "dark" ? "#2A2D34" : "black",
       fontSize: "16px",
       fontFamily: "switzer",
     }),
@@ -82,7 +83,7 @@ const Signup = () => {
       display: "flex",
       alignItems: "center",
       gap: "8px",
-      color: theme === "dark" ? "white" : "#7A7F8C",
+      color: theme === "dark" ? "#C9CDD4" : "#7A7F8C",
     }),
     // This removes the vertical separator between value and arrow
     indicatorSeparator: () => ({
@@ -150,7 +151,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:shadow-card md:p-[34] dark:bg-[#121212] transition-colors duration-300">
+    <div className="md:max-w-[550px] w-full md:bg-white rounded flex flex-col items-center gap-1 p-[22px] md:p-[34px] md:shadow-card  dark:bg-[#121212] transition-colors duration-300">
       <div className="flex flex-col items-center gap-2 w-[427px] mb-7 lg:mt-[10rem]">
         <Image
           src={logo}
@@ -195,7 +196,7 @@ const Signup = () => {
                 message: "Full name must be at least 2 characters",
               },
             })}
-            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px]  font-switzer ${
+            className={`w-full px-4 h-[50px] border dark:border-transparent bg-white dark:bg-[#2A2D34] text-[#7A7F8C] dark:text-[#C9CDD4] rounded outline-none text-[16px]  font-switzer ${
               errors.full_name ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="Full Name"
@@ -226,7 +227,7 @@ const Signup = () => {
                 message: "Invalid email address",
               },
             })}
-            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border dark:border-transparent bg-white dark:bg-[#2A2D34] text-[#7A7F8C] dark:text-[#C9CDD4] rounded outline-none text-[16px] font-switzer ${
               errors.email ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="example@gmail.com"
@@ -263,7 +264,7 @@ const Signup = () => {
                   "Password must contain at least one lowercase letter",
               },
             })}
-            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border dark:border-transparent bg-white dark:bg-[#2A2D34] text-[#7A7F8C] dark:text-[#C9CDD4] rounded outline-none text-[16px] font-switzer ${
               errors.password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"
@@ -305,7 +306,7 @@ const Signup = () => {
               validate: (value) =>
                 value === password || "Passwords do not match",
             })}
-            className={`w-full px-4 h-[50px] border text-[#7A7F8C] dark:text-white rounded outline-none text-[16px] font-switzer ${
+            className={`w-full px-4 h-[50px] border dark:border-transparent bg-white dark:bg-[#2A2D34] text-[#7A7F8C] dark:text-[#C9CDD4] rounded outline-none text-[16px] font-switzer ${
               errors.confirm_password ? "border-red-500" : "border-[#E4E6EC]"
             }`}
             placeholder="********"

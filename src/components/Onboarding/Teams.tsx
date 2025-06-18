@@ -127,7 +127,7 @@ const Teams = () => {
           className="w-[75px] md:w-[114px] h-[50px] md:h-[76px]"
         />
         <h1
-          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] dark:text-white`}
+          className={`font-[500] text-[20px] md:text-[25px] font-switzer leading-[1.32em] text-center text-[#3A3D46] dark:text-[#FFFFFF]`}
         >
           Pick Your Favorite Teams
         </h1>

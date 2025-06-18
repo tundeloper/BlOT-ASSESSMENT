@@ -44,7 +44,7 @@ const Home = () => {
           <CircularProgress size={40} sx={{ color: '#2D439B' }} />
         </div>
       )}
-      <div className="relative max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-8 md:shadow-card mt-[40%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
+      <div className="relative max-w-[500px] w-full md:bg-white rounded flex flex-col items-center gap-8 p-[22px] md:p-[34] md:shadow-card mt-[50%] md:mt-2 dark:bg-[#121212] transition-colors duration-300">
         <div className="flex flex-col items-center gap-4 w-[427px]">
           <Image
             src={logo}
@@ -53,13 +53,13 @@ const Home = () => {
             height={100}
             className="w-[92px] md:w-[114px] h-[80px] md:h-[100px]"
           />
-          <h1 className="font-[500] text-[16px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] dark:text-white text-center">
+          <h1 className="font-[500] text-[16px] md:text-[25px] font-switzer leading-[1.32em] text-[#3A3D46] dark:text-[#C9CDD4] text-center">
             Experience Sports Like Never Before
           </h1>
         </div>
         <div className="flex flex-col w-full gap-2 mt-7">
           <GradientButton
-            onClick={() => router.push("/feed")}
+            onClick={() => router.push("/auth/register")}
             className="flex-1 p-3 flex items-center justify-center h-[50px] bg-[##2D439B] transition-all duration-300 cursor-pointer font-switzer text-[#3A3D46] rounded shadow font-normal text-[16px] bg-[] leading-[1.5em]"
             style={{ boxShadow: "0px 2px 0px 0px rgba(0,0,0,0.02)" }}
           >
