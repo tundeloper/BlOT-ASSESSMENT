@@ -41,7 +41,7 @@ const Videos = () => {
     const [isMuted, setIsMuted] = useState(true);
 
   return (
-    <div className='flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4 h-[86vh] overflow-y-auto scrollbar-hide pb-6 md:pb-4'>
+    <div className='flex flex-col gap-4 bg-inherit md:bg-white rounded p-0 md:p-4 h-[86vh] overflow-y-auto scrollbar-hide pb-10 md:pb-4'>
         {videos.map((video) => (
             <VideoCard key={video.title} videoData={video} isMuted={isMuted} setIsMuted={setIsMuted} />
         ))}

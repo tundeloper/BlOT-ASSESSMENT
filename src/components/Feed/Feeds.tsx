@@ -59,7 +59,7 @@ const Feeds = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-4 mt-4 md:mt-0 h-[70vh] md:h-[57vh] overflow-y-auto scrollbar-hide pb-6">
+      <div className="flex flex-col gap-4 mt-4 md:mt-0 h-[70vh] md:h-[57vh] overflow-y-auto scrollbar-hide pb-10 md:pb-6">
         {
           loading ? (
             <div className="flex justify-center items-center h-full">
