@@ -12,13 +12,14 @@ interface PostMoreDropdownProps {
     handleFollow?: () => void;
     handleBookmark?: () => void;
     isBookmarked?: boolean;
+    isFollowing?: boolean;
 }
 
-export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({ username, onClose, handleFollow, handleBookmark, isBookmarked }) => {
+export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({ username, onClose, handleFollow, handleBookmark, isBookmarked, isFollowing }) => {
     const menuItems = [
         {
             icon: <HiUserAdd className="w-4 h-4" />,
-            label: `Follow ${username}`,
+            label: isFollowing ? `Unfollow ${username}` : `Follow ${username}`,
             onClick: handleFollow
         },
         {
