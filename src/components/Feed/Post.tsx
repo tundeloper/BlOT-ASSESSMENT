@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { BsThreeDotsVertical } from 'react-icons/bs'
 import { AiOutlineHeart, AiFillHeart, AiOutlineSend } from 'react-icons/ai'
@@ -11,20 +11,30 @@ import { BsEmojiSmile } from 'react-icons/bs'
 import { timeAgo } from '@/utils/helper'
 import { PostMoreDropdown } from './PostModal'
 import { useAuthStore } from '@/store/authstore'
-import { createBookmark, createComment, createRepost, deleteBookmark, likePost, unlikePost } from '@/api/post'
-import { followUser } from '@/api/user'
+import { createBookmark, createComment, createRepost, deleteBookmark, likePost, logShare, unlikePost } from '@/api/post'
+import { followUser, unfollowUser } from '@/api/user'
 import { CiImageOn } from 'react-icons/ci'
 import { HiOutlineGif } from "react-icons/hi2";
 import { IoMdBookmark } from 'react-icons/io'
+import { CircularProgress } from '@mui/material'
+import { enqueueSnackbar } from 'notistack'
+import { useTheme } from '@/context/ThemeContext'
 
-const Post = ({ post }: { post: Post }) => {
-    const { user } = useAuthStore()
+const Post = ({ post, isFollowing: isFollowingProp, fetchFollowing, setOpenAuthModal }: { post: Post, isFollowing: boolean, fetchFollowing: () => void, setOpenAuthModal: (open: boolean) => void }) => {
+    const { user, isAuthenticated } = useAuthStore()
+    const { theme } = useTheme()
+    const [isFollowing, setIsFollowing] = useState(isFollowingProp);
     const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
     const [likeCount, setLikeCount] = useState(post?.likes_count);
     const [isMoreDropdownOpen, setIsMoreDropdownOpen] = useState(false);
     const [isCommentFocused, setIsCommentFocused] = useState(false)
+    const [isCommenting, setIsCommenting] = useState(false)
     const [comment, setComment] = useState('');
+
+    useEffect(() => {
+        setIsFollowing(isFollowingProp);
+    }, [isFollowingProp]);
 
     const renderMedia = (media: MediaFile) => {
         if (media.media_type === 'video') {
@@ -42,15 +52,20 @@ const Post = ({ post }: { post: Post }) => {
         return <Image src={media.media_url} alt="Post image" width={500} height={300} className="w-full h-full object-cover" />
     }
 
-    const handleShare = () => {
+    const handleShare = async () => {
         navigator.share({
             title: post?.name,
             text: post?.content,
             url: `${window.location.origin}/post/${post?.id}`,
         });
+        await logShare(post?.id)
     }
 
     const handleLike = async () => {
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
         if (isLiked) {
             setIsLiked(false);
             setLikeCount(likeCount - 1);
@@ -63,21 +78,56 @@ const Post = ({ post }: { post: Post }) => {
     }
 
     const handleComment = async () => {
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
         if (comment.trim() === '') return;
-        await createComment({ post_id: post?.id, content: comment });
-        setComment('');
-        setIsCommentFocused(false)
+        setIsCommenting(true);
+        const res = await createComment({ post_id: post?.id, content: comment });
+        if (res.success) {
+            setComment('');
+            setIsCommentFocused(false);
+            setIsCommenting(false);
+        } else {
+            enqueueSnackbar('Failed to comment', { variant: 'error' });
+            setIsCommenting(false);
+        }
     }
 
     const handleRepost = async () => {
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
         await createRepost({ post_id: post?.id });
     }
 
     const handleFollow = async () => {
-        await followUser(post?.username);
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
+        if (isFollowing) {
+            const res = await unfollowUser(post?.username);
+            if (res.success) {
+                setIsFollowing(false);
+                fetchFollowing();
+            }
+        } else {
+            const res = await followUser(post?.username);
+            if (res.success) {
+                setIsFollowing(true);
+                fetchFollowing();
+            }
+        }
     }
 
     const handleBookmark = async () => {
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
         if (isBookmarked) {
             setIsBookmarked(false);
             await deleteBookmark(post?.id);
@@ -94,7 +144,7 @@ const Post = ({ post }: { post: Post }) => {
                     <div className="flex items-center gap-1">
                         <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                             <Image
-                                src={post?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(post?.name?.trim() || '')}`}
+                                src={post?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(post?.name?.trim() || '')}&format=png`}
                                 alt={post?.name}
                                 width={32}
                                 height={32}
@@ -108,7 +158,7 @@ const Post = ({ post }: { post: Post }) => {
                                 </span>
                             </div>
                             <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-[#3A3D46] dark:text-white">{post?.username}</span>
+                                <span className="text-[10px] text-[#3A3D46] dark:text-white">@{post?.username}</span>
                                 <span className="text-[8px] text-[#3A3D46] dark:text-white">{timeAgo(post?.created_at)}</span>
                             </div>
                         </div>
@@ -124,6 +174,7 @@ const Post = ({ post }: { post: Post }) => {
                                 handleFollow={handleFollow}
                                 handleBookmark={handleBookmark}
                                 isBookmarked={isBookmarked}
+                                isFollowing={isFollowing}
                             />
                         )}
                     </div>
@@ -180,7 +231,7 @@ const Post = ({ post }: { post: Post }) => {
                             {isBookmarked ? (
                                 <IoMdBookmark size={24} color='#2D439B' />
                             ) : (
-                                <IoBookmarkOutline size={24} color='#3A3D46' />
+                                <IoBookmarkOutline size={24} className='text-[#3A3D46] dark:text-white' />
                             )}
                         </button>
                     </div>
@@ -190,7 +241,7 @@ const Post = ({ post }: { post: Post }) => {
                     <div className="flex items-center gap-4">
                         <div className="w-8 h-8 rounded-[20px] overflow-hidden">
                             <Image
-                                src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name?.trim() || 'Anonymous')}`}
+                                src={user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.name?.trim() || 'Anonymous')}&format=png`}
                                 alt={user?.name || 'Anonymous'}
                                 width={32}
                                 height={32}
@@ -198,35 +249,39 @@ const Post = ({ post }: { post: Post }) => {
                             />
                         </div>
                         <div className="flex-1">
-                            <div className={`flex flex-col gap-2 w-full rounded bg-[#E4E6EC] px-3 ${isCommentFocused ? 'py-3' : 'py-1'}`}>
+                            <div className={`flex flex-col gap-2 w-full rounded bg-[#E4E6EC] dark:bg-[#1A1C20] px-3 ${isCommentFocused ? 'py-3' : 'py-1'}`}>
                                 <div className="flex items-center gap-2 w-full">
                                     <input
                                         type="text"
                                         placeholder="Write a comment"
-                                        className="flex-1 bg-transparent text-[12px] text-[#3A3D46] outline-none placeholder:text-[#3A3D46] h-[30px]"
+                                        className="flex-1 bg-transparent text-[12px] text-[#3A3D46] dark:text-white outline-none placeholder:text-[#3A3D46] dark:placeholder:text-white h-[30px]"
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
                                         onFocus={() => setIsCommentFocused(true)}
                                     />
                                     {!isCommentFocused && <button className='cursor-pointer'>
-                                        <BsEmojiSmile size={17} className="text-[#3A3D46]" />
+                                        <BsEmojiSmile size={17} className="text-[#3A3D46] dark:text-white" />
                                     </button>}
                                 </div>
                                 {isCommentFocused && <div className='flex justify-between w-full items-center'>
                                     <div className='flex gap-4 items-center'>
                                         <label htmlFor="image" className='cursor-pointer'>
-                                            <CiImageOn size={20} className="text-[#3A3D46]" />
+                                            <CiImageOn size={20} className="text-[#3A3D46] dark:text-white" />
                                         </label>
                                         <input type="file" id="image" className="hidden" />
                                         <button className='cursor-pointer'>
-                                            <HiOutlineGif size={20} className="text-[#3A3D46]" />
+                                            <HiOutlineGif size={20} className="text-[#3A3D46] dark:text-white" />
                                         </button>
                                         <button className='cursor-pointer'>
-                                            <BsEmojiSmile size={18} className="text-[#3A3D46]" />
+                                            <BsEmojiSmile size={18} className="text-[#3A3D46] dark:text-white" />
                                         </button>
                                     </div>
                                     <button onClick={handleComment} className='cursor-pointer'>
-                                        <AiOutlineSend size={20} className="text-[#3A3D46]" />
+                                        {isCommenting ? (
+                                            <CircularProgress size={20} sx={{ color: theme === 'dark' ? '#fff' : '#3A3D46' }} />
+                                        ) : (
+                                            <AiOutlineSend size={20} className="text-[#3A3D46] dark:text-white" />
+                                        )}
                                     </button>
                                 </div>}
                             </div>

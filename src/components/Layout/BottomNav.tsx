@@ -21,26 +21,30 @@ const BottomNav = () => {
 
     return (
         <nav className="fixed bottom-3 left-0 right-0 z-30">
-            <div className="mx-auto max-w-[360px] rounded-[25px] bg-white dark:bg-[#121212] p-1.5 shadow-lg flex items-center justify-between">
-                <div className="flex items-center justify-between rounded-[25px] bg-[#E4E6EC] dark:bg-[#1E1E1E] h-10">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.path}
-                            href={item.path}
-                            className={`flex items-center gap-0.5 h-full rounded-[25px] px-4 py-1 transition-all ${item.isActive
-                                ? 'bg-[#2D439B] text-white'
-                                : 'text-[#3A3D46] dark:text-white'
-                                }`}
-                        >
-                            <item.icon size={22} />
-                            {item.isActive && (
-                                <span className="text-sm font-normal">{item.label}</span>
-                            )}
-                        </Link>
-                    ))}
+            <div className="mx-auto w-max rounded-[25px] bg-white dark:bg-[#121212] p-1.5 shadow-lg flex items-center justify-between">
+                <div className='gradient-border rounded-full'>
+                    <div className="flex items-center justify-between rounded-[25px] bg-[#E4E6EC] dark:bg-[#1E1E1E] h-10">
+                        {navItems.map((item) => (
+                            <Link
+                                key={item.path}
+                                href={item.path}
+                                className={`flex items-center gap-0.5 h-[95%] rounded-[25px] px-4 py-1 transition-all ${item.isActive
+                                    ? 'bg-[#2D439B] text-white'
+                                    : 'text-[#3A3D46] dark:text-white'
+                                    }`}
+                            >
+                                <item.icon size={22} />
+                                {item.isActive && (
+                                    <span className="text-sm font-normal">{item.label}</span>
+                                )}
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-                <div className='flex items-center justify-center bg-[#E4E6EC] dark:bg-[#1E1E1E] rounded-full w-10 h-10 cursor-pointer'>
-                    <PiSparkleFill size={22} className='text-[#2D439B]' />
+                <div className='gradient-border rounded-full'>
+                    <div className='flex items-center justify-center bg-[#E4E6EC] dark:bg-[#1E1E1E] rounded-full w-10 h-10 cursor-pointer'>
+                        <PiSparkleFill size={22} className='text-[#2D439B]' />
+                    </div>
                 </div>
             </div>
         </nav>

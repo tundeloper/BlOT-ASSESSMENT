@@ -8,3 +8,12 @@ interface Lounge {
     created_by: number;
     member_count: number;
 }
+
+interface NavItem {
+    id: string;
+    label: string;
+    icon: React.ReactNode;
+    hasSubmenu?: boolean;
+    isSelected?: boolean;
+    path: string
+}

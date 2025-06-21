@@ -13,14 +13,14 @@
 }
 
 @utility shadow-card {
-  box-shadow: 0px 0px 8px 0px rgba(0,0,0,0.1);
+  box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.1);
 }
 
 body {
   font-family: 'Switzer', sans-serif;
   overflow-y: hidden;
   overflow-x: hidden;
-  padding:  0px !important;
+  padding: 0px !important;
 }
 
 .scrollbar-hide {
@@ -44,4 +44,14 @@ body {
     background-color: #2D439B;
     border-radius: 4px;
     border: 2px solid #f1f1f1;
+  }
+  .gradient-border {
+  background: linear-gradient(180deg, #2D439B 0%, #9A1B39 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  border: 1px solid transparent;
+  padding: 1px 1.5px 1px 1.5px;
+  color: #333;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

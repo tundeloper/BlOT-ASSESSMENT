@@ -1,11 +1,11 @@
 import React from 'react'
-import Livescore from '@/components/Feed/Livescore'
-import Fixtures from '@/components/Feed/Fixtures'
 import Predictions from '@/components/Feed/Predictions'
 import LoungeVideo from './LoungeVideo'
 import JoinLounge from '../JoinLounge'
 import LoungeNav from '../LoungeNav'
 import Contributors from '../Contributors'
+import Livescore from '@/components/Feed/Livescore'
+import Fixtures from '@/components/Feed/Fixtures'
 
 const LoungeTrend = () => {
     return (
@@ -19,7 +19,7 @@ const LoungeTrend = () => {
                 <LoungeVideo />
             </div>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
-                <Livescore />
+                <Livescore />   
                 <Fixtures />
                 <Predictions />
             </div>

@@ -1,12 +1,7 @@
-import EmojiIcons from '@/assets/svg/emoji_Icon';
-import { useTheme } from '@/context/ThemeContext';
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 
-import football from '../../assets/lounge/football.png';
-import basketball from '../../assets/lounge/basketball.png';
-import nfl from '../../assets/lounge/nfl.png';
-import hockey from '../../assets/lounge/hockey.png';
+import { X, ChevronRight, ChevronLeft, Pause, Play, Smile } from 'lucide-react';
 import FeedWrapper from '../Layout/FeedWrapper';
 
 // Type representing a story
@@ -35,7 +30,7 @@ const STORIES_DURATION = 5000; // Duration per story in ms
 const getTimeAgo = (timestamp: number) => {
   const diff = Date.now() - timestamp;
   const seconds = Math.floor(diff / 1000);
-  if (seconds < 60) return `${seconds}s ago`;
+  if (seconds < 60) return `now`;
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.floor(minutes / 60);
@@ -125,7 +120,6 @@ const StoriesSection: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   //  theme
-  const {theme} = useTheme()
 
   // Utility: group stories by user, always include current user first
   const getGroupedByUser = () => {
@@ -191,10 +185,21 @@ const StoriesSection: React.FC = () => {
     });
   };
   const shareCurrentPreview = () => {
-    const item = previewItems[previewIndex];
-    const newStory: Story = { id: item.id, url: item.url, type: item.type, user: CURRENT_USER, avatar: undefined, timestamp: Date.now(), caption: item.caption };
+    // const item = previewItems[previewIndex];
+    // const newStory: Story = { id: item.id, url: item.url, type: item.type, user: CURRENT_USER, avatar: undefined, timestamp: Date.now(), caption: item.caption };
     // send to backend
-    setStories(prev => [newStory, ...prev]);
+    const mappedPreview = previewItems.map(item => ({
+  id: item.id,
+  url: item.url,
+  type: item.type,
+  user: CURRENT_USER,
+  avatar: undefined,
+  timestamp: Date.now(),
+  caption: item.caption
+}));
+    // setStories(prev => [newStory, ...prev]);
+    setStories(prev => [...mappedPreview, ...prev]);
+    closePreview();
     discardPreview();
   };
   const closePreview = () => { setIsPreviewOpen(false); setPreviewItems([]); setPreviewIndex(0); };
@@ -353,17 +358,13 @@ const StoriesSection: React.FC = () => {
                 <Image width={300} height={300} src={previewItems[previewIndex].url} alt="preview" className="max-w-full max-h-full object-contain" />
               )}
               {previewIndex > 0 && (
-                <button onClick={goPrevPreview} className="absolute left-2 text-white bg-[#F9FAFB] bg-opacity-50 p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                  </svg>
+                <button onClick={goPrevPreview} className="absolute left-2 text-[#ffffff] bg-[#E4E6EC] shadow-md p-2 rounded-full">
+                  <ChevronLeft className="h-5 w-5 text-[#1E1E1E]"/>
                 </button>
               )}
               {previewIndex < previewItems.length - 1 && (
-                <button onClick={goNextPreview} className="absolute right-2 text-white bg-[#FFFFF]  p-2 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <button onClick={goNextPreview} className="absolute right-2 text-white bg-[#E4E6EC] shadow-md p-2 rounded-full">
+                  <ChevronRight className="h-5 w-5 text-[#1E1E1E]"/>
                 </button>
               )}
             </div>
@@ -384,9 +385,7 @@ const StoriesSection: React.FC = () => {
             </div>
             {/* Close preview */}
             <button onClick={closePreview} className="absolute top-2 right-2 text-[black] dark:text-white">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <X className="h-5 w-5"/>
             </button>
           </div>
         </div>
@@ -398,7 +397,7 @@ const StoriesSection: React.FC = () => {
       {isViewerOpen && currentUserStories.length > 0 && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50" onClick={togglePause} onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
           {/* Top row: progress + close */}
-          <div className="absolute flex justify-between items-center top-0 left-0 w-full p-2 bg-black bg-opacity-50 flex(items-center justify-between)" onClick={e => e.stopPropagation()}>
+          <div className="absolute flex justify-between items-center top-0 left-0 w-full p-2 bg-opacity-50 flex(items-center justify-between) z-60" onClick={e => e.stopPropagation()}>
             <div className="flex-1 mx-2 flex space-x-1">
               {currentUserStories.map((_, idx) => (
                 <div key={idx} className="flex-1 h-1 bg-gray-500 rounded">
@@ -406,36 +405,34 @@ const StoriesSection: React.FC = () => {
                 </div>
               ))}
             </div>
-            <button onClick={closeViewer} className="text-white p-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+            <button onClick={() => {closeViewer(); closePreview()}} className="text-white p-2 cursor-pointer">
+              <X className="h-5 w-5"/>
             </button>
           </div>
           {/* Details & controls below progress */}
           <div className="absolute flex justify-between items-center top-8 left-0 w-full p-4 flex(items-center justify-between) text-white" onClick={e => e.stopPropagation()}>
             <div className="flex items-center space-x-2">
               {currentUserStories[currentIndex].avatar ? (
-                <Image width={300} height={300} src={currentUserStories[currentIndex].avatar} alt={currentUserStories[currentIndex].user} className="w-8 h-8 rounded-full object-cover" />
+                <Image width={300} height={300} src={currentUserStories[currentIndex].avatar} alt={currentUserStories[currentIndex].user} className="w-12 h-12 rounded-full object-cover" />
               ) : (
-                <div className="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gray-500 flex items-center justify-center">
                   <span className="text-white text-sm">{currentUserStories[currentIndex].user.charAt(0)}</span>
                 </div>
               )}
               <div className="flex flex-col">
                 <span className="font-semibold text-sm">{currentUserStories[currentIndex].user}</span>
-                <span className="text-xs">{getTimeAgo(currentUserStories[currentIndex].timestamp)}</span>
+                <div className='flex gap-2'>
+                  {/* <span className="text-xs text-gray-300">{currentUserStories[currentIndex].caption || 'No caption'}</span> */}
+                  <span className="text-xs text-gray-300">@{currentUserStories[currentIndex].user.toLocaleLowerCase() || 'No caption'}</span>
+                  <span className="text-xs">{getTimeAgo(currentUserStories[currentIndex].timestamp)}</span>
+                </div>
               </div>
             </div>
             <button onClick={togglePause} className="text-white">
               {isPaused ? (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 19l-8-7 8-7" />
-                </svg>
+                <Play className='h-5 w-5'/>
               ) : (
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 9v6m4-6v6" />
-                </svg>
+                <Pause className='h-5 w-5'/>
               )}
             </button>
           </div>
@@ -443,13 +440,13 @@ const StoriesSection: React.FC = () => {
           {/* Content Area */}
           <div className="relative w-full h-full flex items-center justify-center">
             {/* Prev Arrow */}
-            <button onClick={e => { e.stopPropagation(); handlePrevStory(); }} className="absolute left-4 text-white bg-black bg-opacity-30 p-2 rounded-full">
+            <button onClick={e => { e.stopPropagation(); handlePrevStory(); }} className="absolute left-4 text-white bg-black  bg-opacity-30 p-2 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             {/* Next Arrow */}
-            <button onClick={e => { e.stopPropagation(); handleNextStory(); }} className="absolute right-4 text-white bg-black bg-opacity-30 p-2 rounded-full">
+            <button onClick={e => { e.stopPropagation(); handleNextStory(); }} className="absolute right-4 text-white bg-black  bg-opacity-30 p-2 rounded-full">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -465,10 +462,11 @@ const StoriesSection: React.FC = () => {
             </div>
 
             {/* Reply Input */}
-            {currentUserStories && <div className="max-w-4xl mb-12 absolute bottom-0 p-4 w-full flex items-center" onClick={e => e.stopPropagation()}>
-              <input type="text" placeholder="Write a reply" className="flex-1 p-2 rounded-full bg-white bg-opacity-80 text-black placeholder-gray-600 focus:outline-none" />
+            {currentUserStories && <div className="max-w-[515px] absolute bottom-0 p-4 w-full flex items-center" onClick={e => e.stopPropagation()}>
+              <input type="text" placeholder="Write a reply" className="flex-1 p-2 h-[32px] max-w-[515px] w-full rounded-md text-[10px] md:text-[13px] bg-white bg-opacity-80 text-black placeholder-gray-600 focus:outline-none" />
               <button className="ml-2 text-white">
-                <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
+                <Smile className="h-6 w-6 text-[#ffffff]"/>
+                {/* <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} /> */}
               </button>
             </div>}
           </div>

@@ -29,6 +29,7 @@ const Stories = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [showStories, setShowStories] = useState(false);
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -50,10 +51,10 @@ const Stories = () => {
 
   return (
     <div className="bg-inherit md:bg-white md:dark:bg-[#121212] rounded p-0 md:p-4 flex flex-col gap-2.5">
-      <div className="hidden md:flex justify-between items-center">
-        <button className="flex items-center cursor-pointer">
+      <div className="flex justify-between items-center">
+        <button className="flex items-center cursor-pointer" onClick={() => setShowStories(!showStories)}>
           <span className="text-[10px] text-[#3A3D46] dark:text-white">All stories</span>
-          <IoChevronDown size={16} className="text-[#3A3D46] dark:text-white" />
+          <IoChevronDown size={16} className={`text-[#3A3D46] dark:text-white ${showStories ? 'rotate-180' : ''}`} />
         </button>
 
         <div className="flex items-center gap-2">
@@ -62,7 +63,7 @@ const Stories = () => {
             className={`h-6 w-6 flex items-center justify-center rounded ${
               canScrollLeft
                 ? 'bg-[#2D439B] text-white cursor-pointer'
-                : 'bg-[#F5F5F5] text-[#7A7F8C] cursor-not-allowed'
+                : 'bg-[#F5F5F5] dark:bg-[#121212] text-[#7A7F8C] cursor-not-allowed'
             }`}
             disabled={!canScrollLeft}
           >
@@ -73,7 +74,7 @@ const Stories = () => {
             className={`h-6 w-6 flex items-center justify-center rounded ${
               canScrollRight
                 ? 'bg-[#2D439B] text-white cursor-pointer'
-                : 'bg-[#F5F5F5] text-[#7A7F8C] cursor-not-allowed'
+                : 'bg-[#F5F5F5] dark:bg-[#121212] text-[#7A7F8C] cursor-not-allowed'
             }`}
             disabled={!canScrollRight}
           >
@@ -85,10 +86,11 @@ const Stories = () => {
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="flex gap-4 overflow-x-auto scrollbar-hide"
+        className={`gap-4 overflow-x-auto scrollbar-hide ${showStories ? 'flex' : 'hidden'}`}
       >
         <StoriesSection />
         {/* {stories.map((story) => (
+        {stories.map((story) => (
           <div
             key={story.id}
             className="flex flex-col items-center gap-0.5 min-w-[55px] grow cursor-pointer"
@@ -106,7 +108,7 @@ const Stories = () => {
                 />
               </div>
               {story.isYourStory && (
-                <div className="absolute bottom-0 right-0 w-5 h-5 rounded-[5px] bg-[#2D439B] border-2 border-white flex items-center justify-center">
+                <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-[#2D439B] border-2 border-white flex items-center justify-center">
                   <IoAddOutline size={14} className="text-white" />
                 </div>
               )}
