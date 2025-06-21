@@ -5,6 +5,8 @@ interface Post {
     author_id: number,
     created_at: string,
     likes_count: number,
+    is_liked: boolean,
+    is_bookmarked: boolean,
     hashtags: string,
     media_url: string,
     media_type: string,
