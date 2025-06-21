@@ -20,7 +20,7 @@ const BottomNav = () => {
     ]
 
     return (
-        <nav className="fixed bottom-3 left-0 right-0 z-50">
+        <nav className="fixed bottom-3 left-0 right-0 z-30">
             <div className="mx-auto max-w-[360px] rounded-[25px] bg-white dark:bg-[#121212] p-1.5 shadow-lg flex items-center justify-between">
                 <div className="flex items-center justify-between rounded-[25px] bg-[#E4E6EC] dark:bg-[#1E1E1E] h-10">
                     {navItems.map((item) => (

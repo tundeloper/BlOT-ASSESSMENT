@@ -1,28 +1,29 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
-import { IoAddOutline } from 'react-icons/io5'
+// import { IoAddOutline } from 'react-icons/io5'
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5'
-import Image from 'next/image'
-import logo from '@/assets/logo.png'
+// import Image from 'next/image'
+// import logo from '@/assets/logo.png'
+import StoriesSection from './StoriesSection'
 
-interface Story {
-  id: number;
-  name: string;
-  avatar: string;
-  isYourStory?: boolean;
-}
+// interface Story {
+//   id: number;
+//   name: string;
+//   avatar: string;
+//   isYourStory?: boolean;
+// }
 
-const stories: Story[] = [
-  { id: 1, name: 'Your Story', avatar: logo.src, isYourStory: true },
-  { id: 2, name: 'Justin Anyanwu', avatar: logo.src },
-  { id: 3, name: 'Paul Chiambase', avatar: logo.src },
-  { id: 4, name: 'Obi Chioma', avatar: logo.src },
-  { id: 5, name: 'Rejoice Imoisime', avatar: logo.src },
-  { id: 6, name: 'Emperor blessed', avatar: logo.src },
-  { id: 7, name: 'Ifeanyi Anyanwu', avatar: logo.src },
-  { id: 8, name: 'Adebayo christian', avatar: logo.src }
-];
+// const stories: Story[] = [
+//   { id: 1, name: 'Your Story', avatar: logo.src, isYourStory: true },
+//   { id: 2, name: 'Justin Anyanwu', avatar: logo.src },
+//   { id: 3, name: 'Paul Chiambase', avatar: logo.src },
+//   { id: 4, name: 'Obi Chioma', avatar: logo.src },
+//   { id: 5, name: 'Rejoice Imoisime', avatar: logo.src },
+//   { id: 6, name: 'Emperor blessed', avatar: logo.src },
+//   { id: 7, name: 'Ifeanyi Anyanwu', avatar: logo.src },
+//   { id: 8, name: 'Adebayo christian', avatar: logo.src }
+// ];
 
 const Stories = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -86,8 +87,8 @@ const Stories = () => {
         onScroll={handleScroll}
         className="flex gap-4 overflow-x-auto scrollbar-hide"
       >
-
-        {stories.map((story) => (
+        <StoriesSection />
+        {/* {stories.map((story) => (
           <div
             key={story.id}
             className="flex flex-col items-center gap-0.5 min-w-[55px] grow cursor-pointer"
@@ -114,7 +115,7 @@ const Stories = () => {
               {story.name}
             </span>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

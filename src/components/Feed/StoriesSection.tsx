@@ -1,10 +1,18 @@
+import EmojiIcons from '@/assets/svg/emoji_Icon';
+import { useTheme } from '@/context/ThemeContext';
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
+
+import football from '../../assets/lounge/football.png';
+import basketball from '../../assets/lounge/basketball.png';
+import nfl from '../../assets/lounge/nfl.png';
+import hockey from '../../assets/lounge/hockey.png';
+import FeedWrapper from '../Layout/FeedWrapper';
 
 // Type representing a story
 interface Story {
   id: string;
-  url: string;
+  url: string ; // URL.createObjectURL(file) for local files should be string in real version ;
   type: 'image' | 'video';
   user: string;
   avatar?: string;
@@ -16,7 +24,7 @@ interface Story {
 interface PreviewItem {
   id: string;
   file: File;
-  url: string;
+  url: string; // URL.createObjectURL(file) for local files should be string in real version 
   type: 'image' | 'video';
   caption: string;
 }
@@ -45,30 +53,57 @@ const StoriesSection: React.FC = () => {
     return [
       // Alice has 3 stories
       {
-        id: 'alice-1', url: 'https://via.placeholder.com/400x700?text=Alice+Story+1', type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10,
+        id: 'alice-1', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10,
       },
       {
-        id: 'alice-2', url: 'https://via.placeholder.com/400x700?text=Alice+Story+2', type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 8,
+        id: 'alice-2', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 8,
       },
       {
-        id: 'alice-3', url: 'https://via.placeholder.com/400x700?text=Alice+Story+3', type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 5,
+        id: 'alice-3', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 5,
       },
       // Bob has 2 stories
       {
-        id: 'bob-1', url: 'https://via.placeholder.com/400x700?text=Bob+Story+1', type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 40,
+        id: 'bob-1', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 40,
       },
       {
-        id: 'bob-2', url: 'https://via.placeholder.com/400x700?text=Bob+Story+2', type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 30,
+        id: 'bob-2', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 30,
       },
       // Charlie has 3 stories
       {
-        id: 'charlie-1', url: 'https://via.placeholder.com/400x700?text=Charlie+Story+1', type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 90,
+        id: 'charlie-1', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 90,
       },
       {
-        id: 'charlie-2', url: 'https://via.placeholder.com/400x700?text=Charlie+Story+2', type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 60,
+        id: 'charlie-2', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 60,
       },
       {
-        id: 'charlie-3', url: 'https://via.placeholder.com/400x700?text=Charlie+Story+3', type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 30,
+        id: 'charlie-3', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 30,
+      },
+
+      {
+        id: 'alice-5', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10,
+      },
+      {
+        id: 'alice-4', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 8,
+      },
+      {
+        id: 'alice-6', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 5,
+      },
+      // Bob has 2 stories
+      {
+        id: 'bob6', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob2', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 40,
+      },
+      {
+        id: 'bob-7', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob2', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 30,
+      },
+      // Charlie has 3 stories
+      {
+        id: 'charlie-5', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 90,
+      },
+      {
+        id: 'charlie-6', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 60,
+      },
+      {
+        id: 'charlie-7', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 30,
       },
       // Ensure current user group present (empty initially)
     ];
@@ -88,6 +123,9 @@ const StoriesSection: React.FC = () => {
   const [previewIndex, setPreviewIndex] = useState(0);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  //  theme
+  const {theme} = useTheme()
 
   // Utility: group stories by user, always include current user first
   const getGroupedByUser = () => {
@@ -268,12 +306,12 @@ const StoriesSection: React.FC = () => {
   return (
     <div className="w-full">
       {/* Stories List: current user always visible first */}
-      <div className="flex items-center py-1">
+      <div className="flex gap-3 items-center px-2 py-1">
         {groupedByUser.map(group => {
           const isCurrent = group.user === CURRENT_USER;
           return (
-            <div key={group.user} className="relative flex flex-col items-center" onClick={() => isCurrent ? handleCurrentUserClick() : openViewer(group.stories)}>
-              <div className={`w-11 h-11 rounded-full overflow-hidden ${isCurrent ? 'ring-2 ring-blue-500' : 'ring-0'}`}> 
+            <div key={group.user} className="relative flex flex-col gap-2 items-center" onClick={() => isCurrent ? handleCurrentUserClick() : openViewer(group.stories)}>
+              <div className={`w-14 h-14 rounded-full overflow-hidden ${isCurrent ? 'ring-2 ring-blue-500' : 'ring-2 ring-gray-300 dark:ring-gray-600'}`}> 
                 {group.avatar ? (
                   <Image width={50} height={50} src={group.avatar} alt={group.user} className="w-full h-full object-cover" />
                 ) : (
@@ -282,12 +320,12 @@ const StoriesSection: React.FC = () => {
                   </div>
                 )}
               </div>
-              <span className="text-xs mt-1 truncate w-20 text-center">
+              <span className="text-[8px] text-[#3A3D46] text-center w-full truncate dark:text-white">
                 {isCurrent ? 'Your Story' : group.user}
               </span>
-              {/* Add indicator + always visible */}
+              {/* Add indicator and always visible */}
               {isCurrent && (
-                <button onClick={(e) => { e.stopPropagation(); handleCurrentUserClick(); }} className="absolute bottom-5 right-[10px] bg-blue-500 rounded-full p-1">
+                <button onClick={(e) => { e.stopPropagation(); handleCurrentUserClick(); }} className="absolute bottom-5 border-white border flex right-[-3px] bg-[#2D439B] rounded-md p-[1px]">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
@@ -303,24 +341,26 @@ const StoriesSection: React.FC = () => {
 
       {/* Preview Modal before sharing */}
       {isPreviewOpen && previewItems.length > 0 && (
-        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50" onTouchStart={handlePreviewTouchStart} onTouchEnd={handlePreviewTouchEnd}>
-          <div className="relative w-full max-w-md bg-white rounded-lg overflow-hidden">
+        <div className='fixed inset-0 bg-[#F9FAFB] dark:bg-[#1E1E1E] z-80'>
+          <FeedWrapper>
+        <div className="flex  h-[80vh] items-center justify-center" onTouchStart={handlePreviewTouchStart} onTouchEnd={handlePreviewTouchEnd}>
+          <div className="relative w-full max-w-md  overflow-hidden">
             {/* Preview Content */}
-            <div className="relative w-full h-96 bg-black flex items-center justify-center">
+            <div className="relative w-full h-96 bg-[#F9FAFB] dark:bg-[#1E1E1E] flex items-center justify-center">
               {previewItems[previewIndex].type === 'video' ? (
                 <video src={previewItems[previewIndex].url} controls className="max-w-full max-h-full" />
               ) : (
                 <Image width={300} height={300} src={previewItems[previewIndex].url} alt="preview" className="max-w-full max-h-full object-contain" />
               )}
               {previewIndex > 0 && (
-                <button onClick={goPrevPreview} className="absolute left-2 text-white bg-black bg-opacity-50 p-2 rounded-full">
+                <button onClick={goPrevPreview} className="absolute left-2 text-white bg-[#F9FAFB] bg-opacity-50 p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
               )}
               {previewIndex < previewItems.length - 1 && (
-                <button onClick={goNextPreview} className="absolute right-2 text-white bg-black bg-opacity-50 p-2 rounded-full">
+                <button onClick={goNextPreview} className="absolute right-2 text-white bg-[#FFFFF]  p-2 rounded-full">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
@@ -333,22 +373,24 @@ const StoriesSection: React.FC = () => {
                 value={previewItems[previewIndex].caption}
                 onChange={e => setPreviewItems(prev => prev.map((item, idx) => idx === previewIndex ? { ...item, caption: e.target.value } : item))}
                 placeholder="Add a caption..."
-                className="w-full p-2 border rounded resize-none"
-                rows={2}
+                className="w-full p-2 border rounded resize-none text-[10px] md:text-[13px] outline-none focus:outline-none focus:border-none focus:ring-2 focus:ring-[#2D439B]"
+                rows={1}
               />
             </div>
             {/* Actions: Discard, Share */}
-            <div className="flex justify-between p-4 border-t">
-              <button onClick={discardPreview} className="px-4 py-2 bg-red-500 text-white rounded">Discard</button>
-              <button onClick={shareCurrentPreview} className="px-4 py-2 bg-blue-600 text-white rounded">Share to Story</button>
+            <div className="flex justify-between p-4 gap-2 md:gap-4">
+              <button onClick={discardPreview} className="flex-1 px-4 py-2 cursor-pointer bg-[#7A7F8C] text-white rounded">Discard</button>
+              <button onClick={shareCurrentPreview} className="flex-1 px-4 py-2 cursor-pointer bg-[#2D439B] text-white rounded">Share to Story</button>
             </div>
             {/* Close preview */}
-            <button onClick={closePreview} className="absolute top-2 right-2 text-white">
+            <button onClick={closePreview} className="absolute top-2 right-2 text-[black] dark:text-white">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
           </div>
+        </div>
+        </FeedWrapper>
         </div>
       )}
 
@@ -423,14 +465,12 @@ const StoriesSection: React.FC = () => {
             </div>
 
             {/* Reply Input */}
-            <div className="absolute bottom-0 w-full p-4 flex items-center" onClick={e => e.stopPropagation()}>
+            {currentUserStories && <div className="max-w-4xl mb-12 absolute bottom-0 p-4 w-full flex items-center" onClick={e => e.stopPropagation()}>
               <input type="text" placeholder="Write a reply" className="flex-1 p-2 rounded-full bg-white bg-opacity-80 text-black placeholder-gray-600 focus:outline-none" />
               <button className="ml-2 text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
               </button>
-            </div>
+            </div>}
           </div>
         </div>
       )}
