@@ -160,7 +160,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
             onChange={(e) => handleChoiceChange(index, e.target.value)}
             className="w-full p-[6px_12px] border border-[#D9D9D9] focus:outline-none text-[13px] text-[#7A7F8C] md:text-[13px] focus:ring-1 focus:ring-[black] dark:focus:ring-white"
           />
-          {choices.length > MIN_CHOICES && (
+          {choices.length > 20 && ( // Show remove button only if more than 2 choices  ahould be 2 choices minimum MIN_CHOICES
             <button
               onClick={() => handleRemoveChoice(index)}
               className="ml-2 text-gray-400 hover:text-red-500"
