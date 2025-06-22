@@ -77,7 +77,7 @@ const Lounges: React.FC = () => {
           alt="Stadium"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0  bg-gradient-to-b from-[#00000000] via-[#ffffff00] to-[#ffffffda]" />
+        <div className="absolute inset-0  bg-gradient-to-b from-[#00000000] via-[#ffffff00] to-[#ffffff]" />
         <div className="absolute hidden mt-[-6rem] inset-0 md:flex flex-col items-center justify-center px-4">
           <h2 className="text-4xl sm:text-[39px] font-medium text-[#FFFFFF] text-center">
             Discover Lounges
