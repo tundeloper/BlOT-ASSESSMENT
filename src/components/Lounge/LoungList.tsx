@@ -21,14 +21,14 @@ const lounges = [
   { id: 6, title: 'Boxing', image: boxing, members: '990k' },
   { id: 7, title: 'Cycling', image: cycling, members: '990k' },
   { id: 8, title: 'Tennis', image: tennis, members: '990k' },
-  { id: 9, title: 'Football', image: football, members: '990k' },
+    { id: 9, title: 'Football', image: football, members: '990k' },
   { id: 10, title: 'Basket Ball', image: basketball, members: '990k' },
-  { id: 11, title: 'The NFL', image: nfl, nfl: '990k' },
-  { id: 12, title: 'Hockey', image: hockey, hockey: '990k' },
-  { id: 13, title: 'Golf', image: golf, golf: '990k' },
-  { id: 14, title: 'Boxing', image: boxing, boxing: '990k' },
-  { id: 15, title: 'Cycling', image: cycling, cycling: '990k' },
-  { id: 16, title: 'Tennis', image: tennis, tennis: '990k' },
+  { id: 11, title: 'The NFL', image: nfl, members: '990k' },
+  { id: 12, title: 'Hockey', image: hockey, members: '990k' },
+  { id: 13, title: 'Golf', image: golf, members: '990k' },
+  { id: 14, title: 'Boxing', image: boxing, members: '990k' },
+  { id: 15, title: 'Cycling', image: cycling, members: '990k' },
+  { id: 16, title: 'Tennis', image: tennis, members: '990k' },
   // add more items as needed
 ];
 
@@ -41,17 +41,17 @@ export default function LoungeGrid() {
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="md:text-[31px] font-semibold text-[#1E1E1E] mb-6">Lounges</h1>
+      <div className="flex justify-between items-center mb-3 md:mb-6">
+        <h1 className="md:text-[31px] font-semibold text-[#1E1E1E] ">Lounges</h1>
         <div className="relative flex items-center">
           <input
             type="text"
             placeholder="Search Lounges"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            className="pr-10 pl-4 py-2 w-[200px] h-[25px] md:w-[350px] md:h-[33px] text-[10px] md:text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#1E1E1E]"
+            className="pr-10 pl-2 md:pl-4 py-2 w-[200px] h-[25px] md:w-[350px] md:h-[33px] text-[10px] md:text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#1E1E1E]"
           />
-          <Search className="w-5 h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" />
+          <Search className="w-3 h-3 md:w-5 md:h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" />
         </div>
       </div>
 

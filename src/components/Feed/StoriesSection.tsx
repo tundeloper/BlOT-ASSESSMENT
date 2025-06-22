@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import React, { useState, useRef, useEffect } from 'react';
 
-import { X, ChevronRight, ChevronLeft, Pause, Play, Smile } from 'lucide-react';
+import { X, ChevronRight, ChevronLeft, Pause, Play, Smile, Ellipsis } from 'lucide-react';
 import FeedWrapper from '../Layout/FeedWrapper';
 
 // Type representing a story
@@ -428,6 +428,7 @@ const StoriesSection: React.FC = () => {
                 </div>
               </div>
             </div>
+            <div className='flex items-center space-x-2'>
             <button onClick={togglePause} className="text-white">
               {isPaused ? (
                 <Play className='h-5 w-5'/>
@@ -435,6 +436,11 @@ const StoriesSection: React.FC = () => {
                 <Pause className='h-5 w-5'/>
               )}
             </button>
+            <button className="text-white cursor-pointer">
+              <Ellipsis className="h-3 w-3 md:h-5 md:w-5"/>
+              {/* <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} /> */}
+            </button>
+            </div>
           </div>
 
           {/* Content Area */}

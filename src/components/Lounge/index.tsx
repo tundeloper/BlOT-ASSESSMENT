@@ -1,8 +1,17 @@
+"use client";
 import Image from "next/image";
-import React from "react";
-import football from "@/assets/football_dummy.png";
+import React, { useEffect } from "react";
+import football from "@/assets/lounge/football.png";
+import basketball from "@/assets/lounge/basketball.png";
+import nfl from "@/assets/lounge/nfl.png";
+import tenis from "@/assets/lounge/tennis.png";
+import boxing from "@/assets/lounge/boxing.png";
+import golf from "@/assets/lounge/golf.png";
 import LoungeGrid from "./LoungList";
 import { Share, Users } from "lucide-react";
+import axios from "axios";
+// import stadiumImage from "../../assets/lounge/hero image.png"
+
 
 // interface Lounge {
 //   id: number;
@@ -26,26 +35,42 @@ import { Share, Users } from "lucide-react";
 // ];
 
 const Lounges: React.FC = () => {
+  useEffect(() => {
+    (async () => {
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/lounges`);
+        console.log("Lounges fetched successfully:", response.data);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          // Handle Axios error 
+          console.log("Axios error fetching lounges:", error.message);
+        } else {
+          // Handle non-Axios error
+          console.log("Unexpected error fetching lounges:", error);
+        }        
+      }
+    })()
+  }, []);
   return (
     <div className={`w-full bg-contain `}>
       {/* Header with background image and overlay */}
       <div
-        className={`relative w-full h-[25vh] md:h-[65vh] bg-cover bg-center  ${
+        className={`relative w-full h-[25vh] md:h-[70vh] bg-cover bg-center  ${
           ""
           // darkMode ? "gradient-mask-dark" : "gradient-mask"
         }`}
         style={{
-          backgroundImage: `
+    backgroundImage: `
       linear-gradient(to bottom, #14141414, #14141414, #ffffffc8, #f5f5f5d3),
-      url('https://populous.com/uploads/2018/01/Tottenham-Hotspur-Stadium_1-1-1200x675-c-center.jpg')
+      url("/image/hero%20image.png")
     `,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-[#00000000] via-[#ffffff00] to-[#ffffff]" />
-        <div className="absolute hidden inset-0 md:flex flex-col items-center justify-center px-4">
+        <div className="absolute inset-0  bg-gradient-to-b from-[#00000000] via-[#ffffff00] to-[#ffffffda]" />
+        <div className="absolute hidden mt-[-6rem] inset-0 md:flex flex-col items-center justify-center px-4">
           <h2 className="text-4xl sm:text-[39px] font-medium text-[#FFFFFF] text-center">
             Discover Lounges
           </h2>
@@ -60,8 +85,8 @@ const Lounges: React.FC = () => {
       </div>
 
       {/* Lounges Section */}
-      <div className="mx-auto px-[16px] md:px-[64px] py-[16px]">
-        <h3 className="md:text-[31px] font-semibold text-[#1E1E1E] mb-6">
+      <div className="mx-auto px-[16px] md:px-[64px] py-0 ">
+        <h3 className="md:text-[31px] mb-3 font-semibold text-[#1E1E1E] md:mb-6">
           Top Lounges
         </h3>
         <div className="flex flex-col md:flex-rowitems-start justify-center-center gap-3 md:gap-6 w-full">
@@ -73,7 +98,7 @@ const Lounges: React.FC = () => {
           {/* first colum and first row */}
           <div className="relative rounded-sm overflow-hidden w-full shadow-lg bg-[#fffff] ">
           <div className="relative row-start-1 h-[200px] md:h-[300px] w-full">
-            <Image width={300} height={300} src={football} alt="Basket Ball" className="object-cover w-full h-full" />
+            <Image width={300} height={300} src={basketball} alt="Basket Ball" className="object-cover w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="row-start-2 p-4 flex flex-col justify-end">
@@ -93,7 +118,7 @@ const Lounges: React.FC = () => {
         {/* first colum and second row */}
         <div className="relative rounded-sm overflow-hidden w-full shadow-lg bg-white ">
           <div className="relative row-start-1 h-[200px] md:h-[500px] w-full">
-            <Image width={300} height={300} src={football} alt="Basket Ball" className="object-cover w-full h-full" />
+            <Image width={300} height={300} src={tenis} alt="Basket Ball" className="object-cover w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="row-start-2 p-4 flex flex-col justify-end">
@@ -115,7 +140,7 @@ const Lounges: React.FC = () => {
           {/* second colum and first row */}
         <div className="relative rounded-sm overflow-hidden w-full shadow-lg bg-white ">
           <div className="relative row-start-1 h-[200px] md:h-[500px] w-full">
-            <Image width={300} height={300} src={football} alt="Basket Ball" className="object-cover w-full h-full" />
+            <Image width={300} height={300} src={nfl} alt="Basket Ball" className="object-cover w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="row-start-2 p-4 flex flex-col justify-end">
@@ -135,7 +160,7 @@ const Lounges: React.FC = () => {
         {/* second colum and second row */}
         <div className="relative rounded-sm overflow-hidden w-full shadow-lg bg-white ">
           <div className="relative row-start-1 h-[200px] md:h-[300px] w-full">
-            <Image width={300} height={300} src={football} alt="Basket Ball" className="object-cover w-full h-full" />
+            <Image width={300} height={300} src={golf} alt="Basket Ball" className="object-cover w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="row-start-2 p-4 flex flex-col justify-end">
@@ -176,7 +201,7 @@ const Lounges: React.FC = () => {
 
         <div className="relative rounded-sm overflow-hidden w-full shadow-lg bg-white ">
           <div className="relative row-start-1 h-[200px] md:h-[500px] w-full">
-            <Image width={300} height={300} src={football} alt="Basket Ball" className="object-cover w-full h-full" />
+            <Image width={300} height={300} src={boxing} alt="Basket Ball" className="object-cover w-full h-full" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
           </div>
           <div className="row-start-2 p-4 flex flex-col justify-end">
