@@ -13,22 +13,22 @@ import Image from 'next/image';
 
 // Sample lounge data
 const lounges = [
-  { id: 1, title: 'Football', image: football, members: '990k' },
-  { id: 2, title: 'Basket Ball', image: basketball, members: '990k' },
-  { id: 3, title: 'The NFL', image: nfl, members: '990k' },
-  { id: 4, title: 'Hockey', image: hockey, members: '990k' },
-  { id: 5, title: 'Golf', image: golf, members: '990k' },
-  { id: 6, title: 'Boxing', image: boxing, members: '990k' },
-  { id: 7, title: 'Cycling', image: cycling, members: '990k' },
-  { id: 8, title: 'Tennis', image: tennis, members: '990k' },
-    { id: 9, title: 'Football', image: football, members: '990k' },
-  { id: 10, title: 'Basket Ball', image: basketball, members: '990k' },
-  { id: 11, title: 'The NFL', image: nfl, members: '990k' },
-  { id: 12, title: 'Hockey', image: hockey, members: '990k' },
-  { id: 13, title: 'Golf', image: golf, members: '990k' },
-  { id: 14, title: 'Boxing', image: boxing, members: '990k' },
-  { id: 15, title: 'Cycling', image: cycling, members: '990k' },
-  { id: 16, title: 'Tennis', image: tennis, members: '990k' },
+  { id: 1, title: 'Football', image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 2, title: 'Basket Ball', image: basketball, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 3, title: 'The NFL', image: nfl, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 4, title: 'Hockey', image: hockey, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 5, title: 'Golf', image: golf, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 6, title: 'Boxing', image: boxing, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 7, title: 'Cycling', image: cycling, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 8, title: 'Tennis', image: tennis, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 9, title: 'Football', image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 10, title: 'Basket Ball', image: basketball, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 11, title: 'The NFL', image: nfl, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 12, title: 'Hockey', image: hockey, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 13, title: 'Golf', image: golf, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 14, title: 'Boxing', image: boxing, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 15, title: 'Cycling', image: cycling, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 16, title: 'Tennis', image: tennis, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
   // add more items as needed
 ];
 
@@ -41,7 +41,7 @@ export default function LoungeGrid() {
   return (
     <div className="h-screen flex flex-col">
       {/* Header */}
-      <div className="flex justify-between items-center mb-3 md:mb-6">
+      <div className="flex justify-between items-center mb-2 md:mb-2">
         <h1 className="md:text-[31px] font-semibold text-[#1E1E1E] ">Lounges</h1>
         <div className="relative flex items-center">
           <input
@@ -70,11 +70,12 @@ export default function LoungeGrid() {
                 />
               </div>
               <div className="p-4 flex flex-col justify-between h-40">
-                <h2 className="text-center text-lg font-medium mb-4">{lounge.title}</h2>
+                <h2 className="text-center text-[##1E1E1E] text-[13px] md:text-[16px] font-medium mb-4">{lounge.title}</h2>
+                <p className="text-center text-[8px] md:text-[13px] text-[#3A3D46] mb-4">{lounge.description}</p>
                 <div className="flex justify-between items-center text-gray-500">
                   <div className="flex items-center space-x-1">
                     <Users className="w-5 h-5" />
-                    <span className="text-sm">{lounge.members}</span>
+                    <span className="text-[8px] md:text-sm">{lounge.members}</span>
                   </div>
                   <Share className="w-6 h-6 text-gray-400 hover:text-gray-600 cursor-pointer rotate-90 " />
                 </div>

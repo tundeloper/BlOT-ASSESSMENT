@@ -78,7 +78,7 @@ const AddPost = () => {
   };
 
   const handleSubmit = async () => {
-      // TODO: Add your API submission logic here
+      // API submission logic 
       const formData = new FormData();
       formData.append("content", text);
       files.forEach((item) => {

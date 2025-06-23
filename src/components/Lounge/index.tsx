@@ -11,6 +11,7 @@ import LoungeGrid from "./LoungList";
 import { Share, Users } from "lucide-react";
 import axios from "axios";
 import stadiumImage from "../../assets/lounge/hero image.png";
+import { useRouter } from "next/navigation";
 
 // interface Lounge {
 //   id: number;
@@ -34,6 +35,8 @@ import stadiumImage from "../../assets/lounge/hero image.png";
 // ];
 
 const Lounges: React.FC = () => {
+  const route = useRouter()
+
   useEffect(() => {
     (async () => {
       try {
@@ -78,11 +81,11 @@ const Lounges: React.FC = () => {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0  bg-gradient-to-b from-[#00000000] via-[#ffffff00] to-[#ffffff]" />
-        <div className="absolute hidden mt-[-6rem] inset-0 md:flex flex-col items-center justify-center px-4">
-          <h2 className="text-4xl sm:text-[39px] font-medium text-[#FFFFFF] text-center">
+        <div className="absolute hidden mt-0 translate-y-[-1rem] inset-0 md:flex flex-col items-center justify-center px-4">
+          <h2 className="text-4xl text-[20px] md:text-[39px] font-medium text-[#FFFFFF] text-center">
             Discover Lounges
           </h2>
-          <p className="mt-2 text-[20px] font-medium text-[#FFFFFF] text-center max-w-[600px]">
+          <p className="mt-2 text-[15px] md:text-[20px] font-medium text-[#FFFFFF] text-center max-w-[600px]">
             Join communities built around your favorite sports. Talk, share, and
             stay updated with fans like you.
           </p>
@@ -94,7 +97,7 @@ const Lounges: React.FC = () => {
 
       {/* Lounges Section */}
       <div className="mx-auto px-[16px] md:px-[64px] py-0 ">
-        <h3 className="md:text-[31px] mb-3 font-semibold text-[#1E1E1E] md:mb-6">
+        <h3 className="md:text-[31px] mb-3 font-semibold text-[#1E1E1E] md:mb-2">
           Top Lounges
         </h3>
         <div className="flex flex-col md:flex-rowitems-start justify-center-center gap-3 md:gap-6 w-full">
@@ -248,6 +251,7 @@ const Lounges: React.FC = () => {
                     <button
                       className="p-4 bg-[#E4E6EC] cursor-pointer hover:bg-[#2D439B] text-white rounded-full  transition"
                       aria-label="Join lounge"
+                      onClick={() => {route.push('/lounge/football/livescore')}}
                     >
                       <Share className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer rotate-90 " />
                     </button>

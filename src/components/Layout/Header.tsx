@@ -7,17 +7,18 @@ import logo from '@/assets/logo2.png';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { useTheme } from '@/context/ThemeContext';
 import { useAuthStore } from '@/store/authstore';
+import Link from 'next/link';
 
 const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
   const {theme} = useTheme()
   const {user} = useAuthStore()
   return (
-    <header className="bg-white h-[72px] dark:bg-[#121212] px-4 md:px-8 flex items-center justify-between">
+    <header className="bg-white h-[72px] dark:bg-[#121212] px-4 md:px-8 flex items-center justify-between z-50">
       <div className="flex items-center gap-4">
         <GiHamburgerMenu color={theme === "dark" ? "white" : "#3A3D46"} onClick={onSidebarOpen} className='cursor-pointer w-6 h-6 md:w-8 md:h-8' />
-        <div className="w-8 h-6 md:w-12 md:h-8">
+        <Link href="/feed" className="w-8 h-6 md:w-12 md:h-8">
           <Image src={logo} alt="logo" width={100} height={100} />
-        </div>
+        </Link>
       </div>
 
       <div className="flex items-center gap-2 md:gap-6">

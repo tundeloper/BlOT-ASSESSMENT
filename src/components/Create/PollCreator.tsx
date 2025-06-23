@@ -190,7 +190,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
           Poll Length
         </label>
         <div className="flex space-x-2">
-          <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
+          <label className="relative border-1 border-[#D9D9D9] flex w-1/3">
             <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Days
             </span>
@@ -204,7 +204,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
               }
             />
           </label>
-          <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
+          <label className="relative border-1 border-[#D9D9D9] flex w-1/3">
             <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Hours
             </span>
@@ -218,7 +218,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
               }
             />
           </label>
-          <label className="relative border-2 border-[#D9D9D9] flex w-1/3">
+          <label className="relative border-[1px] border-[#D9D9D9] flex w-1/3">
             <span className="absolute top-1 left-0 z-1 pl-2 text-[#7A7F8C] dark:text-[#C9CDD4]">
               Minutes
             </span>

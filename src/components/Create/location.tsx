@@ -133,7 +133,7 @@ export default function Location({onChange, onLocation}: Props) {
 
 
   return (
-    <div className="absolute top-0 right-0 p-2 text-[13px] md:text-[16px] md:p-4 text-[#1E1E1E] h-full w-full bg-white dark:bg-[#121212]">
+    <div className="absolute top-0 right-0 p-2 text-[13px] md:text-[16px] md:p-4 text-[#1E1E1E] h-full w-full bg-white dark:bg-[#121212] z-1">
       <div className="flex justify-between">
               <div className="flex gap-3 mb-3">
                 <div onClick={() => onChange(false)} className="cursor-pointer">

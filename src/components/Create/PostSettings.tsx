@@ -36,7 +36,7 @@ export default function PostSettings() {
       : "rotate-0 transition-transform duration-300";
 
   return (
-    <div className="w-full bg-inherit rounded-md mt-4 space-y-2 text-sm text-gray-800 dark:text-white transition-colors duration-300">
+    <div className="w-full bg-inherit rounded-md mt-4 space-y-2 text-sm text-gray-800 dark:text-white  transition-colors dark:bg-[#121212] duration-300">
       {/* Tag people */}
       <div className="flex items-center justify-between cursor-pointer px-2 py-2 rounded" onClick={() => setShowTags(prev => !prev)}>
         <div className="flex items-center gap-2">
