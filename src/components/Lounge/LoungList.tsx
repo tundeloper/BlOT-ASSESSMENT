@@ -10,29 +10,31 @@ import boxing from '../../assets/lounge/boxing.png';
 import cycling from '../../assets/lounge/cycling.png';
 import tennis from '../../assets/lounge/tennis.png';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 // Sample lounge data
 const lounges = [
-  { id: 1, title: 'Football', image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 2, title: 'Basket Ball', image: basketball, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 3, title: 'The NFL', image: nfl, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 4, title: 'Hockey', image: hockey, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 5, title: 'Golf', image: golf, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 6, title: 'Boxing', image: boxing, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 7, title: 'Cycling', image: cycling, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 8, title: 'Tennis', image: tennis, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 9, title: 'Football', image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 10, title: 'Basket Ball', image: basketball, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 11, title: 'The NFL', image: nfl, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 12, title: 'Hockey', image: hockey, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 13, title: 'Golf', image: golf, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 14, title: 'Boxing', image: boxing, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 15, title: 'Cycling', image: cycling, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 16, title: 'Tennis', image: tennis, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 1, title: 'Football', href: "/football/livescore", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 2, title: 'Basket Ball', href: "/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
+  { id: 3, title: 'The NFL', href: "/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
+  { id: 4, title: 'Hockey', href: "/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
+  { id: 5, title: 'Golf', href: "/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
+  { id: 6, title: 'Boxing', href: "/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
+  { id: 7, title: 'Cycling', href: "/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 8, title: 'Tennis', href: "/football/tenis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 9, title: 'Football', href: "/football/football", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 10, title: 'Basket Ball', href: "/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
+  { id: 11, title: 'The NFL', href: "/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
+  { id: 12, title: 'Hockey', href: "/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
+  { id: 13, title: 'Golf', href: "/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
+  { id: 14, title: 'Boxing', href: "/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
+  { id: 15, title: 'Cycling', href: "/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 16, title: 'Tenis', href: "/football/tennis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
   // add more items as needed
 ];
 
 export default function LoungeGrid() {
+  const route = useRouter();
   const [query, setQuery] = useState('');
   const filtered = lounges.filter(lounge =>
     lounge.title.toLowerCase().includes(query.toLowerCase())
@@ -77,7 +79,9 @@ export default function LoungeGrid() {
                     <Users className="w-5 h-5" />
                     <span className="text-[8px] md:text-sm">{lounge.members}</span>
                   </div>
+                  <button className="text-[8px] md:text-sm text-[#1E1E1E] hover:text-[#1E1E1E]" onClick={() => route.push(`/lounge/${lounge.href}`)}>
                   <Share className="w-6 h-6 text-gray-400 hover:text-gray-600 cursor-pointer rotate-90 " />
+                  </button>
                 </div>
               </div>
             </div>
