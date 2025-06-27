@@ -25,6 +25,15 @@ const JoinLounge = () => {
     }, [slug]);
 
     const handleJoinLounge = async () => {
+        if (lounge?.is_member) {
+            navigator.share({
+                title: lounge?.name,
+                text: lounge?.description,
+                url: `${window.location.href}`,
+            });
+            return;
+        }
+
         if (lounge?.id) {
             setIsJoining(true);
             const response = await joinLounge(lounge.id);
@@ -59,7 +68,7 @@ const JoinLounge = () => {
                             disabled={isJoining}
                             onClick={handleJoinLounge}
                         >
-                            {isJoining ? 'Joining...' : 'Join Lounge'}
+                            {isJoining ? 'Joining...' : lounge?.is_member ? 'Invite Others' : 'Join Lounge'}
                         </button>
                     </>
                 )

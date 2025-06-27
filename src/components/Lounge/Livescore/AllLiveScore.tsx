@@ -34,6 +34,14 @@ const AllLiveScore = () => {
 }, [slug]);
 
 const handleJoinLounge = async () => {
+  if (lounge?.is_member) {
+    navigator.share({
+        title: lounge?.name,
+        text: lounge?.description,
+        url: `${window.location.href}`,
+    });
+    return;
+}
     if (lounge?.id) {
         setIsJoining(true);
         const response = await joinLounge(lounge.id);
@@ -58,7 +66,7 @@ const handleJoinLounge = async () => {
             <span className='text-[13px] font-normal text-[#3A3D46] dark:text-white'>Back</span>
           </button>
           <p className='text-[13px] font-normal text-[#3A3D46] dark:text-white'>{loading ? 'Loading...' : lounge?.name} Lounge</p>
-          <button className='bg-[#2D439B] text-white w-[75px] h-[25px] rounded-[2px] text-[14px] font-normal' onClick={handleJoinLounge}>{isJoining ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : 'Join'}</button>
+          <button className='bg-[#2D439B] text-white w-[75px] h-[25px] rounded-[2px] text-[14px] font-normal' onClick={handleJoinLounge}>{isJoining ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : lounge?.is_member ? 'Invite' : 'Join'}</button>
         </div>
         <div className='flex gap-3 mt-4 overflow-x-auto scrollbar-hide'>
           {navItems.map((item) => (

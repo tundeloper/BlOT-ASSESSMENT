@@ -72,6 +72,14 @@ const LoungeVideo = () => {
     }, [slug]);
 
     const handleJoinLounge = async () => {
+        if (lounge?.is_member) {
+            navigator.share({
+                title: lounge?.name,
+                text: lounge?.description,
+                url: `${window.location.href}`,
+            });
+            return;
+        }
         if (lounge?.id) {
             setIsJoining(true);
             const response = await joinLounge(lounge.id);
@@ -93,7 +101,7 @@ const LoungeVideo = () => {
                         <span className='text-[13px] font-normal text-[#3A3D46] dark:text-white'>Back</span>
                     </button>
                     <p className='text-[13px] font-normal text-[#3A3D46] dark:text-white'>{loading ? 'Loading...' : lounge?.name} Lounge</p>
-                    <button className='bg-[#2D439B] text-white w-[75px] h-[25px] rounded-[2px] text-[14px] font-normal' onClick={handleJoinLounge}>{isJoining ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : 'Join'}</button>
+                    <button className='bg-[#2D439B] text-white w-[75px] h-[25px] rounded-[2px] text-[14px] font-normal' onClick={handleJoinLounge}>{isJoining ? <CircularProgress size={20} sx={{ color: '#fff' }} /> : lounge?.is_member ? 'Invite' : 'Join'}</button>
                 </div>
                 <div className='flex gap-3 mt-4 overflow-x-auto scrollbar-hide'>
                     {navItems.map((item) => (
@@ -103,7 +111,7 @@ const LoungeVideo = () => {
             </div>
             <div className='flex justify-between items-center mb-2'>
                 <button className='cursor-pointer hidden md:block' onClick={() => router.back()}>
-                    <Image src={backIcon} alt='back' width={24} height={24} className={`${theme === 'dark' ? 'invert' : ''}`} />
+                    <Image src={backIcon} alt='back' width={24} height={24} className={`${theme === 'dark' ? 'invert' : ''} cursor-pointer`} onClick={() => router.back()} />
                 </button>
                 <div className='gradient-border rounded-full'>
                     <div className="p-[1px] rounded-full border border-[#D9D9D9] bg-white dark:bg-[#121212]">
