@@ -7,6 +7,7 @@ interface Lounge {
     created_at: string;
     created_by: number;
     member_count: number;
+    is_member: boolean;
 }
 
 interface NavItem {

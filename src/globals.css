@@ -32,20 +32,41 @@ body {
   display: none;
 }
 
-/* custom-scrollbar.css */
- *::-webkit-scrollbar {
-    width: 8px;
-   height: 8px;
- }
- *::-webkit-scrollbar-track {
-   background: #f1f1f1;
+.scroll-bar::-webkit-scrollbar {
+  width: 5px;
+  padding-inline-end: 10px;
 }
-  *::-webkit-scrollbar-thumb {
-    background-color: #2D439B;
-    border-radius: 4px;
-    border: 2px solid #f1f1f1;
-  }
-  .gradient-border {
+
+.scroll-bar::-webkit-scrollbar-track {
+  background: inherit;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* custom-scrollbar.css */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #2D439B;
+  border-radius: 4px;
+  border: 2px solid #f1f1f1;
+}
+
+.gradient-border {
   background: linear-gradient(180deg, #2D439B 0%, #9A1B39 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
