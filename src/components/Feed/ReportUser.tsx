@@ -45,7 +45,7 @@ const ReportUserModal: FC<ReportUserModalProps> = ({ isOpen, onClose, onSubmit }
       return;
     }
     if (selectedReason === 'other' && otherDetails.trim() === '') {
-      setError('Please provide details for "Other" reason.');
+      setError('Please provide reason.');
       return;
     }
     // Call parent onSubmit
@@ -112,7 +112,7 @@ const ReportUserModal: FC<ReportUserModalProps> = ({ isOpen, onClose, onSubmit }
             />
           </div>
 
-          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          {error && <p className="mt-2 text-[13px] text-[red]">{error}</p>}
 
           {/* Buttons */}
           <div className="mt-6 flex space-x-3">

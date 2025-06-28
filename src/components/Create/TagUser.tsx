@@ -51,16 +51,7 @@ interface Props {
 //   },
 // ];
 
-export default function TagUser({ onChange, tags, setTags }: Props) {
-  const { theme } = useTheme();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [user, setUser] = useState<User[]>([]);
-
-  // const filteredUsers = users.filter((user) =>
-  //   user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  const getInitials = (name: string): string => {
+export const getInitials = (name: string): string => {
   const parts = name
     .trim()
     .split(" ")
@@ -69,6 +60,15 @@ export default function TagUser({ onChange, tags, setTags }: Props) {
   const second = parts[1]?.[0] || "";
   return (first + second).toUpperCase();
 };
+
+export default function TagUser({ onChange, tags, setTags }: Props) {
+  const { theme } = useTheme();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [user, setUser] = useState<User[]>([]);
+
+  // const filteredUsers = users.filter((user) =>
+  //   user.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   useEffect(() => {
     try {

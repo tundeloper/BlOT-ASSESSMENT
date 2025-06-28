@@ -29,7 +29,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     setTheme(newTheme);
   };
 
-  if (!theme) return null; // 🔐 Prevents hydration mismatch
+  if (!theme) return null; // Prevents hydration mismatch
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
