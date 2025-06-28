@@ -12,29 +12,32 @@ const ChatBox = () => {
     const messageBoxRef = useRef<HTMLDivElement>(null);
 
     const handleSend = async (message: string) => {
+        setInput('');
         setMessages([
             ...messages,
             { role: 'user', content: message },
+            { role: 'assistant', content: 'Thinking...' },
         ]);
-        const response = await askLaze(message);
-        if (response.success) {
-            setMessages([
-                ...messages,
-                { role: 'assistant', content: response.data?.message || '' }
-            ]);
-        } else {
-            setMessages([
-                ...messages,
-                { role: 'assistant', content: 'Bukayo Saka has scored 10 goals and provided 8 assists this season, while Phil Foden has 12 goals and 6 assists. Both have been instrumental for their teams, but Foden edges ahead in goals, while Saka leads in assists.' }
-            ]);
-        }
-        setInput('');
         setTimeout(() => {
             messageBoxRef.current?.scrollTo({
                 top: messageBoxRef.current?.scrollHeight,
                 behavior: 'smooth'
             });
         }, 100);
+        const response = await askLaze(message);
+        if (response.success) {
+            setMessages([
+                ...messages,
+                { role: 'user', content: message },
+                { role: 'assistant', content: response.data?.message || '' }
+            ]);
+        } else {
+            setMessages([
+                ...messages,
+                { role: 'user', content: message },
+                { role: 'assistant', content: 'Bukayo Saka has scored 10 goals and provided 8 assists this season, while Phil Foden has 12 goals and 6 assists. Both have been instrumental for their teams, but Foden edges ahead in goals, while Saka leads in assists.' }
+            ]);
+        }
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
