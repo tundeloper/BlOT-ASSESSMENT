@@ -4,7 +4,7 @@ import Post from './Post'
 import { getFeed } from '@/api/feed'
 import { CircularProgress } from '@mui/material'
 import { User } from '@/types/auth'
-import { getFollowing } from '@/api/user'
+import { getFollowing, getMutedUser } from '@/api/user'
 import { SnackbarProvider } from 'notistack'
 import AuthModal from '../Layout/AuthModal'
 
@@ -14,6 +14,7 @@ const Feeds = () => {
   const [activeTab, setActiveTab] = useState<FeedType>('following');
   const [feed, setFeed] = useState<Post[]>([]);
   const [following, setFollowing] = useState<User[]>([]);
+  const [mutedUser, setMutedUser] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
   const fetchFollowing = async () => {
@@ -23,10 +24,18 @@ const Feeds = () => {
     }
   }
 
+  const fetchMutedUser = async () => {
+    const res = await getMutedUser();
+    if (res.success) {
+      console.log(res.data)
+      setMutedUser(res.data || []);
+    }
+  }
+
   useEffect(() => {
     const fetchFeed = async () => {
       setLoading(true);
-      const [feedRes] = await Promise.all([getFeed(), fetchFollowing()]);
+      const [feedRes] = await Promise.all([getFeed(), fetchMutedUser(), fetchFollowing()]);
       if (feedRes.success) {
         setFeed(feedRes.data || []);
       }
@@ -75,6 +84,8 @@ const Feeds = () => {
               <Post
                 key={post.id}
                 post={post}
+                isMuted={mutedUser.some((user) => user.id === post.author_id)}
+                fetchMutedUser={fetchMutedUser}
                 isFollowing={following.some((user) => user.id === post.author_id)}
                 fetchFollowing={fetchFollowing}
                 setOpenAuthModal={setOpenAuthModal}

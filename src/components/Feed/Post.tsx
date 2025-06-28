@@ -12,18 +12,28 @@ import { timeAgo } from '@/utils/helper'
 import { PostMoreDropdown } from './PostModal'
 import { useAuthStore } from '@/store/authstore'
 import { createBookmark, createComment, createRepost, deleteBookmark, likePost, logShare, unlikePost } from '@/api/post'
-import { followUser, unfollowUser } from '@/api/user'
+import { followUser, muteUser, unfollowUser, unMuteUser } from '@/api/user'
 import { CiImageOn } from 'react-icons/ci'
 import { HiOutlineGif } from "react-icons/hi2";
 import { IoMdBookmark } from 'react-icons/io'
-import { CircularProgress } from '@mui/material'
+import { CircularProgress, ClickAwayListener } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { useTheme } from '@/context/ThemeContext'
 
-const Post = ({ post, isFollowing: isFollowingProp, fetchFollowing, setOpenAuthModal }: { post: Post, isFollowing: boolean, fetchFollowing: () => void, setOpenAuthModal: (open: boolean) => void }) => {
+type PostProps = { 
+    post: Post, 
+    isMuted: boolean,
+    isFollowing: boolean,
+    fetchMutedUser: () => void,
+    fetchFollowing: () => void, 
+    setOpenAuthModal: (open: boolean) => void 
+}
+
+const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fetchFollowing, setOpenAuthModal }: PostProps ) => {
     const { user, isAuthenticated } = useAuthStore()
     const { theme } = useTheme()
     const [isFollowing, setIsFollowing] = useState(isFollowingProp);
+    const [userIsMuted, setUserIsMuted] = useState(isMuted);
     const [isLiked, setIsLiked] = useState(post?.is_liked);
     const [isBookmarked, setIsBookmarked] = useState(post?.is_bookmarked);
     const [likeCount, setLikeCount] = useState(post?.likes_count);
@@ -34,7 +44,8 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchFollowing, setOpenAuthM
 
     useEffect(() => {
         setIsFollowing(isFollowingProp);
-    }, [isFollowingProp]);
+        setUserIsMuted(isMuted)
+    }, [isFollowingProp, isMuted]);
 
     const renderMedia = (media: MediaFile) => {
         if (media.media_type === 'video') {
@@ -123,6 +134,24 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchFollowing, setOpenAuthM
         }
     }
 
+    const handleMute = async () => {
+        if (!isAuthenticated) {
+            setOpenAuthModal(true);
+            return;
+        }
+        if (userIsMuted) {
+            const res = await unMuteUser(post.author_id);
+            if (res.success) {
+                fetchMutedUser()
+            }
+        } else {
+            const res = await muteUser({user_id: post.author_id, duration_hours: 24}) // default bu 24 hours
+            if (res.success) {
+                fetchMutedUser();
+            }
+        }
+    }
+
     const handleBookmark = async () => {
         if (!isAuthenticated) {
             setOpenAuthModal(true);
@@ -163,21 +192,35 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchFollowing, setOpenAuthM
                             </div>
                         </div>
                     </div>
-                    <div className="relative">
-                        <button className="p-2 cursor-pointer" onClick={() => setIsMoreDropdownOpen(!isMoreDropdownOpen)}>
-                            <BsThreeDotsVertical size={24} className="text-[#3A3D46] dark:text-white" />
-                        </button>
-                        {isMoreDropdownOpen && (
-                            <PostMoreDropdown
-                                username={post?.username}
-                                onClose={() => setIsMoreDropdownOpen(false)}
-                                handleFollow={handleFollow}
-                                handleBookmark={handleBookmark}
-                                isBookmarked={isBookmarked}
-                                isFollowing={isFollowing}
-                            />
-                        )}
-                    </div>
+                    <label className="relative" id="more-dropdown">
+            <button
+              className="p-2 cursor-pointer"
+              onClick={() => setIsMoreDropdownOpen(true)}
+            >
+              <BsThreeDotsVertical
+                size={24}
+                className="text-[#3A3D46] dark:text-white"
+              />
+            </button>
+            {isMoreDropdownOpen && (
+              <ClickAwayListener
+                onClickAway={() => setIsMoreDropdownOpen(false)}
+              >
+                <div id="more-dropdown-menu">
+                  <PostMoreDropdown
+                    post={post}
+                    onClose={() => setIsMoreDropdownOpen(false)}
+                    handleFollow={handleFollow}
+                    handleBookmark={handleBookmark}
+                    isBookmarked={isBookmarked}
+                    isFollowing={isFollowing}
+                    userIsMuted={userIsMuted}
+                    handleMute={handleMute}
+                  />
+                </div>
+              </ClickAwayListener>
+            )}
+          </label>
                 </div>
 
                 <div className="px-4">

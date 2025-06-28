@@ -14,22 +14,22 @@ import { useRouter } from 'next/navigation';
 
 // Sample lounge data
 const lounges = [
-  { id: 1, title: 'Football', href: "/football/livescore", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 2, title: 'Basket Ball', href: "/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
-  { id: 3, title: 'The NFL', href: "/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
-  { id: 4, title: 'Hockey', href: "/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
-  { id: 5, title: 'Golf', href: "/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
-  { id: 6, title: 'Boxing', href: "/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
-  { id: 7, title: 'Cycling', href: "/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
-  { id: 8, title: 'Tennis', href: "/football/tenis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
-  { id: 9, title: 'Football', href: "/football/football", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
-  { id: 10, title: 'Basket Ball', href: "/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
-  { id: 11, title: 'The NFL', href: "/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
-  { id: 12, title: 'Hockey', href: "/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
-  { id: 13, title: 'Golf', href: "/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
-  { id: 14, title: 'Boxing', href: "/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
-  { id: 15, title: 'Cycling', href: "/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
-  { id: 16, title: 'Tenis', href: "/football/tennis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 1, title: 'Football', href: "/lounge/football/livescore", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 2, title: 'Basket Ball', href: "/lounge/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
+  { id: 3, title: 'The NFL', href: "/lounge/lounge/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
+  { id: 4, title: 'Hockey', href: "/lounge/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
+  { id: 5, title: 'Golf', href: "/lounge/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
+  { id: 6, title: 'Boxing', href: "/lounge/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
+  { id: 7, title: 'Cycling', href: "/lounge/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 8, title: 'Tennis', href: "/lounge/football/tenis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 9, title: 'Football', href: "/lounge/football/football", image: football, members: '990k', description: 'Global game, local passion. Dive into match talk, and goals.' },
+  { id: 10, title: 'Basket Ball', href: "/lounge/football/basketball", image: basketball, members: '990k', description: 'Join the court-side conversation. From NBA to streetball – it’s all here.' },
+  { id: 11, title: 'The NFL', href: "/lounge/football/the nfl", image: nfl, members: '990k', description: 'All things football – hot takes, game predictions, and draft chatter.' },
+  { id: 12, title: 'Hockey', href: "/lounge/football/hockey", image: hockey, members: '990k', description: 'Fast-paced, hard-hitting talk for true puck fans.' },
+  { id: 13, title: 'Golf', href: "/lounge/football/golf", image: golf, members: '990k', description: 'A calm space for swing talk, tour highlights, and gear tips.' },
+  { id: 14, title: 'Boxing', href: "/lounge/football/boxing", image: boxing, members: '990k', description: 'From classic bouts to today’s  fights step into the ring of discussion.' },
+  { id: 15, title: 'Cycling', href: "/lounge/football/cycling", image: cycling, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
+  { id: 16, title: 'Tenis', href: "/lounge/football/tennis", image: tennis, members: '990k', description: 'From Tour de France to gear advice – pedal through the convo.' },
   // add more items as needed
 ];
 

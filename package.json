@@ -13,7 +13,7 @@
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^5.0.1",
     "@mui/icons-material": "^7.1.0",
-    "@mui/material": "^7.1.0",
+    "@mui/material": "^7.1.2",
     "@radix-ui/react-select": "^2.2.5",
     "axios": "^1.9.0",
     "axios-jwt": "^4.0.3",
