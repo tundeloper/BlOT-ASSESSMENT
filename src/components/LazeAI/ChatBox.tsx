@@ -4,25 +4,40 @@ import { MdOutlineSend, MdContentCopy, MdThumbUp, MdThumbDown } from 'react-icon
 import { HiOutlineSpeakerWave } from 'react-icons/hi2';
 import { enqueueSnackbar } from 'notistack';
 import VoiceInput from './VoiceInput';
+import { askLaze } from '@/api/laze';
 
 const ChatBox = () => {
     const [messages, setMessages] = useState<Array<{ role: string, content: string }>>([]);
     const [input, setInput] = useState<string>('');
     const messageBoxRef = useRef<HTMLDivElement>(null);
 
-    const handleSend = (message: string) => {
+    const handleSend = async (message: string) => {
+        setInput('');
         setMessages([
             ...messages,
             { role: 'user', content: message },
-            { role: 'assistant', content: 'Bukayo Saka has scored 10 goals and provided 8 assists this season, while Phil Foden has 12 goals and 6 assists. Both have been instrumental for their teams, but Foden edges ahead in goals, while Saka leads in assists.' }
+            { role: 'assistant', content: 'Thinking...' },
         ]);
-        setInput('');
         setTimeout(() => {
             messageBoxRef.current?.scrollTo({
                 top: messageBoxRef.current?.scrollHeight,
                 behavior: 'smooth'
             });
         }, 100);
+        const response = await askLaze(message);
+        if (response.success) {
+            setMessages([
+                ...messages,
+                { role: 'user', content: message },
+                { role: 'assistant', content: response.data?.message || '' }
+            ]);
+        } else {
+            setMessages([
+                ...messages,
+                { role: 'user', content: message },
+                { role: 'assistant', content: 'Bukayo Saka has scored 10 goals and provided 8 assists this season, while Phil Foden has 12 goals and 6 assists. Both have been instrumental for their teams, but Foden edges ahead in goals, while Saka leads in assists.' }
+            ]);
+        }
     }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {

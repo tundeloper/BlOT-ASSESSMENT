@@ -33,15 +33,15 @@ const AddPost = () => {
 
   const [files, setFiles] = useState<FilePreview[]>([]);
   const [choices, setChoices] = useState<string[]>(["", ""]);
-    const [pollLength, setPollLength] = useState<{
-      days: Option;
-      hours: Option;
-      minutes: Option;
-    }>({
-      days: { value: 1, label: "1" },
-      hours: { value: 1, label: "1" },
-      minutes: { value: 1, label: "1" },
-    });
+  const [pollLength, setPollLength] = useState<{
+    days: Option;
+    hours: Option;
+    minutes: Option;
+  }>({
+    days: { value: 1, label: "1" },
+    hours: { value: 1, label: "1" },
+    minutes: { value: 1, label: "1" },
+  });
 
   const { theme } = useTheme();
   const state = useAuthStore();
@@ -78,36 +78,36 @@ const AddPost = () => {
   };
 
   const handleSubmit = async () => {
-      // API submission logic 
-      const formData = new FormData();
-      formData.append("content", text);
-      files.forEach((item) => {
-        formData.append("media", item.file);
-      });
-      try {
-        setLoading(true)
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/posts`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${state.token}`,
-            },
-          }
-        );
-        if (response.data) {
-          enqueueSnackbar("Successful", { variant: "success" });
-          setText("");
-          setFiles([])
+    // API submission logic 
+    const formData = new FormData();
+    formData.append("content", text);
+    files.forEach((item) => {
+      formData.append("media", item.file);
+    });
+    try {
+      setLoading(true)
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/posts`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${state.token}`,
+          },
         }
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-        if (axios.isAxiosError(error)) {
-          enqueueSnackbar("Unauthorize", { variant: "error" });
-        }
+      );
+      if (response.data) {
+        enqueueSnackbar("Successful", { variant: "success" });
+        setText("");
+        setFiles([])
       }
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      if (axios.isAxiosError(error)) {
+        enqueueSnackbar("Unauthorize", { variant: "error" });
+      }
+    }
     //   setText("");
   };
 
@@ -119,13 +119,13 @@ const AddPost = () => {
       {/* user details  */}
       <div className="flex gap-2">
         <Avatar
-          src={"/image/user.png"}
+          src={state.user?.profile_picture || `https://ui-avatars.com/api/?name=${encodeURIComponent(state.user?.name?.trim() || 'Anonymous')}`}
           className="h-[40px] w-[40px] md:h-[50px] md:w-[50px]"
           sx={{ width: 50, height: 50 }}
         />
         <div>
           <p className="text-[13px] md:text-[16px] text-[#1E1E1E] dark:text-white">
-            Chinagozie Anyanwu
+            {state.user?.name}
           </p>
           <button className="flex gap-2 cursor-pointer">
             <Image src={globe} height={16} width={16} alt="globe" />
@@ -138,7 +138,7 @@ const AddPost = () => {
 
       {/* post field  */}
       <div>
-        {togglePoll ? <PollCreator choices={choices} setChoices={setChoices} pollLength={pollLength} setPollLength={setPollLength} onchange={setTogglePoll}/> : <textarea
+        {togglePoll ? <PollCreator choices={choices} setChoices={setChoices} pollLength={pollLength} setPollLength={setPollLength} onchange={setTogglePoll} /> : <textarea
           className="w-full bg-[#F9FAFB] p text-gray-400 p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none scrollbar-hide dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"
@@ -239,7 +239,7 @@ const AddPost = () => {
             )}
           </label>
           {/* pol */}
-          <label onClick={() => {setTogglePoll((prev) => !prev)}} className="cursor-pointer">
+          <label onClick={() => { setTogglePoll((prev) => !prev) }} className="cursor-pointer">
             <PollIcon fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} />
           </label>
         </div>
