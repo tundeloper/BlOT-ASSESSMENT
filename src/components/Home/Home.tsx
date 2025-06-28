@@ -26,7 +26,7 @@ const Home = () => {
           const response = await googleLogin({ access_token: accessToken });
           console.log(response)
           state.setUser(
-            response.data?.data as User,
+            response.data?.data?.user as User,
             response.data?.token as string
           );
           router.push("/feed");

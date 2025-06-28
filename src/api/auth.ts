@@ -3,13 +3,13 @@ import apiAxios from ".";
 import { LoginPayload, SignupPayload, User } from "@/types/auth";
 
 type GoogleLoginSuccess = {
-  data: { data: User; token: string };
+  data: { data: { user: User }; token: string };
   status: number;
   success: true;
 };
 
 type GoogleLoginError = {
-  data: {data: User, message: string, token: string} | null;
+  data: { data: { user: User }, message: string, token: string } | null;
   status: number;
   success: false;
 };
