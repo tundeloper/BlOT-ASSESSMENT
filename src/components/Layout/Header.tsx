@@ -162,7 +162,7 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
         </div>
       </div>
     </header>
-    {isActive && <div className='absolute top-[5rem] md:top-[6rem] flex justify-center w-full items-center z-1000' onClick={() => setIsActive(false)}>
+    {isActive && <div className='absolute top-[5rem] md:top-[6rem] flex justify-center w-full items-center z-1000' onClick={(e) => {e.stopPropagation(); setIsActive(false)}}>
         <div className='relative w-[100%] md:w-[56%] h-[86vh] px-0 md:px-[1.5rem] overflow-y-auto scrollbar-hide'>
           <div className='w-full h-full rounded-0 md:rounded-md bg-[#FFFFFF] dark:bg-[#121212] p-4 md:mr-[2rem] overflow-y-auto scrollbar-hide'>
             <div className='flex gap-2 cursor-pointer' onClick={() => setIsActive(false)}><BackIcons fill={`${theme === "dark" ? "#FFFFFF" : "#3A3D46"}`} /> <span className='text-[#1E1E1E] dark:text-[#FFFFFF]'>Back</span></div>
