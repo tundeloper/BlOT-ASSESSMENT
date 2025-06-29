@@ -182,9 +182,9 @@ export default function Location({onChange, onLocation}: Props) {
                 <span className="text-black dark:text-white">{loc.title}</span>
                 <span className="text-gray-400">{loc.distance}</span>
               </div>
-              <p className="text-xs text-gray-400">
+              {/* <p className="text-xs text-gray-400">
                 Lat: {loc.lat.toFixed(4)}, Lon: {loc.lon.toFixed(4)}
-              </p>
+              </p> */}
             </li>
           ))}
           {!locations.length && !loading && (

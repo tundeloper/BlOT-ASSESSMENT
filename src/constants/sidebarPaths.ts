@@ -33,7 +33,7 @@ export const sidebarPaths: SidebarPath[] = [
   },
   {
     label: 'Lounges',
-    path: '/lounges',
+    path: '/lounge',
     icon: TiMessages,
     section: 'main'
   },
