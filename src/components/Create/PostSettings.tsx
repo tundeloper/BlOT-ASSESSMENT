@@ -1,30 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { ChevronUp, MapPin, Settings, Users } from "lucide-react";
 import VisibilitySelector from "./Visibility";
 import TagUser from "./TagUser";
 import Location from "./location";
 import { User } from "@/types/auth";
 
-export default function PostSettings() {
+type PostSettingsProps = {
+  location?: string;
+  tags: User[];
+  setTags: Dispatch<SetStateAction<User[]>>;
+  setLocation: Dispatch<SetStateAction<string>>
+  postVisibility: "everyone" | "followers" | "only_me"
+  commentVisibility: "everyone" | "followers" | "only_me"
+  setPostVisibility: Dispatch<SetStateAction<"everyone" | "followers" | "only_me">>
+  setCommentVisibility: Dispatch<SetStateAction<"everyone" | "followers" | "only_me">>
+};
+
+export default function PostSettings({location, setLocation, tags, setTags, postVisibility, setPostVisibility, commentVisibility, setCommentVisibility}: PostSettingsProps) {
   const [openSection, setOpenSection] = useState<"post" | "comment" | null>(
     null
   );
 
-  const [showTags, setShowTags] = useState<boolean>(false)
+  const [showTags, setShowTags] = useState<boolean>(false);
   const [showLocation, setShowLocation] = useState<boolean>(false);
 
-  const [location, setLocation] = useState<string>("");
-  const [tags, setTags] = useState<User[]>([]);
+  // const [location, setLocation] = useState<string>("");
+  // const [tags, setTags] = useState<User[]>([]);
 
-  const [postVisibility, setPostVisibility] = useState<
-    "everyone" | "followers" | "private"
-  >("everyone");
+  // const [postVisibility, setPostVisibility] = useState<
+  //   "everyone" | "followers" | "private"
+  // >("everyone");
 
-  const [commentVisibility, setCommentVisibility] = useState<
-    "everyone" | "followers" | "private"
-  >("everyone");
+  // const [commentVisibility, setCommentVisibility] = useState<
+  //   "everyone" | "followers" | "private"
+  // >("everyone");
 
   const toggleSection = (section: "post" | "comment") => {
     setOpenSection((prev) => (prev === section ? null : section));
@@ -38,27 +49,47 @@ export default function PostSettings() {
   return (
     <div className="w-full bg-inherit rounded-md mt-4 space-y-2 text-sm text-gray-800 dark:text-white  transition-colors dark:bg-[#121212] duration-300">
       {/* Tag people */}
-      <div className="flex items-center justify-between cursor-pointer px-2 py-2 rounded" onClick={() => setShowTags(prev => !prev)}>
+      <div
+        className="flex items-center justify-between cursor-pointer px-2 py-2 rounded"
+        onClick={() => setShowTags((prev) => !prev)}
+      >
         <div className="flex items-center gap-2">
           <Users className="w-5 h-5 text-gray-600 dark:text-white" />
           <span className="text-[13px] md:text-[16px]">Tag people</span>
         </div>
         <div className="flex items-center gap-2">
-          {tags.length > 0 && tags.map((tag, index) => <span key={index} className="text-[8px] md:text-[12px] text-gray-800 dark:text-white rounded-full">{tag.username}</span>)}
-        <ChevronUp className="w-4 h-4 text-gray-500 dark:text-white" />
+          {tags.length > 0 &&
+            tags.map((tag, index) => (
+              <span
+                key={index}
+                className="text-[8px] md:text-[12px] text-gray-800 dark:text-white rounded-full"
+              >
+                {tag.username}
+              </span>
+            ))}
+          <ChevronUp className="w-4 h-4 text-gray-500 dark:text-white" />
         </div>
       </div>
-      {showTags && <TagUser onChange={setShowTags} setTags={setTags} tags={tags} />}
+      {showTags && (
+        <TagUser onChange={setShowTags} setTags={setTags} tags={tags} />
+      )}
 
       {/* Add location */}
-      <div className="flex items-center justify-between cursor-pointer px-2 py-2 rounded" onClick={() => setShowLocation(prev => !prev)}>
+      <div
+        className="flex items-center justify-between cursor-pointer px-2 py-2 rounded"
+        onClick={() => setShowLocation((prev) => !prev)}
+      >
         <div className="flex items-center gap-2">
           <MapPin className="w-5 h-5 text-gray-600 dark:text-white" />
-          <span className="text-[13px] md:text-[16px]">{location ? location : "Add location"}</span>
+          <span className="text-[13px] md:text-[16px]">
+            {location ? location : "Add location"}
+          </span>
         </div>
         <ChevronUp className="w-4 h-4 text-gray-500 dark:text-white" />
       </div>
-      {showLocation && <Location onChange={setShowLocation} onLocation={setLocation} />}
+      {showLocation && (
+        <Location onChange={setShowLocation} onLocation={setLocation} />
+      )}
 
       {/* Post settings */}
       <div>

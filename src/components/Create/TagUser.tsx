@@ -5,6 +5,7 @@ import { X, Search } from "lucide-react";
 import { Avatar } from "@mui/material";
 import { User } from "@/types/auth";
 import axios from "axios";
+import { getAuthTokensFromLocalStorage } from "@/store/authstore";
 
 interface Props {
   onChange: Dispatch<SetStateAction<boolean>>;
@@ -52,10 +53,7 @@ interface Props {
 // ];
 
 export const getInitials = (name: string): string => {
-  const parts = name
-    .trim()
-    .split(" ")
-    .filter(Boolean); // remove empty strings from extra spaces
+  const parts = name.trim().split(" ").filter(Boolean); // remove empty strings from extra spaces
   const first = parts[0]?.[0] || "";
   const second = parts[1]?.[0] || "";
   return (first + second).toUpperCase();
@@ -75,8 +73,13 @@ export default function TagUser({ onChange, tags, setTags }: Props) {
       const fetchUser = async () => {
         if (searchTerm.trim() === "") return;
         const { data } = await axios.get(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/search/users`,
+          `${
+            process.env.NEXT_PUBLIC_API_BASE_URL as string
+          }/posts/search/users`,
           {
+            headers: {
+              Authorization: `Bearer ${getAuthTokensFromLocalStorage()}`,
+            },
             params: {
               query: searchTerm,
             },
@@ -147,7 +150,9 @@ export default function TagUser({ onChange, tags, setTags }: Props) {
                 // width={20}
                 // height={20}
                 sx={{ bgcolor: "#2D439B" }}
-              >{getInitials(user.name)}</Avatar>
+              >
+                {getInitials(user.name)}
+              </Avatar>
               <div>
                 <p className="font-medium dark:text-white text-[13px] md:text-[16px]">
                   {user.name}

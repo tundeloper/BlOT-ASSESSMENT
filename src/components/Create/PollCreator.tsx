@@ -9,6 +9,8 @@ const MIN_CHOICES = 2;
 export type Option = { value: number; label: string };
 
 interface Props {
+  question: string;
+  setQuestion: Dispatch<SetStateAction<string>>;
   choices: string[];
   setChoices: Dispatch<SetStateAction<string[]>>;
   onchange: Dispatch<SetStateAction<boolean>>;
@@ -36,7 +38,7 @@ const dayOptions = generateOptions(8);
 const hourOptions = generateOptions(24);
 const minuteOptions = generateOptions(60);
 
-const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollLength, onchange}) => {
+const PollCreator: React.FC<Props> = ({choices, setChoices, question, setQuestion, pollLength, setPollLength, onchange}) => {
   const theme = useTheme().theme;
   const customStyles: StylesConfig<Option, false, GroupBase<Option>> = {
     control: (base) => ({
@@ -151,6 +153,15 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
 
   return (
     <div className="p-4 w-full space-y-4">
+       <div>
+      <input
+        type="text"
+        value={question}
+        onChange={(e) => setQuestion(e.target.value)}
+        placeholder="Ask a question..."
+        className="w-full p-[6px_12px] border border-[#D9D9D9] focus:outline-none text-[13px] text-[#7A7F8C] md:text-[13px] focus:ring-1 focus:ring-[black] dark:focus:ring-white"
+      />
+    </div>
       {choices.map((choice, index) => (
         <div key={index} className="relative flex items-center">
           <input
@@ -160,7 +171,7 @@ const PollCreator: React.FC<Props> = ({choices, setChoices, pollLength, setPollL
             onChange={(e) => handleChoiceChange(index, e.target.value)}
             className="w-full p-[6px_12px] border border-[#D9D9D9] focus:outline-none text-[13px] text-[#7A7F8C] md:text-[13px] focus:ring-1 focus:ring-[black] dark:focus:ring-white"
           />
-          {choices.length > 20 && ( // Show remove button only if more than 2 choices  ahould be 2 choices minimum MIN_CHOICES
+          {choices.length > MIN_CHOICES && ( // Show remove button only if more than 2 choices  ahould be 2 choices minimum MIN_CHOICES
             <button
               onClick={() => handleRemoveChoice(index)}
               className="ml-2 text-gray-400 hover:text-red-500"

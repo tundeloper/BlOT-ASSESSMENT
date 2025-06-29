@@ -14,6 +14,8 @@ import BackIcons from '@/assets/svg/backIcon';
 import SportlazeSearchIcon from '@/assets/svg/sportlaze_search_icon';
 import { User } from '@/types/auth';
 import Post from '../Feed/Post';
+import { CircularProgress } from '@mui/material';
+import { handleSocketMessage } from '@/utils/socketsSwitch';
 
 const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
   const {theme} = useTheme()
@@ -24,6 +26,7 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
 
   const [isActive, setIsActive] = useState(false);
   const [value, setValue] = useState('');
+  const [searching, setSearching] = useState(false)
 
 
   // const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -33,74 +36,35 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
   // const [unreaMesaagecount, setUnreaMesaagecount] = useState<number>(0);
   
   useEffect(() => {
-    socketRef.current = new WebSocket(socketUrl());
+  socketRef.current = new WebSocket(socketUrl());
 
-    socketRef.current.onopen = (event) => {
-      console.log("Socket ID:", event.currentTarget);
-      setIsConnected(true);
-    };
+  socketRef.current.onopen = (event) => {
+    console.log("Socket ID:", event.currentTarget);
+    setIsConnected(true);
+  };
 
-    socketRef.current.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
+  socketRef.current.onmessage = (event) => {
+    //set the setters here 
+    handleSocketMessage(event.data, {
+      setNotifications,
+      setUnreadCount,
+    });
+  };
 
-        const eventType = message.event;
-        const payload = message.data;
+  socketRef.current.onerror = (error) => {
+    console.warn("WebSocket error:", error);
+  };
 
-        switch (eventType) {
-          case "notification":
-            // console.log("🔔 Notification received:", payload);
-            setNotifications((prev) => [payload, ...prev,]);
-            break;
-          case "unread_notifications":
-            // console.log("Unread notifications count:", payload);
-            setUnreadCount(payload.count);
-            // if(payload.count > 0) sound.play(); 
-            break;
+  socketRef.current.onclose = (event) => {
+    console.warn("WebSocket closed:", event.reason);
+    setIsConnected(false);
+  };
 
-          case "direct_message":
-            // console.log("📨 Direct message:", payload);
-            // setMessages((prev) => [...prev, payload]);
-            // if (payload.sender !== 'userId') sound.play();
-            // if (payload.sender !== 'userId') sound.play();
-            break;
+  return () => {
+    socketRef.current?.close();
+  };
+}, []);
 
-          case "direct_message_sent":
-            console.log("✅ Message sent:", payload);
-            break;
-
-          case "unread_messages":
-            // console.log("📥 Unread messages count:", payload);
-            // setUnreaMesaagecount(payload.count);
-            // if(payload.count > 0) sound.play();
-            break;
-
-          default:
-            console.warn("⚠️ Unknown event type:", eventType, payload);
-        }
-      } catch (err) {
-        console.error("❌ Error parsing WebSocket message:", err);
-      }
-    };
-
-    // socketRef.current.onmessage = (event) => {
-    //   console.log('📨 Message:', event);
-    //   setMessages(prev => [...prev, event.data]);
-    // };
-
-    socketRef.current.onerror = (error) => {
-      console.warn("❌ WebSocket error:", error);
-    };
-
-    socketRef.current.onclose = (event) => {
-      console.warn("🔌 WebSocket closed:", event.reason);
-      setIsConnected(false);
-    };
-
-    return () => {
-      socketRef.current?.close();
-    };
-  }, []);
 
   useEffect(() => {
     const fetchNotification = async () => {
@@ -119,6 +83,8 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
 
   useEffect(() => {
     (async () => {
+      console.log('notifications', notifications)
+      setSearching(true)
       try {
         const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL as string}/search/all`, {
         headers: {
@@ -131,8 +97,9 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
       });
       console.log(data)
       setSearch(data)
-      // setSearch(data)
+      setSearching(false)
       } catch (error) {
+        setSearching(false)
         if (axios.isAxiosError(error)) {
           console.warn("Search error")
         }
@@ -181,7 +148,7 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
 
         <div className="relative p-1 cursor-pointer">
           <IoMdNotificationsOutline size={24} className="text-[#3A3D46] dark:text-white" />
-          {isConnected && notifications.length > 0 && <span className="absolute -top-2 -right-2 bg-[#FF4D4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
+          {isConnected && unreadCount > 0 && <span className="absolute -top-2 -right-2 bg-[#FF4D4F] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center">
             {unreadCount}
           </span>}
         </div>
@@ -195,13 +162,13 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
         </div>
       </div>
     </header>
-    {isActive && <div className='absolute top-[5rem] md:top-[6rem] flex justify-center w-full items-center z-1000'>
-        <div className='w-[100%] md:w-[56%] h-[86vh] px-0 md:px-[1.5rem] overflow-y-auto scrollbar-hide'>
-          <div className='w-full h-full rounded-0 md:rounded-md bg-[#FFFFFF] dark:bg-[#121212] p-4 md:mr-[2rem]'>
+    {isActive && <div className='absolute top-[5rem] md:top-[6rem] flex justify-center w-full items-center z-1000' onClick={() => setIsActive(false)}>
+        <div className='relative w-[100%] md:w-[56%] h-[86vh] px-0 md:px-[1.5rem] overflow-y-auto scrollbar-hide'>
+          <div className='w-full h-full rounded-0 md:rounded-md bg-[#FFFFFF] dark:bg-[#121212] p-4 md:mr-[2rem] overflow-y-auto scrollbar-hide'>
             <div className='flex gap-2 cursor-pointer' onClick={() => setIsActive(false)}><BackIcons fill={`${theme === "dark" ? "#FFFFFF" : "#3A3D46"}`} /> <span className='text-[#1E1E1E] dark:text-[#FFFFFF]'>Back</span></div>
 
             {/* searches  user */}
-            {search.users.length > 0 && <div>{search.users.map((user, i) => <div key={i} className='w-full'>
+            {search.users.length > 0 && !searching && <div>{search.users.map((user, i) => <div key={i} className='w-full'>
               <div
               key={i}
               className="flex items-center gap-3 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-900 p-2 rounded-md"
@@ -224,7 +191,7 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
             </div>
             </div>)}</div>}
 
-            {search.hashtag_posts.length > 0 && <div className='my-4'>{search.hashtag_posts.map((post, i) => <div key={i} className='w-full bg-[#FFFFFF] dark:bg-[#121212]'>
+            {search.hashtag_posts.length > 0 && !searching && <div className='my-4'>{search.hashtag_posts.map((post, i) => <div key={i} className='w-full bg-[#FFFFFF] dark:bg-[#121212]'>
               <Post
                post={post}
                isMuted={true}
@@ -237,12 +204,20 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
             
 
             {/* when no result found */}
-            {search.users.length === 0  && search.hashtag_posts.length === 0 && search.channels.length === 0 && <div className='flex items-center justify-center h-full w-full'>
+            {searching ? 
+            <div className='basolute top-0 flex items-center justify-center h-full w-full bg-transparent'>
+              <div className='flex items-center flex-col'>
+                <CircularProgress size={40} sx={{ color: '#2D439B' }} /> 
+              </div>
+            </div>
+            :
+            search.users.length === 0  && search.hashtag_posts.length === 0 && search.channels.length === 0 && <div className='basolute flex items-center justify-center h-full w-full'>
               <div className='flex items-center flex-col'>
                 <SportlazeSearchIcon  fill={`${theme === "dark" ? "#FFFFFF" : "#3A3D46"}`} />
-                <p className='font-semibold text-[#3A3D46] text-[25px] dark:text-[#FFFFFF] italic'>We searched high and low, but no match!</p>
+                <p className='font-semibold text-[#3A3D46] text-[20px] text-center md:text-[25px] dark:text-[#FFFFFF] italic'>We searched high and low, but no match!</p>
               </div>
-            </div>}
+            </div>
+            }
           </div>
         </div>
     </div>}

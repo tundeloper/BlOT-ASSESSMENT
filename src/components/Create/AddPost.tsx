@@ -16,6 +16,7 @@ import axios from "axios";
 import { useAuthStore } from "@/store/authstore";
 import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import PollCreator, { Option } from "./PollCreator";
+import { User } from "@/types/auth";
 
 // import user from "../../assets/user.png"s
 
@@ -31,7 +32,20 @@ const AddPost = () => {
   const [togglePoll, setTogglePoll] = useState<boolean>(false);
   const [loading, setLoading] = useState(false)
 
+  const [location, setLocation] = useState<string>("");
+  const [tags, setTags] = useState<User[]>([]);
+
+  
+  const [postVisibility, setPostVisibility] = useState<
+    "everyone" | "followers" | "only_me"
+  >("everyone");
+
+  const [commentVisibility, setCommentVisibility] = useState<
+    "everyone" | "followers" | "only_me"
+  >("everyone");
+
   const [files, setFiles] = useState<FilePreview[]>([]);
+  const [question, setQuestion] = useState<string>("");
   const [choices, setChoices] = useState<string[]>(["", ""]);
   const [pollLength, setPollLength] = useState<{
     days: Option;
@@ -81,9 +95,22 @@ const AddPost = () => {
     // API submission logic 
     const formData = new FormData();
     formData.append("content", text);
-    files.forEach((item) => {
+    formData.append("location_name", location);
+    formData.append("visibility", postVisibility);
+    formData.append("comment_permission", commentVisibility);
+    formData.append("post_question", question);
+    formData.append("poll_duration_days", pollLength.days.label);
+    formData.append("poll_duration_hours", pollLength.hours.label);
+    formData.append("poll_duration_minutes", pollLength.minutes.label);
+    const ids = tags.map((user) => user.id);
+    formData.append("tagged_user_ids", JSON.stringify(ids));
+
+     files.forEach((item) => {
       formData.append("media", item.file);
     });
+  
+    formData.append("poll_choices", JSON.stringify(choices));
+
     try {
       setLoading(true)
       const response = await axios.post(
@@ -97,15 +124,21 @@ const AddPost = () => {
         }
       );
       if (response.data) {
+        //resest all inputs
         enqueueSnackbar("Successful", { variant: "success" });
+        const resetPollLength = {value: 1, label: "1"}
         setText("");
+        setChoices(["", ""])
+        setQuestion("")
         setFiles([])
+        setPollLength({days: resetPollLength, hours: resetPollLength, minutes: resetPollLength})
       }
       setLoading(false)
     } catch (error) {
       setLoading(false)
       if (axios.isAxiosError(error)) {
-        enqueueSnackbar("Unauthorize", { variant: "error" });
+        console.log(error)
+        enqueueSnackbar(error.response?.data.detail, { variant: "error" });
       }
     }
     //   setText("");
@@ -130,7 +163,7 @@ const AddPost = () => {
           <button className="flex gap-2 cursor-pointer">
             <Image src={globe} height={16} width={16} alt="globe" />
             <span className="text-[10px] md:text-[13px] font-switzer dark:text-[#C9CDD4]">
-              Post to everyone
+              Post to {postVisibility}
             </span>
           </button>
         </div>
@@ -138,7 +171,7 @@ const AddPost = () => {
 
       {/* post field  */}
       <div>
-        {togglePoll ? <PollCreator choices={choices} setChoices={setChoices} pollLength={pollLength} setPollLength={setPollLength} onchange={setTogglePoll} /> : <textarea
+        {togglePoll ? <PollCreator choices={choices} setChoices={setChoices} pollLength={pollLength} setPollLength={setPollLength} onchange={setTogglePoll} question={question} setQuestion={setQuestion} /> : <textarea
           className="w-full bg-[#F9FAFB] p text-gray-400 p-[8px_16px] dark:text-white border-gray-400 border-1 text-[13px] md:text-[13px]  rounded-sm placeholder-gray-400 resize-none focus:outline-none scrollbar-hide dark:bg-[#35383F] transition-colors duration-300"
           rows={5}
           placeholder="What's happening?"
@@ -249,14 +282,14 @@ const AddPost = () => {
           </button>
           <GradientButton
             onClick={handleSubmit}
-            disabled={!text.trim() && files.length === 0 || loading}
+            disabled={loading} //question.length < 2 || !text.trim() || files.length === 0 || 
             className="flex-1 py-1 md:py-2  text-[10px] md:text-[13px] cursor-pointer"
           >
             {loading ? "Posting" : "Post"}
           </GradientButton>
         </div>
       </div>
-      <PostSettings />
+      <PostSettings location={location} setLocation={setLocation} tags={tags} setTags={setTags} commentVisibility={commentVisibility} setCommentVisibility={setCommentVisibility} postVisibility={postVisibility} setPostVisibility={setPostVisibility} />
       <SnackbarProvider />
     </div>
   );

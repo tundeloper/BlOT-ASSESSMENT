@@ -2,7 +2,7 @@
 
 import { Globe, Users, User } from "lucide-react";
 
-type VisibilityOption = "everyone" | "followers" | "private";
+type VisibilityOption = "everyone" | "followers" | "only_me";
 
 const options: {
   label: string;
@@ -11,7 +11,7 @@ const options: {
 }[] = [
   { label: "Everyone", value: "everyone", icon: Globe },
   { label: "Your followers", value: "followers", icon: Users },
-  { label: "Nobody", value: "private", icon: User },
+  { label: "Nobody", value: "only_me", icon: User },
 ];
 
 interface Props {
