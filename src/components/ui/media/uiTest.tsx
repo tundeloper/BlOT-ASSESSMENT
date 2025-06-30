@@ -86,7 +86,7 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
     if (count === 2) {
       return (
         <div className="grid grid-cols-2 gap-1">
-          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-60'))}
+          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-40'))}
         </div>
       );
     }
@@ -95,12 +95,12 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
         <div className="grid grid-cols-2 grid-rows-2 gap-1">
           {mediaItems.map((m, i) => {
             if (i < 2) {
-              return renderMediaElement(m, () => openLightbox(i), 'h-30 md:h-44 h-full');
+              return renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-44');
             }
             // third item spans full width and has extra height
             return (
               <div key={m.id} className="col-span-2">
-                {renderMediaElement(m, () => openLightbox(i), 'h-30 md:h-44')}
+                {renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-44')}
               </div>
             );
           })}
@@ -116,7 +116,7 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
           <div key={m.id} className="relative" onClick={() => openLightbox(i)}>
             {renderMediaElement(m, () => openLightbox(i), 'h-48')}
             {i === 3 && extra > 0 && (
-              <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded">
+              <div className="absolute inset-0 bg-transparent bg-opacity-50 flex items-center justify-center rounded">
                 <span className="text-white text-2xl font-semibold">+{extra}</span>
               </div>
             )}
