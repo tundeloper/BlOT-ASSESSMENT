@@ -19,6 +19,7 @@
     "axios-jwt": "^4.0.3",
     "clsx": "^2.1.1",
     "emoji-picker-react": "^4.12.2",
+    "framer-motion": "^12.19.2",
     "lucide-react": "^0.511.0",
     "next": "^15.3.3",
     "notistack": "^3.0.2",
