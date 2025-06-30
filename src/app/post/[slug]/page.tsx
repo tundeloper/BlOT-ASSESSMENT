@@ -7,15 +7,12 @@ export const metadata: Metadata = {
   description: "post details | SportLaze",
 };
 
-interface PostPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-
-export default function FeedPage({params}: PostPageProps) {
-    const { slug } = params;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
   return (
     <FeedWrapper>
       <PostDetail id={slug} />
