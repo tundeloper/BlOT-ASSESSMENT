@@ -95,12 +95,12 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
         <div className="grid grid-cols-2 grid-rows-2 gap-1">
           {mediaItems.map((m, i) => {
             if (i < 2) {
-              return renderMediaElement(m, () => openLightbox(i), 'h-44');
+              return renderMediaElement(m, () => openLightbox(i), 'h-30 md:h-44 h-full');
             }
             // third item spans full width and has extra height
             return (
               <div key={m.id} className="col-span-2">
-                {renderMediaElement(m, () => openLightbox(i), 'h-64')}
+                {renderMediaElement(m, () => openLightbox(i), 'h-30 md:h-44')}
               </div>
             );
           })}
