@@ -19,7 +19,6 @@ import { IoMdBookmark } from 'react-icons/io'
 import { CircularProgress, ClickAwayListener } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { useTheme } from '@/context/ThemeContext'
-import PostDetail from '../ui/media/uiTest'
 
 type PostProps = { 
     post: Post, 
@@ -48,21 +47,21 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
         setUserIsMuted(isMuted)
     }, [isFollowingProp, isMuted]);
 
-    // const renderMedia = (media: MediaFile) => {
-    //     if (media.media_type === 'video') {
-    //         return <video
-    //             className="w-full h-full object-cover"
-    //             autoPlay={true}
-    //             controls={true}
-    //             playsInline
-    //             loop
-    //             muted={true}
-    //         >
-    //             <source src={media.media_url} type="video/mp4" />
-    //         </video>
-    //     }
-    //     return <Image src={media.media_url} alt="Post image" width={500} height={300} className="w-full h-full object-cover" />
-    // }
+    const renderMedia = (media: MediaFile) => {
+        if (media.media_type === 'video') {
+            return <video
+                className="w-full h-full object-cover"
+                autoPlay={true}
+                controls={true}
+                playsInline
+                loop
+                muted={true}
+            >
+                <source src={media.media_url} type="video/mp4" />
+            </video>
+        }
+        return <Image src={media.media_url} alt="Post image" width={500} height={300} className="w-full h-full object-cover" />
+    }
 
     const handleShare = async () => {
         navigator.share({
@@ -231,14 +230,12 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                             {post?.hashtags}
                         </p>
                     </div>
-                    {/* flex-wrap gap-2 */}
-                    <div className="flex justify-center w-full">
-                        <PostDetail mediaItems={post.media_files} />
-                        {/* {post?.media_files?.slice(0, 4).map((media) => (
+                    <div className="flex flex-wrap gap-2">
+                        {post?.media_files?.slice(0, 4).map((media) => (
                             <div key={media.id} className="mt-2.5 w-[45%] aspect-video rounded overflow-hidden grow">
                                 {media && renderMedia(media)}
                             </div>
-                        ))} */}
+                        ))}
                     </div>
                 </div>
 
