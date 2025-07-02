@@ -12,6 +12,10 @@ const CommentPopOver:React.FC<props> = ({onClose}) => {
       label: "Copy comment link",
       onClick: () => {},
     },
+    {
+      label: "Delete Comment",
+      onClick: () => {},
+    },
   ];
   return (
     <div className="py-1">
@@ -27,7 +31,7 @@ const CommentPopOver:React.FC<props> = ({onClose}) => {
             }}
             className="w-full flex items-center gap-2 px-3 py-[5px] transition-colors cursor-pointer"
           >
-            <span className="text-[13px] text-[#3A3D46] dark:text-[#FFFFFF] font-normal">
+            <span className="text-[13px] text-[#3A3D46] font-normal">
               {item.label}
             </span>
           </button>

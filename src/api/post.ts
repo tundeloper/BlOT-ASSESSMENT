@@ -103,7 +103,7 @@ export const createComment = async (
   body: {
     content: string;
     post_id: number;
-    parent_id?: string;
+    parent_id?: number;
   }
 ): Promise<{
   data: {
