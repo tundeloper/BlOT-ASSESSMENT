@@ -7,14 +7,14 @@ import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 import { CircularProgress, ClickAwayListener } from "@mui/material";
 import CommentPopOver from "./commentpopover";
-import { createComment, likeComment, unlikeComment } from "@/api/post";
+import { createComment, deleteComment, likeComment, unlikeComment } from "@/api/post";
 import formatTime from "@/utils/timeformater";
 import { useTheme } from "@/context/ThemeContext";
 import { enqueueSnackbar } from "notistack";
 import { HiOutlineGif } from "react-icons/hi2";
 import { CiImageOn } from "react-icons/ci";
 import { GiCancel } from "react-icons/gi";
-import insertReply from "@/utils/comment_helper";
+import insertReply, { removeComment, toggleLike } from "@/utils/comment_helper";
 
 type CommentListProps = {
   comments: Comments;
@@ -30,8 +30,8 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
   const [isCommenting, setIsCommenting] = useState(false);
   const [showNextComment, setShowNextComment] = useState(false);
   const [comment, setComment] = useState("");
-  const [isLiked, setIsLiked] = useState(comments.is_liked);
-  const [likeCount, setLikeCount] = useState(comments.likes_count);
+  // const [isLiked, setIsLiked] = useState(comments.is_liked);
+  // const [likeCount, setLikeCount] = useState(comments.likes_count);
 
   const router = useRouter();
   const { theme } = useTheme();
@@ -41,16 +41,21 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
   };
 
   const handleLike = async () => {
-    if (isLiked) {
-      setIsLiked(false);
-      setLikeCount(likeCount - 1);
+    if (comments.is_liked) {
       await unlikeComment({ comment_id: comments.id });
+      setComments((prev) => toggleLike(prev, comments.id));
     } else {
-      setIsLiked(true);
-      setLikeCount(likeCount + 1);
       await likeComment({ comment_id: comments.id });
+      setComments((prev) => toggleLike(prev, comments.id));
     }
   };
+
+  const handleDelete = async () => {
+    const res = await deleteComment(comments.id)
+    console.log(res)
+    setComments((prev) => removeComment(prev, comments.id));
+  }
+
 
   const handleComment = async () => {
     // if (!isAuthenticated) {
@@ -58,7 +63,6 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
     //   return;
     // }
     if (comment.trim() === "") return;
-    console.log(comments.parent_id);
     setIsCommenting(true);
     const res = await createComment({
       post_id: comments.post_id,
@@ -178,7 +182,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
                       }}
                     >
                       <div className="absolute right- w-[140px] bg-white rounded shadow-lg overflow-hidden z-50">
-                        <CommentPopOver onClose={handleClose} />
+                        <CommentPopOver onClose={handleClose} handleDelete={handleDelete}  />
                       </div>
                     </ClickAwayListener>
                   )}

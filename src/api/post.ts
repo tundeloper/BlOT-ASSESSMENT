@@ -162,6 +162,36 @@ export const getComment = async (post_id: number): Promise<{
     }
 };
 
+export const deleteComment = async (post_id: number): Promise<{
+    data: Comments[] | null;
+    status: number;
+    success: boolean;
+}> => {
+    try {
+        console.log(post_id)
+        const response = await apiAxios.get(`/social/comments/${post_id}`);
+        return {
+            data: response.data,
+            status: response.status,
+            success: true
+        };
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            return {
+                data: error.response?.data?.detail,
+                status: error.response?.status || 500,
+                success: false
+            };
+        }
+        return {
+            data: null,
+            status: 500,
+            success: false
+        };
+    }
+};
+
+
 export const likeComment = async (
   body: {comment_id: number}
 ): Promise<{

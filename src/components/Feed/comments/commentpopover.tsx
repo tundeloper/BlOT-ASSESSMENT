@@ -1,8 +1,9 @@
 type props = {
 onClose: () => void
+handleDelete: () => void
 }
 
-const CommentPopOver:React.FC<props> = ({onClose}) => {
+const CommentPopOver:React.FC<props> = ({onClose, handleDelete}) => {
   const menuItems = [
     {
       label: "Flag this comment",
@@ -14,7 +15,7 @@ const CommentPopOver:React.FC<props> = ({onClose}) => {
     },
     {
       label: "Delete Comment",
-      onClick: () => {},
+      onClick: handleDelete
     },
   ];
   return (
@@ -23,10 +24,7 @@ const CommentPopOver:React.FC<props> = ({onClose}) => {
           <button
             key={index}
             onClick={() => {
-              item.onClick?.();
-              if (item.label === "Report" || item.label === "Block") {
-                return;
-              }
+              item.onClick();
               onClose?.();
             }}
             className="w-full flex items-center gap-2 px-3 py-[5px] transition-colors cursor-pointer"
