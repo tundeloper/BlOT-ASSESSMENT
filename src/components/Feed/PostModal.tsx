@@ -73,7 +73,6 @@ export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({
   };
 
   const handleBlockSubmit = async () => {
-    console.log("submit");
     try {
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_BASE_URL as string}/user/block/user`,

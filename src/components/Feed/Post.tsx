@@ -20,6 +20,8 @@ import { CircularProgress, ClickAwayListener } from '@mui/material'
 import { enqueueSnackbar } from 'notistack'
 import { useTheme } from '@/context/ThemeContext'
 import PostDetail from '../ui/media/uiTest'
+import { usePathname, useRouter } from 'next/navigation'
+import Comment from './comments/comment'
 
 type PostProps = { 
     post: Post, 
@@ -42,6 +44,9 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
     const [isCommentFocused, setIsCommentFocused] = useState(false)
     const [isCommenting, setIsCommenting] = useState(false)
     const [comment, setComment] = useState('');
+
+    const router = useRouter()
+    const pathname = usePathname()
 
     useEffect(() => {
         setIsFollowing(isFollowingProp);
@@ -232,7 +237,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                         </p>
                     </div>
                     {/* flex-wrap gap-2 */}
-                    <div className="flex justify-center w-full">
+                    <div className="w-full">
                         <PostDetail mediaItems={post.media_files} />
                         {/* {post?.media_files?.slice(0, 4).map((media) => (
                             <div key={media.id} className="mt-2.5 w-[45%] aspect-video rounded overflow-hidden grow">
@@ -257,7 +262,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                                 <span className="text-[13px] text-[#3A3D46] dark:text-white">{likeCount}</span>
                             </button>
 
-                            <button className="flex items-end gap-0.5 cursor-pointer">
+                            <button className="flex items-end gap-0.5 cursor-pointer" onClick={() => {router.push(`/post/${post.id}`)}}>
                                 <IoChatbubbleOutline size={20} className="text-[#3A3D46] dark:text-white" />
                                 <span className="text-[13px] text-[#3A3D46] dark:text-white">{post?.comments_count}</span>
                             </button>
@@ -334,6 +339,13 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                         </div>
                     </div>
                 </div>
+
+                {/* post details */}
+                {pathname === `/post/${post.id}` &&
+                <div className='w-full mb-6 border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
+                    <Comment post_id={post.id}/>
+                </div>
+                }
             </div>
         </div>
     );
