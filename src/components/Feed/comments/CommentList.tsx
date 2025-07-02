@@ -93,9 +93,10 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
         </div>
         <div className="flex flex-col w-full">
           <div className="flex gap-2 items-center">
-            <p className="text-[12px] md:text-[13px]">username or name</p>
+            <p className="text-[12px] md:text-[13px]">{comments.author_name}</p>
             <p className="text-[8px]">{formatTime(comments.created_at)}</p>
           </div>
+          
           <p className="mt-1 text-[12px] md:text-[13px]">{comments.content}</p>
 
           <div className="mt-3" id="interaction">
