@@ -81,12 +81,12 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
   const renderGrid = () => {
     const count = mediaItems.length;
     if (count === 1) {
-      return <div className='flex justify-center h-auto'>{renderMediaElement(mediaItems[0], () => openLightbox(0), "")}</div>
+      return renderMediaElement(mediaItems[0], () => openLightbox(0), "max-h-[350px]")
     }
     if (count === 2) {
       return (
         <div className="grid grid-cols-2 gap-1">
-          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-40'))}
+          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-[96px]'))}
         </div>
       );
     }
