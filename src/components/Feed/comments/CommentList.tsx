@@ -2,7 +2,6 @@ import { AiFillHeart, AiOutlineHeart, AiOutlineSend } from "react-icons/ai";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { HiDotsHorizontal } from "react-icons/hi";
 import { BsEmojiSmile, BsReplyAll } from "react-icons/bs";
-import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 import { CircularProgress, ClickAwayListener } from "@mui/material";
@@ -33,7 +32,6 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
   // const [isLiked, setIsLiked] = useState(comments.is_liked);
   // const [likeCount, setLikeCount] = useState(comments.likes_count);
 
-  const router = useRouter();
   const { theme } = useTheme();
 
   const handleClose = () => {
@@ -131,7 +129,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
               <button
                 className="flex items-end gap-0.5 cursor-pointer"
                 onClick={() => {
-                  router.push(`#`);
+                  setShowNextComment((prev) => !prev);
                 }}
               >
                 <IoChatbubbleOutline
@@ -140,9 +138,6 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
                 />
                 <span
                   className="text-[13px] text-[#3A3D46] dark:text-white"
-                  onClick={() => {
-                    setShowNextComment((prev) => !prev);
-                  }}
                 >
                   {comments.replies.length}
                 </span>
