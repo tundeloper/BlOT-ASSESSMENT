@@ -342,7 +342,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
 
                 {/* post details */}
                 {pathname === `/post/${post.id}` &&
-                <div className='w-full mb-6 border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
+                <div className='w-full pb-[5rem] border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
                     <Comment post_id={post.id}/>
                 </div>
                 }

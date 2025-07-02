@@ -14,6 +14,7 @@ import { enqueueSnackbar } from "notistack";
 import { HiOutlineGif } from "react-icons/hi2";
 import { CiImageOn } from "react-icons/ci";
 import { GiCancel } from "react-icons/gi";
+import insertReply from "@/utils/comment_helper";
 
 type CommentListProps = {
   comments: Comments;
@@ -68,6 +69,11 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
       setComment("");
       setIsCommentFocused(false);
       setIsCommenting(false);
+      console.log(res);
+      setComments((prev) => {
+        if (res.data === null) return [];
+        return insertReply(prev, res.data);
+      });
     } else {
       enqueueSnackbar("Failed to comment", { variant: "error" });
       setIsCommenting(false);
@@ -96,7 +102,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
             <p className="text-[12px] md:text-[13px]">{comments.author_name}</p>
             <p className="text-[8px]">{formatTime(comments.created_at)}</p>
           </div>
-          
+
           <p className="mt-1 text-[12px] md:text-[13px]">{comments.content}</p>
 
           <div className="mt-3" id="interaction">
@@ -197,8 +203,8 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
                 </div>
                 <div className="flex justify-between items-center gap-2 w-full">
                   <div className="flex items-center gap-2 w-full">
-                    <span className="text-[13px] ">
-                      @{comments.author_name}
+                    <span className="text-[11px] md:text-[13px] ">
+                      @{comments.author_username}
                     </span>
                     <input
                       type="text"

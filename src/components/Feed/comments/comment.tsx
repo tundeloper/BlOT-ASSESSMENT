@@ -15,7 +15,7 @@ const Comment = ({ post_id }: { post_id: number }) => {
 
   return (
     <div className="w-full text-[#1E1E1E] dark:text-[#FFFFFF]">
-      <div className="flex justify-between py-[16px]">
+      <div className="flex justify-between py-[14px] md:py-[16px]">
         <p className="text-[16px]">Comments</p>
         <div>
           <span className="text-[13px] cursor-pointer">Most Recent</span>

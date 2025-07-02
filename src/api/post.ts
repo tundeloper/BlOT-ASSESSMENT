@@ -106,9 +106,7 @@ export const createComment = async (
     parent_id?: number;
   }
 ): Promise<{
-  data: {
-    post_id: number
-  } | null
+  data: Comments | null
   status: number;
   success: boolean;
 }> => {

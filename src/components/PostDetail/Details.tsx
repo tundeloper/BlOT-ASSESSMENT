@@ -63,6 +63,7 @@ const Details:React.FC<{id: string}> = ({id}) => {
         }
         fetchFeed();
       }, []);
+      
     return <div className="text-white mb-[10rem] w-full h-full">
     {
           loading ? (
