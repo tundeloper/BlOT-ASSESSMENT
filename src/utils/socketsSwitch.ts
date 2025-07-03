@@ -28,7 +28,7 @@ export function handleSocketMessage(
         break;
 
       case "direct_message_sent":
-        console.log("✅ Message sent:", payload);
+        // console.log("Message sent:", payload);
         break;
 
       case "unread_messages":
@@ -36,9 +36,9 @@ export function handleSocketMessage(
         break;
 
       default:
-        console.warn("⚠️ Unknown event type:", eventType, payload);
+        console.warn("Unknown event type:", eventType, payload);
     }
   } catch (err) {
-    console.error("❌ Error parsing WebSocket message:", err);
+    console.error("Error parsing WebSocket message:", err);
   }
 }

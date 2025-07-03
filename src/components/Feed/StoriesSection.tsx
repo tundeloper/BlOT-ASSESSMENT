@@ -3,15 +3,20 @@ import React, { useState, useRef, useEffect } from 'react';
 
 import { X, ChevronRight, ChevronLeft, Pause, Play, Smile, Ellipsis } from 'lucide-react';
 import FeedWrapper from '../Layout/FeedWrapper';
+import axios from 'axios';
+import { getAuthTokensFromLocalStorage, useAuthStore } from '@/store/authstore';
+import { getStories } from '@/api/stories';
+import { AiOutlineSend } from 'react-icons/ai';
 
 // Type representing a story
 interface Story {
-  id: string;
+  id: number;
   url: string ; // URL.createObjectURL(file) for local files should be string in real version ;
   type: 'image' | 'video';
   user: string;
   avatar?: string;
   timestamp: number;
+  expires_at: number;
   caption?: string;
 }
 
@@ -22,6 +27,21 @@ interface PreviewItem {
   url: string; // URL.createObjectURL(file) for local files should be string in real version 
   type: 'image' | 'video';
   caption: string;
+}
+
+function flattenStories(input: Stories[]): Story[] {
+  return input.flatMap(story =>
+    story.media_files.map(media => ({
+      id: story.id,
+      url: media.media_url,
+      type: media.media_type === 'video' ? 'video' : 'image',
+      user: story.username,
+      avatar: story.profile_picture,
+      timestamp: Date.parse(story.created_at),
+      expires_at: Date.parse(story.expires_at),
+      caption: story.content || undefined,
+    }))
+  );
 }
 
 const STORIES_DURATION = 5000; // Duration per story in ms
@@ -39,67 +59,17 @@ const getTimeAgo = (timestamp: number) => {
   return `${days}d ago`;
 };
 
-const CURRENT_USER = 'You'; // identifier for current user; replace as needed
 
 const StoriesSection: React.FC = () => {
+  
   // Main stories state, including dummy stories with multiple per user
   const [stories, setStories] = useState<Story[]>(() => {
-    const now = Date.now();
     return [
       // Alice has 3 stories
-      {
-        id: 'alice-1', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10,
-      },
-      {
-        id: 'alice-2', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 8,
-      },
-      {
-        id: 'alice-3', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 5,
-      },
-      // Bob has 2 stories
-      {
-        id: 'bob-1', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 40,
-      },
-      {
-        id: 'bob-2', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 30,
-      },
-      // Charlie has 3 stories
-      {
-        id: 'charlie-1', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 90,
-      },
-      {
-        id: 'charlie-2', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 60,
-      },
-      {
-        id: 'charlie-3', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 30,
-      },
+      // {
+        //   id: 1,  url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10, expires_at: now - 1000 * 60 * 10,
+        // },
 
-      {
-        id: 'alice-5', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 10,
-      },
-      {
-        id: 'alice-4', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 8,
-      },
-      {
-        id: 'alice-6', url: "https://i.pravatar.cc/150?u=Alice", type: 'image', user: 'Alice2', avatar: 'https://i.pravatar.cc/150?u=Alice', timestamp: now - 1000 * 60 * 5,
-      },
-      // Bob has 2 stories
-      {
-        id: 'bob6', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob2', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 40,
-      },
-      {
-        id: 'bob-7', url: "https://i.pravatar.cc/150?u=Bob", type: 'image', user: 'Bob2', avatar: 'https://i.pravatar.cc/150?u=Bob', timestamp: now - 1000 * 60 * 30,
-      },
-      // Charlie has 3 stories
-      {
-        id: 'charlie-5', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 90,
-      },
-      {
-        id: 'charlie-6', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 60,
-      },
-      {
-        id: 'charlie-7', url: "https://i.pravatar.cc/150?u=Charlie", type: 'image', user: 'Charlie2', avatar: 'https://i.pravatar.cc/150?u=Charlie', timestamp: now - 1000 * 60 * 30,
-      },
       // Ensure current user group present (empty initially)
     ];
   });
@@ -108,18 +78,32 @@ const StoriesSection: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isReplyFocus, setisReplyFocus] = useState(false)
   const progressRef = useRef<number>(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const touchStartX = useRef<number | null>(null);
   const pauseByHold = useRef(false);
 
+  const user = useAuthStore(s => s.user)
+  
   // Preview modal state
   const [previewItems, setPreviewItems] = useState<PreviewItem[]>([]);
   const [previewIndex, setPreviewIndex] = useState(0);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  
+  const CURRENT_USER = user?.username as string; // identifier for current user; replace as needed
 
-  //  theme
+  useEffect(() => {
+    (async () => {
+      const res = await getStories()
+      const flat = res.data?.map(stories => flattenStories(stories.stories))
+      const formatedStories = flat?.flat() as Story[]
+      setStories(formatedStories)
+
+    })()
+  }, [])
+
 
   // Utility: group stories by user, always include current user first
   const getGroupedByUser = () => {
@@ -156,6 +140,7 @@ const StoriesSection: React.FC = () => {
   // Handle file selection for preview
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
+
     if (files && files.length > 0) {
       const items: PreviewItem[] = [];
       for (let i = 0; i < files.length; i++) {
@@ -184,20 +169,46 @@ const StoriesSection: React.FC = () => {
       return updated;
     });
   };
-  const shareCurrentPreview = () => {
+  const shareCurrentPreview = async () => {
     // const item = previewItems[previewIndex];
     // const newStory: Story = { id: item.id, url: item.url, type: item.type, user: CURRENT_USER, avatar: undefined, timestamp: Date.now(), caption: item.caption };
     // send to backend
     const mappedPreview = previewItems.map(item => ({
-  id: item.id,
+  id: +item.id,
   url: item.url,
   type: item.type,
   user: CURRENT_USER,
   avatar: undefined,
+  expires_at: Date.now(),
   timestamp: Date.now(),
   caption: item.caption
 }));
     // setStories(prev => [newStory, ...prev]);
+    //do api call
+
+    try {
+    const formData = new FormData();
+    previewItems.forEach((item) => {
+      formData.append("media", item.file);
+      formData.append("content", item.caption);
+    });
+
+
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL as string}/stories`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${getAuthTokensFromLocalStorage()}`,
+          },
+        })
+      if (res.data) {
+        console.log(res)
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error)
+      }
+    }
+
     setStories(prev => [...mappedPreview, ...prev]);
     closePreview();
     discardPreview();
@@ -316,7 +327,7 @@ const StoriesSection: React.FC = () => {
           const isCurrent = group.user === CURRENT_USER;
           return (
             <div key={group.user} className="relative flex flex-col gap-2 items-center" onClick={() => isCurrent ? handleCurrentUserClick() : openViewer(group.stories)}>
-              <div className={`w-14 h-14 rounded-full overflow-hidden ${isCurrent ? 'ring-2 ring-blue-500' : 'ring-2 ring-gray-300 dark:ring-gray-600'}`}> 
+              <div className={`w-14 h-14 rounded-full overflow-hidden ${isCurrent ? 'ring-2 ring-[#2D439B]' : 'ring-2 ring-gray-300 dark:ring-gray-600'}`}> 
                 {group.avatar ? (
                   <Image width={50} height={50} src={group.avatar} alt={group.user} className="w-full h-full object-cover" />
                 ) : (
@@ -468,10 +479,10 @@ const StoriesSection: React.FC = () => {
             </div>
 
             {/* Reply Input */}
-            {currentUserStories && <div className="max-w-[515px] absolute bottom-0 p-4 w-full flex items-center" onClick={e => e.stopPropagation()}>
-              <input type="text" placeholder="Write a reply" className="flex-1 p-2 h-[32px] max-w-[515px] w-full rounded-md text-[10px] md:text-[13px] bg-white bg-opacity-80 text-black placeholder-gray-600 focus:outline-none" />
+            {currentUserStories && <div className="max-w-[515px] absolute bottom-0 p-4 w-full flex items-center cursor-pointer" onClick={e => e.stopPropagation()}>
+              <input type="text" placeholder="Write a reply" className="flex-1 p-2 h-[32px] max-w-[515px] w-full rounded-md text-[10px] md:text-[13px] bg-white bg-opacity-80 text-red placeholder-gray-600 focus:outline-none" onBlur={() => setisReplyFocus(false)} onFocus={() => {togglePause(); setisReplyFocus(true)}} />
               <button className="ml-2 text-white">
-                <Smile className="h-6 w-6 text-[#ffffff]"/>
+                {!isReplyFocus ? <Smile className="h-6 w-6 text-[#ffffff]"/> : <AiOutlineSend size={20} className="text-white" />}
                 {/* <EmojiIcons fill={theme === "dark" ? "#FFFFFF" : "#3A3D46"} /> */}
               </button>
             </div>}
