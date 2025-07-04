@@ -2,8 +2,16 @@
 import React from 'react';
 import Image from 'next/image';
 import { RxDot } from 'react-icons/rx';
+import { useParams, useRouter } from 'next/navigation';
 
 const ScoreItem: React.FC<{ livescore: Livescore }> = ({ livescore }) => {
+    const router = useRouter();
+    const {slug} = useParams();
+
+    const onViewMatchStats = () => {
+        router.push(`/lounge/${slug}/livescore/details/${livescore?.id}`);
+    }
+
     return (
         <div className="border border-[#D9D9D9] dark:border-[#3A3D46] rounded p-4 flex flex-col gap-7 w-[45%] grow">
             <div className="flex justify-between items-start">
@@ -57,7 +65,7 @@ const ScoreItem: React.FC<{ livescore: Livescore }> = ({ livescore }) => {
                 </div>
             </div>
 
-            <button className="w-full border border-[#D9D9D9] dark:border-[#3A3D46] rounded py-1.5 px-4 text-[14px] font-normal text-[#7A7F8C] dark:text-white hover:bg-gray-50 transition-colors">
+            <button onClick={onViewMatchStats} className="w-full border border-[#D9D9D9] dark:border-[#3A3D46] rounded py-1.5 px-4 text-[14px] font-normal text-[#7A7F8C] dark:text-white hover:bg-gray-50 dark:hover:bg-[#3A3D46] transition-colors cursor-pointer">
                 View Match Stats
             </button>
         </div>

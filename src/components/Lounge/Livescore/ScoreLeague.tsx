@@ -3,13 +3,13 @@ import React from 'react';
 import Image from 'next/image';
 import { RxDot } from 'react-icons/rx';
 import ScoreItem from './ScoreItem';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface ScoreLeagueProps {
     leagueName: string;
     country: string;
     leagueLogo: string;
     isLive?: boolean;
-    onViewAll?: () => void;
 }
 
 const ScoreLeague: React.FC<ScoreLeagueProps> = ({
@@ -17,8 +17,9 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
     country = "English",
     leagueLogo = "https://ui-avatars.com/api/?name=PL&background=3A3D46&color=fff&size=32",
     isLive = true,
-    onViewAll
 }) => {
+    const router = useRouter();
+    const pathname = usePathname();
     const livescore: Livescore = {
         id: 1,
         date: '2025-06-17',
@@ -71,6 +72,12 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
             city: 'London',
         },
     }
+
+
+    const onViewAll = () => {
+        router.push(`${pathname}/${leagueName}`);
+    }
+
     return (
         <div className='mb-4'>
             <div className="flex justify-between items-center w-full px-0.5">
@@ -108,7 +115,7 @@ const ScoreLeague: React.FC<ScoreLeagueProps> = ({
 
                 <button
                     onClick={onViewAll}
-                    className="text-[13px] font-normal text-[#2D439B] dark:text-white hover:underline"
+                    className="text-[13px] font-normal text-[#2D439B] dark:text-white hover:underline cursor-pointer"
                 >
                     View All
                 </button>
