@@ -22,17 +22,18 @@ import { useTheme } from '@/context/ThemeContext'
 import PostDetail from '../ui/media/uiTest'
 import { usePathname, useRouter } from 'next/navigation'
 import Comment from './comments/comment'
+import { RiEdit2Line } from 'react-icons/ri'
 
-type PostProps = { 
-    post: Post, 
+type PostProps = {
+    post: Post,
     isMuted: boolean,
     isFollowing: boolean,
     fetchMutedUser: () => void,
-    fetchFollowing: () => void, 
-    setOpenAuthModal: (open: boolean) => void 
+    fetchFollowing: () => void,
+    setOpenAuthModal: (open: boolean) => void
 }
 
-const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fetchFollowing, setOpenAuthModal }: PostProps ) => {
+const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fetchFollowing, setOpenAuthModal }: PostProps) => {
     const { user, isAuthenticated } = useAuthStore()
     const { theme } = useTheme()
     const [isFollowing, setIsFollowing] = useState(isFollowingProp);
@@ -44,6 +45,8 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
     const [isCommentFocused, setIsCommentFocused] = useState(false)
     const [isCommenting, setIsCommenting] = useState(false)
     const [comment, setComment] = useState('');
+    const [isRepostModalOpen, setIsRepostModalOpen] = useState(false)
+    const [isReposting, setIsReposting] = useState(false)
 
     const router = useRouter()
     const pathname = usePathname()
@@ -117,7 +120,16 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
             setOpenAuthModal(true);
             return;
         }
-        await createRepost({ post_id: post?.id });
+        setIsReposting(true)
+        const res = await createRepost({ post_id: post?.id });
+        if (res.success) {
+            setIsReposting(false)
+            setIsRepostModalOpen(false)
+            enqueueSnackbar('Reposted', { variant: 'success' });
+        } else {
+            enqueueSnackbar(typeof res.data === 'string' ? res.data : 'Failed to repost', { variant: 'error' });
+            setIsReposting(false)
+        }
     }
 
     const handleFollow = async () => {
@@ -151,7 +163,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                 fetchMutedUser()
             }
         } else {
-            const res = await muteUser({user_id: post.author_id, duration_hours: 24}) // default bu 24 hours
+            const res = await muteUser({ user_id: post.author_id, duration_hours: 24 }) // default bu 24 hours
             if (res.success) {
                 fetchMutedUser();
             }
@@ -199,34 +211,34 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                         </div>
                     </div>
                     <label className="relative" id="more-dropdown">
-            <button
-              className="p-2 cursor-pointer"
-              onClick={() => setIsMoreDropdownOpen(true)}
-            >
-              <BsThreeDotsVertical
-                size={24}
-                className="text-[#3A3D46] dark:text-white"
-              />
-            </button>
-            {isMoreDropdownOpen && (
-              <ClickAwayListener
-                onClickAway={() => setIsMoreDropdownOpen(false)}
-              >
-                <div id="more-dropdown-menu">
-                  <PostMoreDropdown
-                    post={post}
-                    onClose={() => setIsMoreDropdownOpen(false)}
-                    handleFollow={handleFollow}
-                    handleBookmark={handleBookmark}
-                    isBookmarked={isBookmarked}
-                    isFollowing={isFollowing}
-                    userIsMuted={userIsMuted}
-                    handleMute={handleMute}
-                  />
-                </div>
-              </ClickAwayListener>
-            )}
-          </label>
+                        <button
+                            className="p-2 cursor-pointer"
+                            onClick={() => setIsMoreDropdownOpen(true)}
+                        >
+                            <BsThreeDotsVertical
+                                size={24}
+                                className="text-[#3A3D46] dark:text-white"
+                            />
+                        </button>
+                        {isMoreDropdownOpen && (
+                            <ClickAwayListener
+                                onClickAway={() => setIsMoreDropdownOpen(false)}
+                            >
+                                <div id="more-dropdown-menu">
+                                    <PostMoreDropdown
+                                        post={post}
+                                        onClose={() => setIsMoreDropdownOpen(false)}
+                                        handleFollow={handleFollow}
+                                        handleBookmark={handleBookmark}
+                                        isBookmarked={isBookmarked}
+                                        isFollowing={isFollowing}
+                                        userIsMuted={userIsMuted}
+                                        handleMute={handleMute}
+                                    />
+                                </div>
+                            </ClickAwayListener>
+                        )}
+                    </label>
                 </div>
 
                 <div className="px-4">
@@ -262,15 +274,57 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                                 <span className="text-[13px] text-[#3A3D46] dark:text-white">{likeCount}</span>
                             </button>
 
-                            <button className="flex items-end gap-0.5 cursor-pointer" onClick={() => {router.push(`/post/${post.id}`)}}>
+                            <button className="flex items-end gap-0.5 cursor-pointer" onClick={() => { router.push(`/post/${post.id}`) }}>
                                 <IoChatbubbleOutline size={20} className="text-[#3A3D46] dark:text-white" />
                                 <span className="text-[13px] text-[#3A3D46] dark:text-white">{post?.comments_count}</span>
                             </button>
 
-                            <button className="flex items-end gap-0.5 cursor-pointer" onClick={handleRepost}>
-                                <BiRepost size={20} className="text-[#3A3D46] dark:text-white" />
-                                <span className="text-[13px] text-[#3A3D46] dark:text-white">{post?.reposts_count}</span>
-                            </button>
+                            <div className='relative'>
+                                <button className="flex items-end gap-0.5 cursor-pointer" onClick={() => setIsRepostModalOpen(true)}>
+                                    <BiRepost size={20} className="text-[#3A3D46] dark:text-white" />
+                                    <span className="text-[13px] text-[#3A3D46] dark:text-white">{post?.reposts_count}</span>
+                                </button>
+                                {
+                                    isRepostModalOpen && (
+                                        <ClickAwayListener onClickAway={() => setIsRepostModalOpen(false)}>
+                                            <div className="w-[200px] bg-white dark:bg-[#1A1C20] rounded shadow-lg overflow-hidden absolute top-10 left-[-80px] z-50">
+                                                <div className="py-1">
+                                                    <button
+                                                        onClick={() => {
+                                                            router.push(`/repost/${post.id}`)
+                                                        }}
+                                                        className="w-full flex items-center gap-2 px-3 py-[5px] hover:bg-[#F9FAFB] dark:hover:bg-[#2D2D2D] transition-colors cursor-pointer"
+                                                    >
+                                                        <span className="text-[#3A3D46] dark:text-white"><RiEdit2Line /></span>
+                                                        <span className="text-[13px] text-[#3A3D46] dark:text-white font-normal">
+                                                            Repost with your thoughts
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                                <div className="py-1">
+                                                    <button
+                                                        onClick={() => {
+                                                            handleRepost();
+                                                        }}
+                                                        className="w-full flex items-center gap-2 px-3 py-[5px] hover:bg-[#F9FAFB] dark:hover:bg-[#2D2D2D] transition-colors cursor-pointer"
+                                                    >
+                                                        <span className="text-[#3A3D46] dark:text-white">
+                                                            {isReposting ? (
+                                                                <CircularProgress size={14} sx={{ color: theme === 'dark' ? '#fff' : '#3A3D46' }} />
+                                                            ) : (
+                                                                <BiRepost size={20} className="text-[#3A3D46] dark:text-white" />
+                                                            )}
+                                                        </span>
+                                                        <span className="text-[13px] text-[#3A3D46] dark:text-white font-normal">
+                                                            Repost
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </ClickAwayListener>
+                                    )
+                                }
+                            </div>
 
                             <button className="flex items-end gap-0.5 cursor-pointer" onClick={handleShare}>
                                 <PiShareFatLight size={20} className="text-[#3A3D46] dark:text-white" />
@@ -342,9 +396,9 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
 
                 {/* post details */}
                 {pathname === `/post/${post.id}` &&
-                <div className='w-full pb-[5rem] border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
-                    <Comment post_id={post.id}/>
-                </div>
+                    <div className='w-full pb-[5rem] border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
+                        <Comment post_id={post.id} />
+                    </div>
                 }
             </div>
         </div>

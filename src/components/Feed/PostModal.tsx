@@ -140,11 +140,11 @@ export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({
   //   }
 
   return (
-    <div className="w-[200px] bg-white rounded shadow-lg overflow-hidden absolute top-10 right-0 z-50">
+    <div className="w-[200px] bg-white dark:bg-[#1A1C20] rounded shadow-lg overflow-hidden absolute top-10 right-0 z-50">
       {/* Arrow at top right */}
       <div className="flex justify-end px-[22px]">
         <div className="w-3 h-1.5 overflow-hidden">
-          <div className="w-3 h-3 bg-white rotate-45 transform origin-bottom-left"></div>
+          <div className="w-3 h-3 bg-white dark:bg-[#1A1C20] rotate-45 transform origin-bottom-left"></div>
         </div>
       </div>
 
@@ -160,10 +160,10 @@ export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({
               }
               onClose?.();
             }}
-            className="w-full flex items-center gap-2 px-3 py-[5px] hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+            className="w-full flex items-center gap-2 px-3 py-[5px] hover:bg-[#F9FAFB] dark:hover:bg-[#2D2D2D] transition-colors cursor-pointer"
           >
-            <span className="text-[#3A3D46]">{item.icon}</span>
-            <span className="text-[13px] text-[#3A3D46] font-normal">
+            <span className="text-[#3A3D46] dark:text-white">{item.icon}</span>
+            <span className="text-[13px] text-[#3A3D46] dark:text-white font-normal">
               {item.label}
             </span>
           </button>

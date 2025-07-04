@@ -17,6 +17,12 @@ interface Post {
   comments_count: number;
   reposts_count: number;
   shares_count: number;
+  quote: string;
+  repost_id: number;
+  reposter_id: number;
+  reposter_name: string;
+  reposter_profile_picture: string;
+  reposter_username: string;
 }
 
 interface MediaFile {
