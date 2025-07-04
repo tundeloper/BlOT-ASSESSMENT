@@ -81,12 +81,12 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
   const renderGrid = () => {
     const count = mediaItems.length;
     if (count === 1) {
-      return <div className='flex justify-center h-auto'>{renderMediaElement(mediaItems[0], () => openLightbox(0), "text-center w-full")}</div>
+      return renderMediaElement(mediaItems[0], () => openLightbox(0), "max-h-[350px]")
     }
     if (count === 2) {
       return (
         <div className="grid grid-cols-2 gap-1">
-          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-40'))}
+          {mediaItems.map((m, i) => renderMediaElement(m, () => openLightbox(i), 'h-[96px]'))}
         </div>
       );
     }
@@ -95,12 +95,12 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
         <div className="grid grid-cols-2 grid-rows-2 gap-1">
           {mediaItems.map((m, i) => {
             if (i < 2) {
-              return renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-44');
+              return renderMediaElement(m, () => openLightbox(i), 'h-[96px]');
             }
             // third item spans full width and has extra height
             return (
               <div key={m.id} className="col-span-2">
-                {renderMediaElement(m, () => openLightbox(i), 'h-25 md:h-44')}
+                {renderMediaElement(m, () => openLightbox(i), 'h-[96px]')}
               </div>
             );
           })}
@@ -114,7 +114,7 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
       <div className="grid grid-cols-2 grid-rows-2 gap-1">
         {display.map((m, i) => (
           <div key={m.id} className="relative" onClick={() => openLightbox(i)}>
-            {renderMediaElement(m, () => openLightbox(i), 'h-48')}
+            {renderMediaElement(m, () => openLightbox(i), 'h-[96px]')}
             {i === 3 && extra > 0 && (
               <div className="absolute inset-0 bg-transparent bg-opacity-50 flex items-center justify-center rounded">
                 <span className="text-white text-2xl font-semibold">+{extra}</span>
@@ -135,7 +135,7 @@ export default function PostDetail({ mediaItems }: PostDetailProps) {
         {isLightboxOpen && (
           <motion.div
             key={currentIndex}
-            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+            className="fixed inset-0 bg-[#4d4a4ad8] bg-opacity-75 flex items-center justify-center z-50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

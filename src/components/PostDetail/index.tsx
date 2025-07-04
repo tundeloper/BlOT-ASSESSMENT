@@ -16,7 +16,7 @@ const PostDetail:React.FC<{id: string}> = ({id}) => {
         <Lounge />
         <Channel />
       </div>
-      <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh]'>
+      <div className='flex flex-col gap-4 w-[100%] md:p-[16px] md:bg-white md:dark:bg-[#121212] md:w-[56%] h-[86vh] overflow-y-auto scrollbar-hide'>
         <Details id={id}/>
       </div>
       <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
