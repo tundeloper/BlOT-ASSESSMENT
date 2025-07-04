@@ -251,7 +251,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                     </div>
                     {/* flex-wrap gap-2 */}
                     <div className="w-full">
-                        <PostDetail mediaItems={post.media_files} />
+                        <PostDetail mediaItems={post?.media_files || []} />
                         {/* {post?.media_files?.slice(0, 4).map((media) => (
                             <div key={media.id} className="mt-2.5 w-[45%] aspect-video rounded overflow-hidden grow">
                                 {media && renderMedia(media)}
