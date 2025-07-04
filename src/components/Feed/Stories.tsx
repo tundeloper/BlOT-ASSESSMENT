@@ -6,6 +6,7 @@ import { IoChevronBack, IoChevronForward } from 'react-icons/io5'
 // import Image from 'next/image'
 // import logo from '@/assets/logo.png'
 import StoriesSection from './StoriesSection'
+import { useAuthStore } from '@/store/authstore'
 
 // interface Story {
 //   id: number;
@@ -30,6 +31,8 @@ const Stories = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [showStories, setShowStories] = useState(false);
+
+  const user = useAuthStore()
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
@@ -88,7 +91,7 @@ const Stories = () => {
         onScroll={handleScroll}
         className={`gap-4 overflow-x-auto scrollbar-hide ${showStories ? 'flex' : 'hidden'}`}
       >
-        <StoriesSection />
+        {user.isAuthenticated && <StoriesSection />}
         {/* {stories.map((story) => (
         {stories.map((story) => (
           <div

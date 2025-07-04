@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import Trends from './Trends'
 import Lounge from './Lounge'
@@ -7,6 +8,8 @@ import Feeds from './Feeds'
 import Fixtures from './Fixtures'
 import Livescore from './Livescore'
 import Predictions from './Predictions'
+import { SnackbarProvider } from "notistack";
+
 
 const FeedMain = () => {
 
@@ -26,6 +29,7 @@ const FeedMain = () => {
         <Fixtures />
         <Predictions />
       </div>
+      <SnackbarProvider />
     </div>
   )
 }

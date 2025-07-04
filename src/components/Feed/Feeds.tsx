@@ -5,9 +5,10 @@ import { getFeed } from '@/api/feed'
 import { CircularProgress } from '@mui/material'
 import { User } from '@/types/auth'
 import { getFollowing, getMutedUser } from '@/api/user'
-import { SnackbarProvider } from 'notistack'
+import { SnackbarProvider } from "notistack";
 import AuthModal from '../Layout/AuthModal'
 import Repost from './Repost'
+
 
 type FeedType = 'following' | 'for-you';
 

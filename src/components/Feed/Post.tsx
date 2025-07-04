@@ -17,15 +17,16 @@ import { CiImageOn } from 'react-icons/ci'
 import { HiOutlineGif } from "react-icons/hi2";
 import { IoMdBookmark } from 'react-icons/io'
 import { CircularProgress, ClickAwayListener } from '@mui/material'
-import { enqueueSnackbar } from 'notistack'
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 import { useTheme } from '@/context/ThemeContext'
 import PostDetail from '../ui/media/uiTest'
 import { usePathname, useRouter } from 'next/navigation'
 import Comment from './comments/comment'
 import { RiEdit2Line } from 'react-icons/ri'
 
-type PostProps = {
-    post: Post,
+
+type PostProps = { 
+    post: Post, 
     isMuted: boolean,
     isFollowing: boolean,
     fetchMutedUser: () => void,
@@ -401,6 +402,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                     </div>
                 }
             </div>
+            <SnackbarProvider />
         </div>
     );
 }
