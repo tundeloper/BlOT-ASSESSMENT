@@ -4,6 +4,22 @@ import { getPost } from '@/api/feed';
 import { CircularProgress } from '@mui/material';
 import { timeAgo } from '@/utils/helper';
 
+const renderMedia = (mediaUrl: string, mediaType: string) => {
+    if (mediaType === 'video') {
+        return <video
+            className="w-full h-full object-cover"
+            autoPlay={true}
+            controls={true}
+            playsInline
+            loop
+            muted={true}
+        >
+            <source src={mediaUrl} type="video/mp4" />
+        </video>
+    }
+    return <Image src={mediaUrl} alt="Post image" width={500} height={300} className="w-full h-full object-cover" />
+}
+
 const PostPreview: React.FC<{ postID: string }> = ({ postID }) => {
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(false);
@@ -42,9 +58,13 @@ const PostPreview: React.FC<{ postID: string }> = ({ postID }) => {
                         <div className="text-[14px] text-[#3A3D46] dark:text-white" style={{ fontFamily: 'Switzer' }}>
                             {post?.content}
                         </div>
-                      {post?.media_url && <div className="w-full rounded-[8px] overflow-hidden">
-                            <Image src={post?.media_url || ''} alt="post preview" className="w-full h-48 object-cover" width={400} height={400} />
-                        </div>}
+                        <div className='w-full flex flex-wrap gap-2'>
+                            {post?.media_files?.slice(0, 4).map((media) => (
+                                <div key={media.id} className="mt-2.5 w-[45%] aspect-video rounded overflow-hidden grow">
+                                    {media && renderMedia(media.media_url, media.media_type)}
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 )
             }

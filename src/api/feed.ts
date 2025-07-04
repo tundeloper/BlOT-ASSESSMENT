@@ -35,7 +35,6 @@ export const getPost = async (post_id: number): Promise<{
     success: boolean;
 }> => {
     try {
-        console.log(post_id)
         const response = await apiAxios.get(`/posts/${post_id}`);
         return {
             data: response.data,
