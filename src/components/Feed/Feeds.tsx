@@ -5,8 +5,9 @@ import { getFeed } from '@/api/feed'
 import { CircularProgress } from '@mui/material'
 import { User } from '@/types/auth'
 import { getFollowing, getMutedUser } from '@/api/user'
-import { SnackbarProvider } from 'notistack'
+import { SnackbarProvider } from "notistack";
 import AuthModal from '../Layout/AuthModal'
+
 
 type FeedType = 'following' | 'for-you';
 
@@ -96,6 +97,7 @@ const Feeds = () => {
       </div>
       <SnackbarProvider />
       <AuthModal open={openAuthModal} onClose={() => setOpenAuthModal(false)} />
+      <SnackbarProvider />
     </div>
   );
 }

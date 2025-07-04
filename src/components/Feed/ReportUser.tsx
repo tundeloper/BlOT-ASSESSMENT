@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import React, { useState, FC, FormEvent } from 'react';
+import { SnackbarProvider } from "notistack";
 
 interface ReportUserModalProps {
   isOpen: boolean;
@@ -138,6 +139,7 @@ const ReportUserModal: FC<ReportUserModalProps> = ({ isOpen, onClose, onSubmit }
           </div>
         </form>
       </div>
+      <SnackbarProvider />
     </div>
   );
 };

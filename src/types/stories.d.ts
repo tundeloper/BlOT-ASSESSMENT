@@ -1,6 +1,6 @@
 interface Stories {
-  id: 6;
-  user_id: 10;
+  id: number;
+  user_id: numbers;
   username: string;
   name: string;
   profile_picture: string;

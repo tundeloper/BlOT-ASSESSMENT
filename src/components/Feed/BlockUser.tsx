@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
 import React, { FC, FormEvent } from 'react';
+import { SnackbarProvider } from "notistack";
 
 interface BlockUserModalProps {
   isOpen: boolean;
@@ -71,6 +72,7 @@ const BlockUser: FC<BlockUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
           </div>
         </form>
       </div>
+      <SnackbarProvider />
     </div>
   );
 };
