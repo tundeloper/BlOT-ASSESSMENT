@@ -57,6 +57,10 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
         setUserIsMuted(isMuted)
     }, [isFollowingProp, isMuted]);
 
+    // checking if a post is already repost
+    // const postId = post.type === "repost" ? post.post_id : post.id
+    // console.log(postId, post.type)
+
     // const renderMedia = (media: MediaFile) => {
     //     if (media.media_type === 'video') {
     //         return <video
@@ -110,6 +114,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
             setComment('');
             setIsCommentFocused(false);
             setIsCommenting(false);
+            router.push(`post${post.id}`)
         } else {
             enqueueSnackbar('Failed to comment', { variant: 'error' });
             setIsCommenting(false);
@@ -398,7 +403,7 @@ const Post = ({ post, isFollowing: isFollowingProp, fetchMutedUser, isMuted, fet
                 {/* post details */}
                 {pathname === `/post/${post?.id}` &&
                     <div className='w-full pb-[5rem] border-t border-[#E4E6EC] dark:border-[#1A1C20]'>
-                        <Comment post_id={post?.id} />
+                        <Comment post_id={post.id} isCommenting={isCommenting} />
                     </div>
                 }
             </div>

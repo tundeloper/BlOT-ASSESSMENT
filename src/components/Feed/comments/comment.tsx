@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import CommentList from "./CommentList";
 import { getComment } from "@/api/post";
 
-const Comment = ({ post_id }: { post_id: number }) => {
+const Comment = ({ post_id , isCommenting}: { post_id: number, isCommenting: boolean }) => {
   const [comments, setComments] = useState<Comments[]>([]);
   
   useEffect(() => {
@@ -11,7 +11,7 @@ const Comment = ({ post_id }: { post_id: number }) => {
       const response = await getComment(post_id);
       if (response.data) setComments(response.data)
     })();
-  }, []);
+  }, [post_id, isCommenting]);
 
   return (
     <div className="w-full text-[#1E1E1E] dark:text-[#FFFFFF]">

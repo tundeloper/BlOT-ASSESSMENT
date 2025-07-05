@@ -13,12 +13,11 @@ const Details: React.FC<{ id: string }> = ({ id }) => {
   const [mutedUser, setMutedUser] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
   const [openAuthModal, setOpenAuthModal] = useState(false);
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<Post | null>();
 
   const fetchMutedUser = async () => {
     const res = await getMutedUser();
     if (res.success) {
-      console.log(res.data)
       setMutedUser(res.data || []);
     }
   }
@@ -37,7 +36,6 @@ const Details: React.FC<{ id: string }> = ({ id }) => {
       const [feedRes] = await Promise.all([getPost(+id), fetchMutedUser(), fetchFollowing()]);
       if (feedRes.success) {
         if (feedRes.data) setPost(feedRes.data);
-        console.log(feedRes)
       }
       setLoading(false);
     }

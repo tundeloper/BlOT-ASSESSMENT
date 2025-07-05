@@ -97,7 +97,7 @@ const CommentList: React.FC<CommentListProps> = ({ comments, setComments }) => {
                 comments?.author_name?.trim() || ""
               )}&format=png`
             }
-            alt={comments?.author_name}
+            alt={comments.author_name}
             width={32}
             height={32}
             className="w-full h-full object-cover"
