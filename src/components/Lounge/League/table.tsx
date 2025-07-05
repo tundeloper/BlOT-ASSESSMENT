@@ -188,24 +188,26 @@ const LeagueTable = () => {
       </div>
 
       {/* Top Performers  */}
-      <div className="mt-6 gap-2 p-4">
-        <h2 className="font-semibold text-lg text-[#3A3D46] dark:text-[#FFFFFF] mb-2 pb-2">
+      <div className="my-3 gap-2 mb-2">
+        <h2 className="font-semibold text-lg text-[#3A3D46] dark:text-[#FFFFFF] mb-2">
           Top Performers
         </h2>
-        <ul className="list-disc text-gray-700 dark:text-[#FFFFFF] text-sm space-y-2">
-          <li className="flex gap-2 pb-1">
-            <span>Top Scorer:</span>
-            <span className="font-medium">Haaland – 25 goals</span>
-          </li>
-          <li className="flex gap-2 pb-1">
-            <span>Top Keeper:</span>
-            <span className="font-medium">Alisson – 15 clean sheets</span>
-          </li>
-          <li className="flex gap-2 pt-1">
-            <span>Most Assists:</span>
-            <span className="font-medium">De Bruyne – 13 assists</span>
-          </li>
-        </ul>
+        <ul className="list-disc px-6 ">
+        {[
+          "Top Scorer: Haaland - 25 goals",
+          "Top Keeper: Alisson - 15 clean sheets",
+          "Most Assists: De Bruyne - 13 assists",
+        ].map((item) => {
+          return (
+            <li
+              key={item}
+              className="text-[#1E1E1E] dark:text-[#FFFFFF] text-[10px] md:text-[13px]"
+            >
+              {item}
+            </li>
+          );
+        })}
+      </ul>
       </div>
       <ScoreLeague leagueName='' country='Germany' leagueLogo='https://ui-avatars.com/api/?name=PL&background=3A3D46&color=fff&size=32' isLive={false} />
     </div>

@@ -105,7 +105,7 @@ const Header: React.FC<{ onSidebarOpen: () => void }> = ({ onSidebarOpen }) => {
         }
       }
     })()
-  }, [value])
+  }, [value, notifications])
 
   const handleBlur = () => {
     if (value.trim() === '') setIsActive(false);

@@ -6,9 +6,9 @@ import Contributors from '../Contributors'
 import TopPredictors from '../Prediction/TopPredictors'
 import Stats from '../Prediction/Stats'
 import Summary from '../Prediction/Summary'
-import League from '../League/league'
+import Challenge from './challenge'
 
-const LeaguePage = () => {
+const ChallengePage = () => {
     return (
         <div className='flex gap-4 px-4 md:px-8 py-4 md:py-6 bg-[#F9FAFB] md:bg-[#E4E6EC] dark:bg-[#1E1E1E] w-[100%]'>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
@@ -17,7 +17,7 @@ const LeaguePage = () => {
                 <Contributors />
             </div>
             <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh]'>
-                <League />
+                <Challenge />
             </div>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
                 <TopPredictors />   
@@ -28,4 +28,4 @@ const LeaguePage = () => {
     )
 }
 
-export default LeaguePage
+export default ChallengePage
