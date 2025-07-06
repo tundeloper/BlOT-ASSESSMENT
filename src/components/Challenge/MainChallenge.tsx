@@ -4,7 +4,7 @@ import LoungeNav from "../Lounge/LoungeNav"
 import Stats from "../Lounge/Prediction/Stats"
 import Summary from "../Lounge/Prediction/Summary"
 import TopPredictors from "../Lounge/Prediction/TopPredictors"
-import Challenge from "./Challenge"
+import Challen from "./MyChallenge"
 
 const MainChallenge = () => {
     return <div className='flex gap-4 px-4 md:px-8 py-4 md:py-6 bg-[#F9FAFB] md:bg-[#E4E6EC] dark:bg-[#1E1E1E] w-[100%]'>
@@ -14,7 +14,7 @@ const MainChallenge = () => {
                 <Contributors />
             </div>
             <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh]'>
-                <Challenge />
+                <Challen />
             </div>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
                 <TopPredictors />   

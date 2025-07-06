@@ -8,7 +8,7 @@ import { useParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
-const Challenge = () => {
+const Challen = () => {
 
     const { theme } = useTheme();
   const router = useRouter();
@@ -137,4 +137,4 @@ const Challenge = () => {
     </div>
 }
 
-export default Challenge
+export default Challen
