@@ -1,3 +1,4 @@
+"use client"
 import { getLounge, joinLounge } from "@/api/lounges";
 import { useTheme } from "@/context/ThemeContext";
 import { getLoungeNav } from "@/utils/lounge";
