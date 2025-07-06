@@ -251,7 +251,7 @@ const Lounges: React.FC = () => {
                     <button
                       className="p-4 bg-[#E4E6EC] cursor-pointer hover:bg-[#2D439B] text-white rounded-full  transition"
                       aria-label="Join lounge"
-                      onClick={() => {route.push('/lounge/football/livescore')}}
+                      onClick={() => {route.push('/lounge/soccer/livescore')}}
                     >
                       <Share className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-pointer rotate-90 " />
                     </button>
