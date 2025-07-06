@@ -9,6 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { getLoungeNav } from "@/utils/lounge";
 import { getLounge, joinLounge } from "@/api/lounges";
 import { CircularProgress } from "@mui/material";
+import QuizPage from "./ChallegeQuiz";
 
 const Challenge = () => {
   const { theme } = useTheme();
@@ -130,7 +131,7 @@ const Challenge = () => {
       </div>
 
       <div className="flex flex-col gap-4 mt-2 mb-12">
-        {/* <QuizPage /> */}
+        <QuizPage />
         <p className='italic text-[13px] dark:text-[#ffffff] text-center'>You will be notified instatly once you hit a badge milestone through an in-app pop-up, glow animation on your profile pic, and a badge upgrade toast. Your new badge becomes visible across the site automatically </p>
 
         {/* <div className='flex flex-row flex-wrap gap-4'>

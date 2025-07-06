@@ -1,6 +1,6 @@
 
 import FeedWrapper from "@/components/Layout/FeedWrapper";
-import LeaguePage from "@/components/Lounge/League";
+import ChallengesPage from "@/components/Lounge/Challenges/Main";
 import ProtectedRoute from "@/components/protectedRoute";
 import { Metadata } from "next";
 
@@ -13,7 +13,7 @@ export default function Page() {
   return (
     <ProtectedRoute>
         <FeedWrapper>
-            <LeaguePage />
+          <ChallengesPage />
         </ FeedWrapper>
     </ProtectedRoute>
   );

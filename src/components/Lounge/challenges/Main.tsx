@@ -6,7 +6,6 @@ import TopPredictors from '../Prediction/TopPredictors'
 import Stats from '../Prediction/Stats'
 import Summary from '../Prediction/Summary'
 import Challenge from './Challenge'
-// import Challenge from './Challenge'
 
 const ChallengesPage = () => {
     return (
