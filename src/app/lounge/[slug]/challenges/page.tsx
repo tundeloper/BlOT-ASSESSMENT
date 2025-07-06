@@ -1,7 +1,6 @@
 
 import FeedWrapper from "@/components/Layout/FeedWrapper";
-// import ChallengesPage from "@/components/Lounge/Challenges";
-// import ChallengesPage from "@/components/Lounge/Challenges";
+import LeaguePage from "@/components/Lounge/League";
 import ProtectedRoute from "@/components/protectedRoute";
 import { Metadata } from "next";
 
@@ -10,11 +9,11 @@ export const metadata: Metadata = {
   description: "Create post | SportLaze",
 };
 
-export default function League() {
+export default function Page() {
   return (
     <ProtectedRoute>
         <FeedWrapper>
-            <div></div>
+            <LeaguePage />
         </ FeedWrapper>
     </ProtectedRoute>
   );

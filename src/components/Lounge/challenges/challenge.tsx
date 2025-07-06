@@ -9,7 +9,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { getLoungeNav } from "@/utils/lounge";
 import { getLounge, joinLounge } from "@/api/lounges";
 import { CircularProgress } from "@mui/material";
-import QuizPage from "./Quiz";
+import QuizPage from "./ChallegeQuiz";
 
 const Challenge = () => {
   const { theme } = useTheme();
