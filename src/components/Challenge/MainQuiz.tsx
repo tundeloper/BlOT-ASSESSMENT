@@ -1,4 +1,7 @@
 import React, { useState, useEffect, FormEvent } from 'react';
+import PointSystem from './PointSystem';
+import Summary from './Summary';
+import BadgeLevelTable from './BadgeLevel';
 
 
 interface Question {
@@ -117,9 +120,9 @@ const MainQuiz = () => {
           </div>
         </div>
       ))}
-      {/* <PointSystem />
+      <PointSystem />
       <Summary />
-      <BadgeLevelTable /> */}
+      <BadgeLevelTable />
     </div>
   );
 }
