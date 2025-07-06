@@ -8,6 +8,7 @@ import Image from "next/image"
 import { useParams, usePathname } from "next/navigation";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import MainQuiz from "./MainQuiz";
 
 const Challen = () => {
 
@@ -124,7 +125,7 @@ const Challen = () => {
       </div>
 
       <div className="flex flex-col gap-4 mt-2 mb-12">
-        {/* <QuizPage /> */}
+        <MainQuiz />
         <p className='italic text-[13px] dark:text-[#ffffff] text-center'>You will be notified instatly once you hit a badge milestone through an in-app pop-up, glow animation on your profile pic, and a badge upgrade toast. Your new badge becomes visible across the site automatically </p>
 
         {/* <div className='flex flex-row flex-wrap gap-4'>
