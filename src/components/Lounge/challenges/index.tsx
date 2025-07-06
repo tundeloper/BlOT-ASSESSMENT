@@ -23,6 +23,7 @@ const ChallengePage = () => {
                 <TopPredictors />   
                 <Stats />
                 <Summary />
+                <p className='italic text-center'>You will be notified instatly once you hit a badge milestone through an in-app pop-up, glow animation on your profile pic, and a badge upgrade toast. Your new badge becomes visible across the site automatically </p>
             </div>
         </div>
     )

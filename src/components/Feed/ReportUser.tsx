@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import React, { useState, FC, FormEvent } from 'react';
-import { SnackbarProvider } from "notistack";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 interface ReportUserModalProps {
   isOpen: boolean;
@@ -50,7 +50,10 @@ const ReportUserModal: FC<ReportUserModalProps> = ({ isOpen, onClose, onSubmit }
       return;
     }
     // Call parent onSubmit
+    enqueueSnackbar("Sucessfull", { variant: "success" });
+    console.log('submit')
     onSubmit(selectedReason, selectedReason === 'other' ? otherDetails.trim() : undefined);
+    
     // Reset state
     setSelectedReason('');
     setOtherDetails('');

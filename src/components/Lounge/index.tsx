@@ -271,7 +271,7 @@ const Lounges: React.FC = () => {
                     alt="Basket Ball"
                     className="object-cover w-full h-full"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-0 inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 </div>
                 <div className="row-start-2 p-4 flex flex-col justify-end">
                   <div className="flex items-center justify-between mb-2">
@@ -298,7 +298,7 @@ const Lounges: React.FC = () => {
       </div>
 
       {/* Lounges Section End */}
-      <div className="mx-auto px-[16px] md:px-[64px] py-[16px] md:py-[64px]  rounded-lg shadow-lg">
+      <div className="mx-auto px-[16px] md:px-[64px] py-[8px] md:py-[64px]  rounded-lg shadow-lg">
         <LoungeGrid />
       </div>
     </div>

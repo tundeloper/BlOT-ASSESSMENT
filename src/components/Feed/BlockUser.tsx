@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import React, { FC, FormEvent } from 'react';
-import { SnackbarProvider } from "notistack";
+import { enqueueSnackbar, SnackbarProvider } from "notistack";
 
 interface BlockUserModalProps {
   isOpen: boolean;
@@ -16,6 +16,8 @@ const BlockUser: FC<BlockUserModalProps> = ({ isOpen, onClose, onSubmit }) => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    enqueueSnackbar("Sucessfull", { variant: "success" });
+    
     // Call parent onSubmit
     onSubmit();
 

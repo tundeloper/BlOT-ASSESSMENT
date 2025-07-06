@@ -146,12 +146,13 @@ const StoriesSection: React.FC = () => {
 
   // Handle avatar click: open current user's stories or trigger add
   const handleCurrentUserClick = () => {
-    const userStories = stories.filter((s) => s.user === CURRENT_USER);
-    if (userStories.length > 0) {
-      openViewer(userStories);
-    } else {
-      fileInputRef.current?.click();
-    }
+    // const userStories = stories.filter((s) => s.user === CURRENT_USER);
+    // if (userStories.length > 0) {
+    //   openViewer(userStories);
+    // } else {
+    //   fileInputRef.current?.click();
+    // }
+    fileInputRef.current?.click();
   };
 
   // Handle file selection for preview
@@ -424,8 +425,15 @@ const StoriesSection: React.FC = () => {
               key={group.user}
               className="relative flex flex-col gap-2 items-center"
               onClick={() =>
-                isCurrent ? handleCurrentUserClick() : openViewer(group.stories)
+                // isCurrent ? handleCurrentUserClick() : openViewer(group.stories)
+                openViewer(group.stories)
               }
+              onMouseLeave={() => {
+                if (isCurrent) setCurentHover(false);
+              }}
+              onMouseEnter={() => {
+                if (isCurrent) setCurentHover(true);
+              }}
             >
               <div
                 className={`w-14 h-14 rounded-full overflow-hidden ${
@@ -456,17 +464,17 @@ const StoriesSection: React.FC = () => {
               {/* Add indicator and always visible */}
               {isCurrent && (
                 <button
-                  onMouseLeave={() => {
-                    if (isCurrent) setCurentHover(false);
-                  }}
+                  // onMouseLeave={() => {
+                  //   if (isCurrent) setCurentHover(false);
+                  // }}
                   onMouseEnter={() => {
                     if (isCurrent) setCurentHover(true);
                   }}
                   onClick={(e) => {
-                    e.stopPropagation();
+                    e.stopPropagation();  
                     handleCurrentUserClick();
                   }}
-                  className="absolute bottom-5 border-white border flex right-[-3px] bg-[#2D439B] rounded-md p-[1px]"
+                  className="absolute bottom-5 border-white border flex right-[-3px] bg-[#2D439B] rounded-md p-[1px] z-10 cursor-pointer"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -484,9 +492,9 @@ const StoriesSection: React.FC = () => {
                   </svg>
                 </button>
               )}
-              {isCurrent && currentHover && (
+              {currentHover && (
                 <div
-                  className="absolute bottom-[-5rem] flex justify-center bg-[red]"
+                  className="absolute bottom-[5rem] flex justify-center bg-[green]"
                   onMouseLeave={() => {
                     if (isCurrent) setCurentHover(false);
                   }}

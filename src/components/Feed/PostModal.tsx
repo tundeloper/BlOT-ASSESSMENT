@@ -119,7 +119,8 @@ export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({
     {
       icon: <BiBlock className="w-4 h-4" />,
       label: "Block",
-      onClick: () => {setIsBlockModalOpen(true)},
+      onClick: () => {
+        setIsBlockModalOpen(true)},
     },
     {
       icon: <FiFlag className="w-4 h-4" />,
@@ -169,20 +170,17 @@ export const PostMoreDropdown: React.FC<PostMoreDropdownProps> = ({
           </button>
         ))}
       </div>
-      {isBlockModalOpen && (
         <BlockUser
           isOpen={isBlockModalOpen}
           onClose={() => setIsBlockModalOpen(false)}
           onSubmit={handleBlockSubmit}
-        />
-      )}
-      {isModalOpen && (
+        />      
         <ReportUserModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSubmit={handleReportSubmit}
         />
-      )}
+      
       <SnackbarProvider />
     </div>
   );

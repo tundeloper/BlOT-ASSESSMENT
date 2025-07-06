@@ -42,7 +42,7 @@ const Details: React.FC<{ id: string }> = ({ id }) => {
     fetchFeed();
   }, [id]);
 
-  return <div className="text-white mb-[10rem] w-full h-full">
+  return <div className="text-white mb-[10rem] w-full h-full" id="details">
     {
       loading ? (
         <div className="flex justify-center items-center w-full h-full">

@@ -51,7 +51,7 @@ export default function LoungeGrid() {
             placeholder="Search Lounges"
             value={query}
             onChange={e => setQuery(e.target.value)}
-            className="pr-10 pl-2 md:pl-4 py-2 w-[200px] h-[25px] md:w-[350px] md:h-[33px] text-[10px] md:text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-[#1E1E1E]"
+            className="pr-10 pl-2 md:pl-4 py-2 w-[200px] h-[25px] md:w-[350px] md:h-[33px] text-[10px] md:text-[13px] border border-gray-300 rounded-sm focus:outline-none focus:ring-2"
           />
           <Search className="w-3 h-3 md:w-5 md:h-5 text-gray-400 absolute right-3 top-1/2 transform -translate-y-1/2" />
         </div>
