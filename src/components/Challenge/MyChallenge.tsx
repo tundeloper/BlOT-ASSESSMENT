@@ -5,15 +5,14 @@ import { getLoungeNav } from "@/utils/lounge";
 import backIcon from "@/assets/backIcon.png";
 import { CircularProgress } from "@mui/material";
 import Image from "next/image"
-import { useParams, usePathname } from "next/navigation";
-import { useRouter } from "next/router";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import MainQuiz from "./MainQuiz";
 
 const Challen = () => {
 
     const { theme } = useTheme();
-  const router = useRouter();
+  const router = useRouter
 //   const [showDropdown, setShowDropdown] = useState(false);
 //   const [selectedSort, setSelectedSort] = useState("Premier League");
 
