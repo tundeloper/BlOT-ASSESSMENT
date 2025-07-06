@@ -12,7 +12,7 @@ import MainQuiz from "./MainQuiz";
 const Challen = () => {
 
     const { theme } = useTheme();
-  const router = useRouter
+  const router = useRouter()
 //   const [showDropdown, setShowDropdown] = useState(false);
 //   const [selectedSort, setSelectedSort] = useState("Premier League");
 
