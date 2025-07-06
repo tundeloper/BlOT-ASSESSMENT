@@ -5,7 +5,7 @@ import Contributors from '../Contributors'
 import TopPredictors from '../Prediction/TopPredictors'
 import Stats from '../Prediction/Stats'
 import Summary from '../Prediction/Summary'
-import Challenge from './Challenge'
+// import Challenge from './Challenge'
 
 const ChallengesPage = () => {
     return (
@@ -16,7 +16,8 @@ const ChallengesPage = () => {
                 <Contributors />
             </div>
             <div className='flex flex-col gap-4 w-[100%] md:w-[56%] h-[86vh]'>
-                <Challenge />
+                {/* <Challenge /> */}
+                <div>Challenges</div>
             </div>
             <div className='hidden md:flex flex-col gap-4 w-[22%] h-[86vh] overflow-y-auto scrollbar-hide'>
                 <TopPredictors />   
