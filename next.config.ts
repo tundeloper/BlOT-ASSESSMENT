@@ -3,37 +3,20 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
+    // domains: ['static2.finnhub.io', 'data.bloomberglp.com'],
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'flagcdn.com',
+        hostname: 'image.cnbcfm.com',
       },
       {
         protocol: 'https',
-        hostname: 'sportlazestr.blob.core.windows.net',
+        hostname: 'static2.finnhub.io',
       },
       {
         protocol: 'https',
-        hostname: 'media.api-sports.io',
+        hostname: 'data.bloomberglp.com',
       },
-      {
-        protocol: 'https',
-        hostname: 'ui-avatars.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'cdn.sportlaze.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'via.placeholder.com',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'i.pravatar.cc',
-      },
-      
     ],
   },
   output: 'standalone',

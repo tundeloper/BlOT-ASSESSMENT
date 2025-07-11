@@ -8,8 +8,8 @@
   background-color: #F9FAFB;
 }
 
-@utility font-switzer {
-  font-family: 'Switzer', sans-serif;
+@utility font-rubik {
+  font-family: 'Rubik', sans-serif;
 }
 
 @utility shadow-card {
@@ -17,62 +17,9 @@
 }
 
 body {
-  font-family: 'Switzer', sans-serif;
+  background-color: #0E0D13;
+  font-family: 'Rubik', sans-serif;
   overflow-y: hidden;
   overflow-x: hidden;
   padding: 0px !important;
-}
-
-.scrollbar-hide {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scroll-bar::-webkit-scrollbar {
-  width: 5px;
-  padding-inline-end: 10px;
-}
-
-.scroll-bar::-webkit-scrollbar-track {
-  background: inherit;
-}
-
-.scroll-bar::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.scroll-bar::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-/* custom-scrollbar.css */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #2D439B;
-  border-radius: 4px;
-  border: 2px solid #f1f1f1;
-}
-
-.gradient-border {
-  background: linear-gradient(180deg, #2D439B 0%, #9A1B39 100%);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  border: 1px solid transparent;
-  padding: 1px 1.5px 1px 1.5px;
-  color: #333;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }

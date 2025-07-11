@@ -14,10 +14,8 @@
     "@hookform/resolvers": "^5.0.1",
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.2",
-    "@radix-ui/react-select": "^2.2.5",
     "axios": "^1.9.0",
     "axios-jwt": "^4.0.3",
-    "clsx": "^2.1.1",
     "emoji-picker-react": "^4.12.2",
     "framer-motion": "^12.19.2",
     "lucide-react": "^0.511.0",
@@ -30,10 +28,7 @@
     "react-icons": "^5.5.0",
     "react-otp-input": "^3.1.1",
     "react-select": "^5.10.1",
-    "react-toastify": "^11.0.5",
-    "world-countries": "^5.1.0",
-    "yup": "^1.6.1",
-    "zustand": "^5.0.5"
+    "react-toastify": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -47,7 +42,6 @@
     "@types/react-easy-crop": "^1.16.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.8",
-    "tailwind-scrollbar": "^4.0.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

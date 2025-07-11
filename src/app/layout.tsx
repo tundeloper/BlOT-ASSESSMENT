@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import { ThemeProvider } from "@/context/ThemeContext";
 
 
 export const metadata: Metadata = {
-  title: "Sportlaze",
-  description: "Experience Sports Like Never Before",
+  title: "Enjoy your news here ",
+  description: "Experience News Like Never Before",
 };
 
 export default function RootLayout({
@@ -16,10 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-y-scroll">
         <body>
-      <ThemeProvider>
           {/* <ThemeToggleButton /> */}
           {children}
-      </ThemeProvider>
         </body>
     </html>
   );
