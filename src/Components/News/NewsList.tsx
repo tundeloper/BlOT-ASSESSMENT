@@ -18,7 +18,7 @@ const NewsList: React.FC<{ news: News }> = ({ news }) => {
       )}
       <div className="p-1">
         <div className=" flex items-center justify-between text-sm text-gray-400">
-          <span>{news.category.toLocaleUpperCase()}</span>
+          <span>{news.source.toLocaleUpperCase()}</span>
           <span>{formatTime(news.datetime)}</span>
         </div>
         <h2 className="text-white text-[20px] font-semibold leading-snug">
