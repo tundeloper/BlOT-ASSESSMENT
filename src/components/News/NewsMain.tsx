@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import NewsList from "./NewsList";
 
-const News: React.FC = () => {
+const NewsMain: React.FC = () => {
   const [news, setNews] = useState<News[]>([]);
   const [loading, setloading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
@@ -53,4 +53,4 @@ const News: React.FC = () => {
   );
 };
 
-export default News;
+export default NewsMain;

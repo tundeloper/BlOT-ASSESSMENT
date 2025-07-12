@@ -1,9 +1,9 @@
-import Home from "@/Components/Home/Home";
+import HomeMain from "@/Components/Home/HomeMain";
 
 export default function HomePage() {
   return (
       <div className="flex flex-col items-center justify-center h-full">
-        <Home />
+        <HomeMain />
       </div>
   );
 }

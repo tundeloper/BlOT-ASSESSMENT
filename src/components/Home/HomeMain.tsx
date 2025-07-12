@@ -4,7 +4,7 @@ import blot from "@/assets/BLOTT.png";
 import Image from "next/image";
 import Link from "next/link";
 
-const Home: React.FC = () => {
+const HomeMain: React.FC = () => {
   return (
     <div className="relative w-screen h-screen bg-[#000000] overflow-hidden">
       {/* Radial glow background */}
@@ -50,4 +50,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default HomeMain;

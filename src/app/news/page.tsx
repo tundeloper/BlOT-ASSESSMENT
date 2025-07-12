@@ -1,7 +1,7 @@
 import Image from "next/image";
 import blot from "@/assets/BLOTT.png";
-import News from "@/Components/News/News";
 import Link from "next/link";
+import NewsMain from "@/Components/News/NewsMain";
 
 export default function HomePage() {
   return (
@@ -9,7 +9,7 @@ export default function HomePage() {
       <Link href='/' className="flex items-center justify-center w-full p-[16px] md:p-[24x]">
         <Image src={blot} alt="Blott logo" className="" />
       </Link>
-      <News />
+      <NewsMain />
     </div>
   );
 }
