@@ -13,17 +13,17 @@ const NewsMain: React.FC = () => {
     (async () => {
       try {
         setloading(true);
-        fetchMarketNews().then(setNews);
+        const res = await fetchMarketNews();
+        if (Array.isArray(res) && res.length > 0) {
+          setNews(res);
+        } else {
+        setError("Something went wrong. Please try again later.");
+        }
         setloading(false);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           if (error.response) {
-            setError("Something went wrong. Please try again later.");
-          } else {
-            setError("Something went wrong. Please try again later.");
-          }
-            setError("Something went wrong. Please try again later.");
-
+            setError("Something went wrong. Please try again later.");          }
         }
         setloading(false);
       }
@@ -35,20 +35,21 @@ const NewsMain: React.FC = () => {
         News
       </div>
       {loading && (
-          <div className="flex justify-center items-center text-2xl text-[#ffffff]">
-            Loading...
-          </div>
-        )}
-        {error.length > 0 && (
-          <div className="flex justify-center items-center text-[#ffffff]">
-            {error}
-          </div>
-        )}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-        {news.map((news, i) => (
-          <NewsList key={i} news={news} />
-        ))}
-      </div>
+        <div className="flex justify-center items-center text-2xl text-[#ffffff]">
+          Loading...
+        </div>
+      )}
+      {error.length > 0 ? (
+        <div className="flex text-[#ffffff]">
+          {error}
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+          {news.map((news, i) => (
+            <NewsList key={i} news={news} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
