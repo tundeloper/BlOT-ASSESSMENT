@@ -15,7 +15,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="overflow-y-scroll">
         <body>
-          {/* <ThemeToggleButton /> */}
           {children}
         </body>
     </html>

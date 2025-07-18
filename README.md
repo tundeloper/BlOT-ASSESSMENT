@@ -1,6 +1,6 @@
 # 📊 Finance Digest – Maon Technology Ltd Assessment
 
-A responsive finance news digest web application built using **Next.js** and **Tailwind CSS**, created as part of the Senior Frontend Engineer assessment for Maon Technology Ltd.
+A responsive BlOT-ASSESSMENT NEWS web application built using **Next.js** and **Tailwind CSS**, created as part of the Senior Frontend Engineer assessment for Maon Technology Ltd.
 
 ---
 
@@ -15,8 +15,8 @@ A responsive finance news digest web application built using **Next.js** and **T
 - 🌐 Clicking a news item opens the full article in a **new browser tab**.
 - 📱 Fully **responsive design** for mobile, tablet, and desktop.
 - ⚠️ Graceful **error handling** for API failures.
-- ⏳ Displays a loading state while fetching data.
-- 🧪 (Optional) Unit tests included with React Testing Library and Jest.
+- ⏳ Displays a loading state while fetching data. with test loading 
+<!-- - 🧪 (Optional) Unit tests included with React Testing Library and Jest. -->
 
 ---
 
@@ -34,8 +34,9 @@ A responsive finance news digest web application built using **Next.js** and **T
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/finance-digest.git
-cd finance-digest
+git clone https://github.com/tundeloper/BlOT-ASSESSMENT
+
+cd BlOT-ASSESSMENT
 
 # Install dependencies
 npm install

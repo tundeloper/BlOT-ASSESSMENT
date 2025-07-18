@@ -1,5 +1,5 @@
 export function formatTime(timestamp: number): string {
-  const date = new Date(timestamp * 1000); // Convert seconds to milliseconds
+  const date = new Date(timestamp * 1000);
 
   const options: Intl.DateTimeFormatOptions = {
     day: '2-digit',
